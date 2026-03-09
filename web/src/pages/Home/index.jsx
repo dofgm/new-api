@@ -613,9 +613,6 @@ env_key = "CRS_OAI_KEY"`,
                   {t('三步完成接入，即刻开始开发')}
                 </h2>
               </div>
-              <p className='df-section-desc'>
-                {t('根据你使用的工具选择对应教程，配置环境变量后即可开始调用。')}
-              </p>
             </div>
 
             <div className='df-tutorial-nav'>
