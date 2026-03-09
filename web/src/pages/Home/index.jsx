@@ -480,7 +480,7 @@ env_key = "CRS_OAI_KEY"`,
               <div>
                 <div className='df-kicker'>Core Features</div>
                 <h2 className='df-section-h2'>
-                  {t('为开发场景优化的 API 网关')}
+                  {t('核心能力')}
                 </h2>
               </div>
             </div>
@@ -506,7 +506,7 @@ env_key = "CRS_OAI_KEY"`,
               <div>
                 <div className='df-kicker'>Live Plans</div>
                 <h2 className='df-section-h2'>
-                  {t('透明定价，按需选择')}
+                  {t('订阅套餐')}
                 </h2>
               </div>
             </div>
@@ -610,7 +610,7 @@ env_key = "CRS_OAI_KEY"`,
               <div>
                 <div className='df-kicker'>Quick Start</div>
                 <h2 className='df-section-h2'>
-                  {t('三步完成接入，即刻开始开发')}
+                  {t('快速接入')}
                 </h2>
               </div>
             </div>
