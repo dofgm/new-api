@@ -478,7 +478,7 @@ env_key = "CRS_OAI_KEY"`,
           <div className='df-section-card'>
             <div className='df-section-head'>
               <div>
-                <div className='df-kicker'>Core Features</div>
+                <div className='df-kicker'>Features</div>
                 <h2 className='df-section-h2'>
                   {t('核心能力')}
                 </h2>
@@ -504,7 +504,7 @@ env_key = "CRS_OAI_KEY"`,
           <div className='df-section-card'>
             <div className='df-section-head'>
               <div>
-                <div className='df-kicker'>Live Plans</div>
+                <div className='df-kicker'>Pricing</div>
                 <h2 className='df-section-h2'>
                   {t('订阅套餐')}
                 </h2>
