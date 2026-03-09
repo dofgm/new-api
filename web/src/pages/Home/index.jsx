@@ -20,7 +20,7 @@ For commercial licensing, please contact support@quantumnous.com
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Spin } from '@douyinfe/semi-ui';
 import { useNavigate } from 'react-router-dom';
-import { API, copy, showError, showSuccess } from '../../helpers';
+import { API, copy, showError, showSuccess, getLogo } from '../../helpers';
 import { renderQuota } from '../../helpers/render';
 import {
   formatSubscriptionDuration,
@@ -66,10 +66,6 @@ const PROVIDER_ITEMS = [
   { key: 'openai', label: 'OpenAI' },
   { key: 'claude', label: 'Claude' },
   { key: 'gemini', label: 'Gemini' },
-  { key: 'deepseek', label: 'DeepSeek' },
-  { key: 'grok', label: 'Grok' },
-  { key: 'xai', label: 'xAI' },
-  { key: 'qwen', label: 'Qwen' },
 ];
 
 const TUTORIAL_ITEMS = [
@@ -409,13 +405,18 @@ env_key = "CRS_OAI_KEY"`,
               <div>
                 <div className='df-eyebrow'>{systemName}</div>
                 <div className='df-hero-brand'>
+                  <img
+                    src={getLogo()}
+                    alt={systemName}
+                    className='df-hero-logo'
+                  />
                   <h1 className='df-hero-h1 df-rainbow-text'>
                     {systemName}
                   </h1>
                 </div>
                 <p className='df-lead'>
                   {t(
-                    '稳定接入 Claude、GPT、Gemini、DeepSeek 等主流模型，一套兼容接口即可覆盖常见开发工具与工作流。',
+                    '稳定接入 Claude、GPT、Gemini 等主流模型，一套兼容接口即可覆盖常见开发工具与工作流。',
                   )}
                 </p>
 
