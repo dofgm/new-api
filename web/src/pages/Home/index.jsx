@@ -506,9 +506,6 @@ env_key = "CRS_OAI_KEY"`,
                   {t('为开发场景优化的 API 网关')}
                 </h2>
               </div>
-              <p className='df-section-desc'>
-                {t('聚合常用模型，统一调用方式，减少多平台切换带来的额外开销。')}
-              </p>
             </div>
 
             <div className='df-feature-grid'>
@@ -535,9 +532,6 @@ env_key = "CRS_OAI_KEY"`,
                   {t('透明定价，按需选择')}
                 </h2>
               </div>
-              <p className='df-section-desc'>
-                {t('价格、额度、重置规则与升级分组一目了然，无需点进详情页即可做出判断。')}
-              </p>
             </div>
 
             {plansLoading ? (
