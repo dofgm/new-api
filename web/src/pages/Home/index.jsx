@@ -33,35 +33,6 @@ import { useTranslation } from 'react-i18next';
 import NoticeModal from '../../components/layout/NoticeModal';
 
 
-const FEATURE_ITEMS = [
-  {
-    key: 'speed',
-    title: '极速响应',
-    description:
-      '常用模型统一入口，适配流式输出，减少多平台来回切换。',
-    index: '01',
-  },
-  {
-    key: 'stability',
-    title: '稳定路由',
-    description: '面向开发使用场景，减少渠道波动带来的调用中断。',
-    index: '02',
-  },
-  {
-    key: 'pricing',
-    title: '套餐清晰',
-    description: '不再只显示抽象标签，直接呈现价格、额度、重置规则与升级分组。',
-    index: '03',
-  },
-  {
-    key: 'compatibility',
-    title: '即插即用',
-    description:
-      '兼容 OpenAI 风格接口，便于接入 OpenClaw、OpenCode、Claude Code、Codex、Gemini CLI、Cursor 等工具。',
-    index: '04',
-  },
-];
-
 const COMPATIBLE_TOOLS = [
   { key: 'claude-code', label: 'Claude Code' },
   { key: 'cursor', label: 'Cursor' },
@@ -415,7 +386,7 @@ env_key = "CRS_OAI_KEY"`,
                   </div>
                   <div className='df-metric'>
                     <strong>{t('模型可用')}</strong>
-                    <span>{t('覆盖主流模型使用场景')}</span>
+                    <span>Claude | ChatGPT | Gemini</span>
                   </div>
                   <div className='df-metric'>
                     <strong>{t('按需订阅')}</strong>
@@ -545,31 +516,6 @@ env_key = "CRS_OAI_KEY"`,
                 )}
               </div>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* ========== Feature Section ========== */}
-      <section className='df-section'>
-        <div className='df-shell'>
-          <div className='df-section-card'>
-            <div className='df-section-head'>
-              <div>
-                <h2 className='df-section-h2'>
-                  {t('核心能力')}
-                </h2>
-              </div>
-            </div>
-
-            <div className='df-feature-grid'>
-              {FEATURE_ITEMS.map((item) => (
-                <div className='df-feature-card' key={item.key}>
-                  <div className='df-feature-icon'>{item.index}</div>
-                  <h3>{t(item.title)}</h3>
-                  <p>{t(item.description)}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>

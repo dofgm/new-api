@@ -103,7 +103,7 @@ const PageLayout = () => {
   useEffect(() => {
     loadUser();
     loadStatus().catch(console.error);
-    let systemName = getSystemName();
+    let systemName = localStorage.getItem('system_name');
     if (systemName) {
       document.title = systemName;
     }
