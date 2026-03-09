@@ -65,8 +65,10 @@ const FEATURE_ITEMS = [
 const COMPATIBLE_TOOLS = [
   { key: 'claude-code', label: 'Claude Code' },
   { key: 'cursor', label: 'Cursor' },
+  { key: 'cline', label: 'Cline' },
   { key: 'codex-cli', label: 'Codex CLI' },
   { key: 'gemini-cli', label: 'Gemini CLI' },
+  { key: 'windsurf', label: 'Windsurf' },
   { key: 'opencode', label: 'OpenCode' },
   { key: 'openclaw', label: 'OpenClaw' },
 ];
@@ -367,7 +369,6 @@ env_key = "CRS_OAI_KEY"`,
             <div className='df-hero-layout'>
               {/* Left column */}
               <div>
-                <div className='df-eyebrow'>{systemName}</div>
                 <div className='df-hero-brand'>
                   <img
                     src={getLogo()}
@@ -380,7 +381,7 @@ env_key = "CRS_OAI_KEY"`,
                 </div>
                 <p className='df-lead'>
                   {t(
-                    '兼容 OpenAI、Claude、Gemini 三套原生接口，一个地址覆盖常见开发工具与工作流。',
+                    '兼容 OpenAI、Claude、Gemini 等原生接口，一个地址覆盖常见开发工具与工作流。',
                   )}
                 </p>
 
@@ -409,8 +410,12 @@ env_key = "CRS_OAI_KEY"`,
 
                 <div className='df-hero-metrics'>
                   <div className='df-metric'>
-                    <strong>OpenAI / Claude / Gemini</strong>
-                    <span>{t('三套原生接口一站直连')}</span>
+                    <strong>{t('接口兼容')}</strong>
+                    <span>OpenAI | Claude | Gemini</span>
+                  </div>
+                  <div className='df-metric'>
+                    <strong>{t('模型可用')}</strong>
+                    <span>{t('覆盖主流模型使用场景')}</span>
                   </div>
                   <div className='df-metric'>
                     <strong>{t('按需订阅')}</strong>
@@ -431,7 +436,7 @@ env_key = "CRS_OAI_KEY"`,
                     ))}
                   </div>
                   <div className='df-tools-footer'>
-                    <span className='df-tools-count'>6+</span>
+                    <span className='df-tools-count'>8+</span>
                     <span>{t('工具开箱即用')}</span>
                   </div>
                 </div>
@@ -447,7 +452,6 @@ env_key = "CRS_OAI_KEY"`,
           <div className='df-section-card'>
             <div className='df-section-head'>
               <div>
-                <div className='df-kicker'>Pricing</div>
                 <h2 className='df-section-h2'>
                   {t('订阅套餐')}
                 </h2>
@@ -551,7 +555,6 @@ env_key = "CRS_OAI_KEY"`,
           <div className='df-section-card'>
             <div className='df-section-head'>
               <div>
-                <div className='df-kicker'>Features</div>
                 <h2 className='df-section-h2'>
                   {t('核心能力')}
                 </h2>
@@ -577,7 +580,6 @@ env_key = "CRS_OAI_KEY"`,
           <div className='df-section-card'>
             <div className='df-section-head'>
               <div>
-                <div className='df-kicker'>Quick Start</div>
                 <h2 className='df-section-h2'>
                   {t('快速接入')}
                 </h2>
