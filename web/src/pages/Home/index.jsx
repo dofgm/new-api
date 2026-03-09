@@ -62,9 +62,15 @@ const FEATURE_ITEMS = [
   },
 ];
 
-const PROVIDER_ITEMS = [
+const PROVIDER_COMPANIES = [
+  { key: 'anthropic', label: 'Anthropic' },
   { key: 'openai', label: 'OpenAI' },
+  { key: 'google', label: 'Google' },
+];
+
+const PROVIDER_MODELS = [
   { key: 'claude', label: 'Claude' },
+  { key: 'chatgpt', label: 'ChatGPT' },
   { key: 'gemini', label: 'Gemini' },
 ];
 
@@ -411,7 +417,7 @@ env_key = "CRS_OAI_KEY"`,
                     className='df-hero-logo'
                   />
                   <h1 className='df-hero-h1 df-rainbow-text'>
-                    {systemName}
+                    DOFGM<br />AI Hub
                   </h1>
                 </div>
                 <p className='df-lead'>
@@ -483,7 +489,14 @@ env_key = "CRS_OAI_KEY"`,
                 <div className='df-status-card'>
                   <div className='df-panel-label'>{t('模型供应商')}</div>
                   <div className='df-provider-row'>
-                    {PROVIDER_ITEMS.map((item) => (
+                    {PROVIDER_COMPANIES.map((item) => (
+                      <span key={item.key} className='df-provider'>
+                        {item.label}
+                      </span>
+                    ))}
+                  </div>
+                  <div className='df-provider-row'>
+                    {PROVIDER_MODELS.map((item) => (
                       <span key={item.key} className='df-provider'>
                         {item.label}
                       </span>

@@ -1377,10 +1377,9 @@ html.dark .with-pastel-balls::before {
 /* ---------- Plans grid ---------- */
 .df-plans-grid {
   display: flex;
+  flex-wrap: wrap;
   gap: 18px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  padding-top: 6px;
   padding-bottom: 8px;
 }
 
@@ -1410,9 +1409,8 @@ html.dark .with-pastel-balls::before {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(241, 246, 255, 0.94));
   overflow: hidden;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-  min-width: 280px;
-  flex: 0 0 calc(25% - 14px);
-  scroll-snap-align: start;
+  min-width: 0;
+  flex: 1 1 0;
 }
 
 .df-plan-card:hover {
@@ -1477,6 +1475,7 @@ html.dark .with-pastel-balls::before {
   align-items: flex-end;
   gap: 8px;
   margin: 18px 0;
+  white-space: nowrap;
 }
 
 .df-price {
@@ -1783,7 +1782,7 @@ html.dark .with-pastel-balls::before {
   }
 
   .df-plan-card {
-    flex: 0 0 calc(50% - 9px);
+    flex: 1 1 calc(50% - 18px);
   }
 }
 
@@ -1833,7 +1832,7 @@ html.dark .with-pastel-balls::before {
   }
 
   .df-plan-card {
-    flex: 0 0 calc(80% - 9px);
+    flex: 1 1 100%;
   }
 
   .df-steps-grid {
