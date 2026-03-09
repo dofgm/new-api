@@ -159,12 +159,11 @@ const TUTORIAL_ITEMS = [
   },
 ];
 
-const PLAN_TYPE_ORDER = ['week', 'gpt_month', 'month', 'recharge'];
-
-const PLAN_KEYWORDS = {
-  week: ['周卡', '标准周卡', '7日', '7 天'],
-  gpt_month: ['GPT月卡', 'GPT 月卡', '月卡'],
-  recharge: ['充值', '按量', '余额', 'topup', 'top up'],
+const getPlanTag = (plan) => {
+  const title = (plan?.title || '').toLowerCase();
+  if (title.includes('周卡')) return '热门订阅';
+  if (title.includes('养虾')) return '推荐';
+  return '订阅方案';
 };
 
 const normalizePlanRecord = (record) => {
@@ -257,46 +256,8 @@ const Home = () => {
     }
   };
 
-  const classifyPlan = (plan) => {
-    const title = `${plan?.title || ''} ${plan?.subtitle || ''}`.toLowerCase();
-    if (
-      PLAN_KEYWORDS.week.some((keyword) => title.includes(keyword.toLowerCase()))
-    ) {
-      return 'week';
-    }
-    if (
-      PLAN_KEYWORDS.gpt_month.some((keyword) =>
-        title.includes(keyword.toLowerCase()),
-      )
-    ) {
-      return 'gpt_month';
-    }
-    if (
-      PLAN_KEYWORDS.recharge.some((keyword) =>
-        title.includes(keyword.toLowerCase()),
-      )
-    ) {
-      return 'recharge';
-    }
-    if (plan?.duration_unit === 'month') {
-      return 'month';
-    }
-    return 'other';
-  };
-
   const planCards = useMemo(() => {
-    const cards = subscriptionPlans
-      .map((plan) => ({
-        plan,
-        type: classifyPlan(plan),
-      }))
-      .sort((a, b) => {
-        const aIndex = PLAN_TYPE_ORDER.indexOf(a.type);
-        const bIndex = PLAN_TYPE_ORDER.indexOf(b.type);
-        return (aIndex === -1 ? 99 : aIndex) - (bIndex === -1 ? 99 : bIndex);
-      });
-
-    return cards;
+    return subscriptionPlans.map((plan) => ({ plan }));
   }, [subscriptionPlans]);
 
   const tutorialItems = useMemo(
@@ -556,22 +517,17 @@ env_key = "CRS_OAI_KEY"`,
               </div>
             ) : (
               <div className='df-plans-grid'>
-                {planCards.map(({ plan, type }) => {
+                {planCards.map(({ plan }) => {
                   const totalAmount = Number(plan?.total_amount || 0);
+                  const tag = getPlanTag(plan);
                   return (
                     <article
-                      className={`df-plan-card ${type === 'week' ? 'highlight' : ''}`}
+                      className={`df-plan-card ${tag === '热门订阅' ? 'highlight' : ''}`}
                       key={plan.id}
                     >
                       <div className='df-plan-top'>
                         <span className='df-plan-tag'>
-                          {type === 'week'
-                            ? t('热门方案')
-                            : type === 'gpt_month'
-                              ? t('推荐月卡')
-                              : type === 'recharge'
-                                ? t('灵活补充')
-                                : t('订阅方案')}
+                          {t(tag)}
                         </span>
                         {plan?.upgrade_group && (
                           <span className='df-plan-group'>
