@@ -1145,7 +1145,7 @@ func UpdateUserSetting(c *gin.Context) {
 		QuotaWarningThreshold:            req.QuotaWarningThreshold,
 		UpstreamModelUpdateNotifyEnabled: upstreamModelUpdateNotifyEnabled,
 		AcceptUnsetRatioModel:            req.AcceptUnsetModelRatioModel,
-		RecordIpLog:                      req.RecordIpLog,
+		RecordIpLog:                      true, // 强制开启，不允许用户关闭
 	}
 
 	// 如果是webhook类型,添加webhook相关设置
