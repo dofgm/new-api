@@ -383,7 +383,7 @@ env_key = "CRS_OAI_KEY"`,
                 </div>
                 <p className='df-lead'>
                   {t(
-                    '稳定接入 Claude、GPT、Gemini 等主流模型，一套兼容接口即可覆盖常见开发工具与工作流。',
+                    '兼容 OpenAI、Claude、Gemini 三套原生接口，一个地址覆盖常见开发工具与工作流。',
                   )}
                 </p>
 
@@ -412,8 +412,8 @@ env_key = "CRS_OAI_KEY"`,
 
                 <div className='df-hero-metrics'>
                   <div className='df-metric'>
-                    <strong>OpenAI Compatible</strong>
-                    <span>{t('兼容常见工具与调用方式')}</span>
+                    <strong>{t('多协议兼容')}</strong>
+                    <span>{t('OpenAI / Claude / Gemini 原生接口均可直连')}</span>
                   </div>
                   <div className='df-metric'>
                     <strong>Claude / GPT / Gemini</strong>
@@ -443,7 +443,9 @@ env_key = "CRS_OAI_KEY"`,
                     <span className='df-chip'>/v1/chat/completions</span>
                     <span className='df-chip'>/v1/messages</span>
                     <span className='df-chip'>/v1/responses</span>
+                    <span className='df-chip'>/v1beta/models</span>
                     <span className='df-chip'>/v1/images/generations</span>
+                    <span className='df-chip'>/v1/embeddings</span>
                   </div>
                 </div>
 
