@@ -488,6 +488,7 @@ env_key = "CRS_OAI_KEY"`,
 
                 <div className='df-status-card'>
                   <div className='df-panel-label'>{t('模型供应商')}</div>
+                  <div className='df-provider-row-label'>{t('平台')}</div>
                   <div className='df-provider-row'>
                     {PROVIDER_COMPANIES.map((item) => (
                       <span key={item.key} className='df-provider'>
@@ -495,6 +496,7 @@ env_key = "CRS_OAI_KEY"`,
                       </span>
                     ))}
                   </div>
+                  <div className='df-provider-row-label'>{t('模型')}</div>
                   <div className='df-provider-row'>
                     {PROVIDER_MODELS.map((item) => (
                       <span key={item.key} className='df-provider'>

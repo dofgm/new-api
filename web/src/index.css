@@ -1272,6 +1272,18 @@ html.dark .with-pastel-balls::before {
   gap: 8px;
 }
 
+.df-provider-row + .df-provider-row {
+  margin-top: 12px;
+}
+
+.df-provider-row-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
 .df-provider {
   padding: 8px 12px;
   border-radius: 999px;
@@ -1480,7 +1492,7 @@ html.dark .with-pastel-balls::before {
 
 .df-price {
   font-family: Lato, 'Helvetica Neue', sans-serif;
-  font-size: 3rem;
+  font-size: 2.2rem;
   line-height: 0.95;
   font-weight: 800;
   color: var(--ink);
@@ -1819,7 +1831,7 @@ html.dark .with-pastel-balls::before {
   }
 
   .df-price {
-    font-size: 2.4rem;
+    font-size: 1.8rem;
   }
 
   .df-code-actions {
@@ -1938,6 +1950,10 @@ html.dark .df-chip {
 html.dark .df-provider {
   background: rgba(117, 232, 255, 0.12);
   color: #d7f6ff;
+}
+
+html.dark .df-provider-row-label {
+  color: rgba(214, 227, 255, 0.5);
 }
 
 html.dark .df-panel-label {
