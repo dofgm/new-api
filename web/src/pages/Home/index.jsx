@@ -162,7 +162,7 @@ const TUTORIAL_ITEMS = [
 const getPlanTag = (plan) => {
   const title = (plan?.title || '').toLowerCase();
   if (title.includes('周卡')) return '热门订阅';
-  if (title.includes('养虾')) return '推荐';
+  if (title.includes('养虾')) return '推荐方案';
   return '订阅方案';
 };
 
@@ -257,7 +257,7 @@ const Home = () => {
   };
 
   const planCards = useMemo(() => {
-    return subscriptionPlans.map((plan) => ({ plan }));
+    return subscriptionPlans.map((plan) => ({ plan })).reverse();
   }, [subscriptionPlans]);
 
   const tutorialItems = useMemo(
