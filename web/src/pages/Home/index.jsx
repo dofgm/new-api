@@ -34,14 +34,14 @@ import NoticeModal from '../../components/layout/NoticeModal';
 
 
 const COMPATIBLE_TOOLS = [
+  { key: 'openclaw', label: 'OpenClaw' },
+  { key: 'opencode', label: 'OpenCode' },
   { key: 'claude-code', label: 'Claude Code' },
-  { key: 'cursor', label: 'Cursor' },
-  { key: 'cline', label: 'Cline' },
   { key: 'codex-cli', label: 'Codex CLI' },
   { key: 'gemini-cli', label: 'Gemini CLI' },
+  { key: 'cline', label: 'Cline' },
+  { key: 'cursor', label: 'Cursor' },
   { key: 'windsurf', label: 'Windsurf' },
-  { key: 'opencode', label: 'OpenCode' },
-  { key: 'openclaw', label: 'OpenClaw' },
 ];
 
 const TUTORIAL_ITEMS = [
@@ -386,7 +386,7 @@ env_key = "CRS_OAI_KEY"`,
                   </div>
                   <div className='df-metric'>
                     <strong>{t('模型可用')}</strong>
-                    <span>Claude | ChatGPT | Gemini</span>
+                    <span>Claude | GPT | Gemini</span>
                   </div>
                   <div className='df-metric'>
                     <strong>{t('按需订阅')}</strong>
