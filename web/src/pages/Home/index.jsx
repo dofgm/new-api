@@ -57,7 +57,7 @@ const FEATURE_ITEMS = [
     key: 'compatibility',
     title: '即插即用',
     description:
-      '兼容 OpenAI 风格接口，便于接入 Cursor、Cline、Claude Code 等工具。',
+      '兼容 OpenAI 风格接口，便于接入 OpenClaw、OpenCode、Claude Code、Codex、Gemini CLI、Cursor 等工具。',
     index: '04',
   },
 ];
