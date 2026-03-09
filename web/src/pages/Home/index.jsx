@@ -62,16 +62,13 @@ const FEATURE_ITEMS = [
   },
 ];
 
-const PROVIDER_COMPANIES = [
-  { key: 'anthropic', label: 'Anthropic' },
-  { key: 'openai', label: 'OpenAI' },
-  { key: 'google', label: 'Google' },
-];
-
-const PROVIDER_MODELS = [
-  { key: 'claude', label: 'Claude' },
-  { key: 'chatgpt', label: 'ChatGPT' },
-  { key: 'gemini', label: 'Gemini' },
+const COMPATIBLE_TOOLS = [
+  { key: 'claude-code', label: 'Claude Code' },
+  { key: 'cursor', label: 'Cursor' },
+  { key: 'codex-cli', label: 'Codex CLI' },
+  { key: 'gemini-cli', label: 'Gemini CLI' },
+  { key: 'opencode', label: 'OpenCode' },
+  { key: 'openclaw', label: 'OpenClaw' },
 ];
 
 const TUTORIAL_ITEMS = [
@@ -412,92 +409,36 @@ env_key = "CRS_OAI_KEY"`,
 
                 <div className='df-hero-metrics'>
                   <div className='df-metric'>
-                    <strong>{t('多协议兼容')}</strong>
-                    <span>{t('OpenAI / Claude / Gemini 原生接口均可直连')}</span>
+                    <strong>OpenAI / Claude / Gemini</strong>
+                    <span>{t('三套原生接口一站直连')}</span>
                   </div>
                   <div className='df-metric'>
-                    <strong>Claude / GPT / Gemini</strong>
-                    <span>{t('覆盖主流模型使用场景')}</span>
-                  </div>
-                  <div className='df-metric'>
-                    <strong>{t('真实套餐直出')}</strong>
-                    <span>{t('周卡、月卡内容清晰可见')}</span>
+                    <strong>{t('按需订阅')}</strong>
+                    <span>{t('周卡、月卡价格透明可查')}</span>
                   </div>
                 </div>
               </div>
 
               {/* Right column */}
               <div className='df-hero-panel'>
-                <div className='df-base-card'>
-                  <div className='df-panel-label'>Base URL</div>
-                  <div className='df-url-box'>
-                    <span>{serverAddress}</span>
-                    <button
-                      className='df-btn df-btn-secondary df-btn-sm'
-                      onClick={handleCopyBaseURL}
-                    >
-                      {t('复制')}
-                    </button>
-                  </div>
-                  <div className='df-chip-row'>
-                    <span className='df-chip'>/v1/chat/completions</span>
-                    <span className='df-chip'>/v1/messages</span>
-                    <span className='df-chip'>/v1/responses</span>
-                    <span className='df-chip'>/v1beta/models</span>
-                    <span className='df-chip'>/v1/images/generations</span>
-                    <span className='df-chip'>/v1/embeddings</span>
-                  </div>
-                </div>
-
-                <div className='df-status-card'>
-                  <div className='df-panel-label'>{t('模型供应商')}</div>
-                  <div className='df-provider-row-label'>{t('平台')}</div>
-                  <div className='df-provider-row'>
-                    {PROVIDER_COMPANIES.map((item) => (
-                      <span key={item.key} className='df-provider'>
-                        {item.label}
+                <div className='df-tools-card'>
+                  <div className='df-panel-label'>{t('兼容工具')}</div>
+                  <div className='df-tools-grid'>
+                    {COMPATIBLE_TOOLS.map((tool) => (
+                      <span key={tool.key} className='df-tool-item'>
+                        {tool.label}
                       </span>
                     ))}
                   </div>
-                  <div className='df-provider-row-label'>{t('模型')}</div>
-                  <div className='df-provider-row'>
-                    {PROVIDER_MODELS.map((item) => (
-                      <span key={item.key} className='df-provider'>
-                        {item.label}
-                      </span>
-                    ))}
+                  <div className='df-tools-footer'>
+                    <span className='df-tools-count'>6+</span>
+                    <span>{t('工具开箱即用')}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </main>
-      </section>
-
-      {/* ========== Feature Section ========== */}
-      <section className='df-section'>
-        <div className='df-shell'>
-          <div className='df-section-card'>
-            <div className='df-section-head'>
-              <div>
-                <div className='df-kicker'>Features</div>
-                <h2 className='df-section-h2'>
-                  {t('核心能力')}
-                </h2>
-              </div>
-            </div>
-
-            <div className='df-feature-grid'>
-              {FEATURE_ITEMS.map((item) => (
-                <div className='df-feature-card' key={item.key}>
-                  <div className='df-feature-icon'>{item.index}</div>
-                  <h3>{t(item.title)}</h3>
-                  <p>{t(item.description)}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ========== Pricing Section ========== */}
@@ -600,6 +541,32 @@ env_key = "CRS_OAI_KEY"`,
                 )}
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== Feature Section ========== */}
+      <section className='df-section'>
+        <div className='df-shell'>
+          <div className='df-section-card'>
+            <div className='df-section-head'>
+              <div>
+                <div className='df-kicker'>Features</div>
+                <h2 className='df-section-h2'>
+                  {t('核心能力')}
+                </h2>
+              </div>
+            </div>
+
+            <div className='df-feature-grid'>
+              {FEATURE_ITEMS.map((item) => (
+                <div className='df-feature-card' key={item.key}>
+                  <div className='df-feature-icon'>{item.index}</div>
+                  <h3>{t(item.title)}</h3>
+                  <p>{t(item.description)}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
