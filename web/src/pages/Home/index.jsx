@@ -598,12 +598,6 @@ env_key = "CRS_OAI_KEY"`,
                     </button>
                     <button
                       className='df-mini-btn'
-                      onClick={() => window.open(docsUrl, '_blank')}
-                    >
-                      {t('打开完整文档')}
-                    </button>
-                    <button
-                      className='df-mini-btn'
                       onClick={scrollToPricing}
                     >
                       {t('查看套餐')}
