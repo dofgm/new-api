@@ -364,7 +364,7 @@ env_key = "CRS_OAI_KEY"`,
                     {t('开始使用')}
                   </button>
                   <button
-                    className='df-btn df-btn-secondary'
+                    className='df-btn df-btn-qq'
                     onClick={() =>
                       window.open(
                         'https://qm.qq.com/cgi-bin/qm/qr?k=&group_code=4693347',
