@@ -365,6 +365,18 @@ env_key = "CRS_OAI_KEY"`,
                   </button>
                   <button
                     className='df-btn df-btn-secondary'
+                    onClick={() =>
+                      window.open(
+                        'https://qm.qq.com/cgi-bin/qm/qr?k=&group_code=4693347',
+                        '_blank',
+                        'noopener,noreferrer'
+                      )
+                    }
+                  >
+                    {t('加入 QQ 群')}
+                  </button>
+                  <button
+                    className='df-btn df-btn-secondary'
                     onClick={scrollToQuickStart}
                   >
                     {t('查看教程')}
