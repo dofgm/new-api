@@ -78,10 +78,14 @@ func SearchRedemptions(keyword string, startIdx int, num int) (redemptions []*Re
 	query := tx.Model(&Redemption{})
 
 	// Only try to convert to ID if the string represents a valid integer
+	keyCol := "`key`"
+	if common.UsingPostgreSQL {
+		keyCol = `"key"`
+	}
 	if id, err := strconv.Atoi(keyword); err == nil {
 		query = query.Where("id = ? OR name LIKE ?", id, keyword+"%")
 	} else {
-		query = query.Where("name LIKE ?", keyword+"%")
+		query = query.Where("name LIKE ? OR "+keyCol+" = ?", keyword+"%", keyword)
 	}
 
 	// Get total count
