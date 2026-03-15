@@ -1404,8 +1404,8 @@ html.dark .with-pastel-balls::before {
 
 /* ---------- Plans grid ---------- */
 .df-plans-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 18px;
   padding-top: 6px;
   padding-bottom: 8px;
@@ -1438,7 +1438,6 @@ html.dark .with-pastel-balls::before {
   overflow: hidden;
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
   min-width: 0;
-  flex: 1 1 0;
 }
 
 .df-plan-card:hover {
@@ -1810,9 +1809,6 @@ html.dark .with-pastel-balls::before {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .df-plan-card {
-    flex: 1 1 calc(50% - 18px);
-  }
 }
 
 @media (max-width: 720px) {
@@ -1885,10 +1881,6 @@ html.dark .with-pastel-balls::before {
 
   .df-tool-summary p {
     font-size: 0.88rem;
-  }
-
-  .df-plan-card {
-    flex: 1 1 100%;
   }
 
   .df-steps-grid {
