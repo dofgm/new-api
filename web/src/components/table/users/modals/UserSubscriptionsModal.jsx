@@ -20,6 +20,7 @@ For commercial licensing, please contact support@quantumnous.com
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
+  DatePicker,
   Empty,
   Modal,
   Select,
@@ -85,6 +86,46 @@ const UserSubscriptionsModal = ({ visible, onCancel, user, t, onSuccess }) => {
   const [subs, setSubs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+
+  // 改期弹窗状态
+  const [editEndTimeVisible, setEditEndTimeVisible] = useState(false);
+  const [editEndTimeSub, setEditEndTimeSub] = useState(null);
+  const [editEndTimeValue, setEditEndTimeValue] = useState(null);
+  const [editEndTimeLoading, setEditEndTimeLoading] = useState(false);
+
+  const openEditEndTime = (sub) => {
+    setEditEndTimeSub(sub);
+    setEditEndTimeValue(sub?.end_time ? new Date(sub.end_time * 1000) : new Date());
+    setEditEndTimeVisible(true);
+  };
+
+  const submitEditEndTime = async () => {
+    if (!editEndTimeSub?.id || !editEndTimeValue) return;
+    const endTimeUnix = Math.floor(new Date(editEndTimeValue).getTime() / 1000);
+    if (endTimeUnix <= 0) {
+      showError(t('请选择有效的日期'));
+      return;
+    }
+    setEditEndTimeLoading(true);
+    try {
+      const res = await API.put(
+        `/api/subscription/admin/user_subscriptions/${editEndTimeSub.id}/end_time`,
+        { end_time: endTimeUnix },
+      );
+      if (res.data?.success) {
+        showSuccess(res.data?.data?.message || t('到期时间已更新'));
+        setEditEndTimeVisible(false);
+        await loadUserSubscriptions();
+        onSuccess?.();
+      } else {
+        showError(res.data?.message || t('操作失败'));
+      }
+    } catch (e) {
+      showError(t('请求失败'));
+    } finally {
+      setEditEndTimeLoading(false);
+    }
+  };
 
   const planTitleMap = useMemo(() => {
     const map = new Map();
@@ -245,6 +286,31 @@ const UserSubscriptionsModal = ({ visible, onCancel, user, t, onSuccess }) => {
     });
   };
 
+  const resetSubscriptionQuota = (subId) => {
+    Modal.confirm({
+      title: t('确认重置额度'),
+      content: t('已用额度将归零，是否继续？'),
+      centered: true,
+      onOk: async () => {
+        try {
+          const res = await API.post(
+            `/api/subscription/admin/user_subscriptions/${subId}/reset_quota`,
+          );
+          if (res.data?.success) {
+            const msg = res.data?.data?.message;
+            showSuccess(msg ? msg : t('订阅额度已重置'));
+            await loadUserSubscriptions();
+            onSuccess?.();
+          } else {
+            showError(res.data?.message || t('操作失败'));
+          }
+        } catch (e) {
+          showError(t('请求失败'));
+        }
+      },
+    });
+  };
+
   const columns = useMemo(() => {
     return [
       {
@@ -314,7 +380,7 @@ const UserSubscriptionsModal = ({ visible, onCancel, user, t, onSuccess }) => {
       {
         title: '',
         key: 'operate',
-        width: 140,
+        width: 240,
         fixed: 'right',
         render: (_, record) => {
           const sub = record?.subscription;
@@ -325,6 +391,22 @@ const UserSubscriptionsModal = ({ visible, onCancel, user, t, onSuccess }) => {
           const isCancelled = sub?.status === 'cancelled';
           return (
             <Space>
+              <Button
+                size='small'
+                theme='light'
+                disabled={isCancelled}
+                onClick={() => openEditEndTime(sub)}
+              >
+                {t('改期')}
+              </Button>
+              <Button
+                size='small'
+                theme='light'
+                disabled={!isActive || isCancelled}
+                onClick={() => resetSubscriptionQuota(sub?.id)}
+              >
+                {t('重置')}
+              </Button>
               <Button
                 size='small'
                 type='warning'
@@ -426,6 +508,28 @@ const UserSubscriptionsModal = ({ visible, onCancel, user, t, onSuccess }) => {
           size='middle'
         />
       </div>
+
+      {/* 修改到期时间弹窗 */}
+      <Modal
+        title={t('修改到期时间')}
+        visible={editEndTimeVisible}
+        onOk={submitEditEndTime}
+        onCancel={() => setEditEndTimeVisible(false)}
+        confirmLoading={editEndTimeLoading}
+        centered
+      >
+        <div className='mb-3'>
+          <Text type='secondary'>
+            {t('订阅 ID')}: {editEndTimeSub?.id || '-'}
+          </Text>
+        </div>
+        <DatePicker
+          type='dateTime'
+          value={editEndTimeValue}
+          onChange={(val) => setEditEndTimeValue(val)}
+          style={{ width: '100%' }}
+        />
+      </Modal>
     </SideSheet>
   );
 };

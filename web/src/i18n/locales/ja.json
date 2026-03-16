@@ -3254,6 +3254,14 @@
     "输入价格：{{symbol}}{{price}} / 1M tokens": "入力価格：{{symbol}}{{price}} / 1M tokens",
     "输出价格 {{symbol}}{{price}} / 1M tokens": "補完料金 {{symbol}}{{price}} / 1M tokens",
     "输出价格：{{symbol}}{{price}} / 1M tokens": "補完料金：{{symbol}}{{price}} / 1M tokens",
-    "输出价格：{{symbol}}{{total}} / 1M tokens": "補完料金：{{symbol}}{{total}} / 1M tokens"
+    "输出价格：{{symbol}}{{total}} / 1M tokens": "補完料金：{{symbol}}{{total}} / 1M tokens",
+    "改期": "期間変更",
+    "确认重置额度": "クォータリセットの確認",
+    "已用额度将归零，是否继续？": "使用済みクォータがゼロにリセットされます。続行しますか？",
+    "订阅额度已重置": "サブスクリプションクォータがリセットされました",
+    "修改到期时间": "有効期限の変更",
+    "到期时间已更新": "有効期限が更新されました",
+    "订阅 ID": "サブスクリプション ID",
+    "请选择有效的日期": "有効な日付を選択してください"
   }
 }

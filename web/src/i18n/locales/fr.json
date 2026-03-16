@@ -3273,6 +3273,14 @@
     "输入价格：{{symbol}}{{price}} / 1M tokens": "Prix d'entrée : {{symbol}}{{price}} / 1M tokens",
     "输出价格 {{symbol}}{{price}} / 1M tokens": "Prix de sortie {{symbol}}{{price}} / 1M tokens",
     "输出价格：{{symbol}}{{price}} / 1M tokens": "Prix de sortie : {{symbol}}{{price}} / 1M tokens",
-    "输出价格：{{symbol}}{{total}} / 1M tokens": "Prix de sortie : {{symbol}}{{total}} / 1M tokens"
+    "输出价格：{{symbol}}{{total}} / 1M tokens": "Prix de sortie : {{symbol}}{{total}} / 1M tokens",
+    "改期": "Modifier la date",
+    "确认重置额度": "Confirmer la réinitialisation du quota",
+    "已用额度将归零，是否继续？": "Le quota utilisé sera remis à zéro. Continuer ?",
+    "订阅额度已重置": "Le quota d'abonnement a été réinitialisé",
+    "修改到期时间": "Modifier la date d'expiration",
+    "到期时间已更新": "Date d'expiration mise à jour",
+    "订阅 ID": "ID d'abonnement",
+    "请选择有效的日期": "Veuillez sélectionner une date valide"
   }
 }

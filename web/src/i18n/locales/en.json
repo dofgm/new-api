@@ -3310,6 +3310,14 @@
     "输入价格：{{symbol}}{{price}} / 1M tokens": "Input Price: {{symbol}}{{price}} / 1M tokens",
     "输出价格 {{symbol}}{{price}} / 1M tokens": "Output Price {{symbol}}{{price}} / 1M tokens",
     "输出价格：{{symbol}}{{price}} / 1M tokens": "Output Price: {{symbol}}{{price}} / 1M tokens",
-    "输出价格：{{symbol}}{{total}} / 1M tokens": "Output Price: {{symbol}}{{total}} / 1M tokens"
+    "输出价格：{{symbol}}{{total}} / 1M tokens": "Output Price: {{symbol}}{{total}} / 1M tokens",
+    "改期": "Change Date",
+    "确认重置额度": "Confirm Quota Reset",
+    "已用额度将归零，是否继续？": "Used quota will be reset to zero. Continue?",
+    "订阅额度已重置": "Subscription quota has been reset",
+    "修改到期时间": "Change Expiry Date",
+    "到期时间已更新": "Expiry date updated",
+    "订阅 ID": "Subscription ID",
+    "请选择有效的日期": "Please select a valid date"
   }
 }

@@ -381,3 +381,40 @@ func AdminDeleteUserSubscription(c *gin.Context) {
 	}
 	common.ApiSuccess(c, nil)
 }
+
+// AdminUpdateUserSubscriptionEndTime updates the end_time of a user subscription.
+func AdminUpdateUserSubscriptionEndTime(c *gin.Context) {
+	subId, _ := strconv.Atoi(c.Param("id"))
+	if subId <= 0 {
+		common.ApiErrorMsg(c, "无效的订阅ID")
+		return
+	}
+	var req struct {
+		EndTime int64 `json:"end_time"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil || req.EndTime <= 0 {
+		common.ApiErrorMsg(c, "参数错误: end_time 必须为有效的 Unix 时间戳")
+		return
+	}
+	err := model.AdminUpdateUserSubscriptionEndTime(subId, req.EndTime)
+	if err != nil {
+		common.ApiError(c, err)
+		return
+	}
+	common.ApiSuccess(c, gin.H{"message": "到期时间已更新"})
+}
+
+// AdminResetUserSubscriptionQuota resets the used quota of a user subscription to zero.
+func AdminResetUserSubscriptionQuota(c *gin.Context) {
+	subId, _ := strconv.Atoi(c.Param("id"))
+	if subId <= 0 {
+		common.ApiErrorMsg(c, "无效的订阅ID")
+		return
+	}
+	err := model.AdminResetUserSubscriptionQuota(subId)
+	if err != nil {
+		common.ApiError(c, err)
+		return
+	}
+	common.ApiSuccess(c, gin.H{"message": "额度已重置"})
+}

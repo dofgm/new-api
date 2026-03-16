@@ -2938,6 +2938,14 @@
     "输入价格：{{symbol}}{{price}} / 1M tokens": "輸入價格：{{symbol}}{{price}} / 1M tokens",
     "输出价格 {{symbol}}{{price}} / 1M tokens": "輸出價格 {{symbol}}{{price}} / 1M tokens",
     "输出价格：{{symbol}}{{price}} / 1M tokens": "輸出價格：{{symbol}}{{price}} / 1M tokens",
-    "输出价格：{{symbol}}{{total}} / 1M tokens": "輸出價格：{{symbol}}{{total}} / 1M tokens"
+    "输出价格：{{symbol}}{{total}} / 1M tokens": "輸出價格：{{symbol}}{{total}} / 1M tokens",
+    "改期": "改期",
+    "确认重置额度": "確認重置額度",
+    "已用额度将归零，是否继续？": "已用額度將歸零，是否繼續？",
+    "订阅额度已重置": "訂閱額度已重置",
+    "修改到期时间": "修改到期時間",
+    "到期时间已更新": "到期時間已更新",
+    "订阅 ID": "訂閱 ID",
+    "请选择有效的日期": "請選擇有效的日期"
   }
 }

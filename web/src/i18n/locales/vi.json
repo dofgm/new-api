@@ -3824,6 +3824,14 @@
     "补全倍率 {{completionRatio}}": "Tỷ lệ hoàn thành {{completionRatio}}",
     "输出价格 {{symbol}}{{price}} / 1M tokens": "Giá đầu ra {{symbol}}{{price}} / 1M tokens",
     "输出价格：{{symbol}}{{price}} / 1M tokens": "Giá đầu ra: {{symbol}}{{price}} / 1M tokens",
-    "输出价格：{{symbol}}{{total}} / 1M tokens": "Giá đầu ra: {{symbol}}{{total}} / 1M tokens"
+    "输出价格：{{symbol}}{{total}} / 1M tokens": "Giá đầu ra: {{symbol}}{{total}} / 1M tokens",
+    "改期": "Đổi ngày",
+    "确认重置额度": "Xác nhận đặt lại hạn mức",
+    "已用额度将归零，是否继续？": "Hạn mức đã dùng sẽ được đặt về 0. Tiếp tục?",
+    "订阅额度已重置": "Hạn mức đăng ký đã được đặt lại",
+    "修改到期时间": "Thay đổi ngày hết hạn",
+    "到期时间已更新": "Ngày hết hạn đã được cập nhật",
+    "订阅 ID": "ID đăng ký",
+    "请选择有效的日期": "Vui lòng chọn ngày hợp lệ"
   }
 }

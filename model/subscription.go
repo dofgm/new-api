@@ -1190,3 +1190,45 @@ func PostConsumeUserSubscriptionDelta(userSubscriptionId int, delta int64) error
 		return tx.Save(&sub).Error
 	})
 }
+
+// AdminUpdateUserSubscriptionEndTime updates the end_time of an existing user subscription.
+func AdminUpdateUserSubscriptionEndTime(userSubscriptionId int, newEndTime int64) error {
+	if userSubscriptionId <= 0 {
+		return errors.New("invalid userSubscriptionId")
+	}
+	if newEndTime <= 0 {
+		return errors.New("invalid end_time")
+	}
+	result := DB.Model(&UserSubscription{}).Where("id = ?", userSubscriptionId).Update("end_time", newEndTime)
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("订阅记录不存在")
+	}
+	return nil
+}
+
+// AdminResetUserSubscriptionQuota resets AmountUsed to 0 for an active subscription
+// and recalculates NextResetTime from now.
+func AdminResetUserSubscriptionQuota(userSubscriptionId int) error {
+	if userSubscriptionId <= 0 {
+		return errors.New("invalid userSubscriptionId")
+	}
+	now := GetDBTimestamp()
+	return DB.Transaction(func(tx *gorm.DB) error {
+		var sub UserSubscription
+		if err := tx.Set("gorm:query_option", "FOR UPDATE").
+			Where("id = ? AND status = ?", userSubscriptionId, "active").
+			First(&sub).Error; err != nil {
+			return fmt.Errorf("订阅记录不存在或已失效: %w", err)
+		}
+		sub.AmountUsed = 0
+		sub.LastResetTime = now
+		plan, err := getSubscriptionPlanByIdTx(tx, sub.PlanId)
+		if err == nil && plan != nil && NormalizeResetPeriod(plan.QuotaResetPeriod) != SubscriptionResetNever {
+			sub.NextResetTime = calcNextResetTime(time.Unix(now, 0), plan, sub.EndTime)
+		}
+		return tx.Save(&sub).Error
+	})
+}
