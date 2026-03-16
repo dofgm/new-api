@@ -1173,15 +1173,27 @@ html.dark .with-pastel-balls::before {
   background: #fff;
 }
 
-.df-btn-qq {
-  background: linear-gradient(135deg, #00c6ff 0%, #7c5bf5 50%, #ff6b9d 100%);
-  color: #fff;
-  border: none;
-  box-shadow: 0 10px 24px rgba(124, 91, 245, 0.25);
+.df-qq-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(76, 111, 255, 0.08);
+  border: 1px solid rgba(76, 111, 255, 0.18);
+  color: #5f6b7b;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.2s;
 }
 
-.df-btn-qq:hover {
-  box-shadow: 0 14px 32px rgba(124, 91, 245, 0.35);
+.df-qq-link:hover {
+  background: rgba(76, 111, 255, 0.14);
+  color: #7c5bf5;
+  transform: translateY(-1px);
 }
 
 /* QQ group header button pulse */
@@ -2097,13 +2109,14 @@ html.dark .df-btn-secondary {
   border-color: rgba(255, 255, 255, 0.12);
 }
 
-html.dark .df-btn-qq {
-  background: linear-gradient(135deg, #40d8ff 0%, #a78bfa 50%, #ff8ab8 100%);
-  box-shadow: 0 10px 24px rgba(167, 139, 250, 0.3);
+html.dark .df-qq-link {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(228, 236, 255, 0.72);
 }
-
-html.dark .df-btn-qq:hover {
-  box-shadow: 0 14px 32px rgba(167, 139, 250, 0.45);
+html.dark .df-qq-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #a78bfa;
 }
 
 html.dark .df-tutorial-tab {
