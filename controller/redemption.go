@@ -179,6 +179,28 @@ func DeleteInvalidRedemption(c *gin.Context) {
 	return
 }
 
+type RedemptionBatch struct {
+	Ids []int `json:"ids"`
+}
+
+func BatchDeleteRedemption(c *gin.Context) {
+	batch := RedemptionBatch{}
+	if err := c.ShouldBindJSON(&batch); err != nil || len(batch.Ids) == 0 {
+		common.ApiErrorI18n(c, i18n.MsgInvalidParams)
+		return
+	}
+	count, err := model.BatchDeleteRedemptions(batch.Ids)
+	if err != nil {
+		common.ApiError(c, err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+		"data":    count,
+	})
+}
+
 func validateExpiredTime(c *gin.Context, expired int64) (bool, string) {
 	if expired != 0 && expired < common.GetTimestamp() {
 		return false, i18n.T(c, i18n.MsgRedemptionExpireTimeInvalid)

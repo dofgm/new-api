@@ -203,3 +203,11 @@ func DeleteInvalidRedemptions() (int64, error) {
 	result := DB.Where("status IN ? OR (status = ? AND expired_time != 0 AND expired_time < ?)", []int{common.RedemptionCodeStatusUsed, common.RedemptionCodeStatusDisabled}, common.RedemptionCodeStatusEnabled, now).Delete(&Redemption{})
 	return result.RowsAffected, result.Error
 }
+
+func BatchDeleteRedemptions(ids []int) (int64, error) {
+	if len(ids) == 0 {
+		return 0, errors.New("ids 不能为空")
+	}
+	result := DB.Where("id IN ?", ids).Delete(&Redemption{})
+	return result.RowsAffected, result.Error
+}

@@ -272,6 +272,35 @@ export const useRedemptionsData = () => {
     });
   };
 
+  // Batch delete selected redemption codes
+  const batchDeleteSelectedRedemptions = async () => {
+    if (selectedKeys.length === 0) {
+      showError(t('请先选择要删除的兑换码！'));
+      return;
+    }
+    setLoading(true);
+    try {
+      const ids = selectedKeys.map((item) => item.id);
+      const res = await API.post('/api/redemption/batch', { ids });
+      if (res?.data?.success) {
+        const count = res.data.data || 0;
+        showSuccess(t('已删除 {{count}} 个兑换码', { count }));
+        await refresh();
+        setTimeout(() => {
+          if (redemptions.length === 0 && activePage > 1) {
+            refresh(activePage - 1);
+          }
+        }, 100);
+      } else {
+        showError(res?.data?.message || t('删除失败'));
+      }
+    } catch (error) {
+      showError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Close edit modal
   const closeEdit = () => {
     setShowEdit(false);
@@ -353,6 +382,7 @@ export const useRedemptionsData = () => {
     // Batch operations
     batchCopyRedemptions,
     batchDeleteRedemptions,
+    batchDeleteSelectedRedemptions,
 
     // Translation function
     t,
