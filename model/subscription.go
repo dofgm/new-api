@@ -1209,6 +1209,32 @@ func AdminUpdateUserSubscriptionEndTime(userSubscriptionId int, newEndTime int64
 	return nil
 }
 
+// AdminDeleteSubscriptionPlan deletes a plan only if no active user subscriptions reference it.
+func AdminDeleteSubscriptionPlan(planId int) error {
+	if planId <= 0 {
+		return errors.New("invalid plan id")
+	}
+	return DB.Transaction(func(tx *gorm.DB) error {
+		var count int64
+		if err := tx.Model(&UserSubscription{}).
+			Where("plan_id = ? AND status = ?", planId, "active").
+			Count(&count).Error; err != nil {
+			return err
+		}
+		if count > 0 {
+			return fmt.Errorf("该套餐下还有 %d 个活跃订阅，无法删除", count)
+		}
+		result := tx.Where("id = ?", planId).Delete(&SubscriptionPlan{})
+		if result.Error != nil {
+			return result.Error
+		}
+		if result.RowsAffected == 0 {
+			return errors.New("套餐不存在")
+		}
+		return nil
+	})
+}
+
 // AdminResetUserSubscriptionQuota resets AmountUsed to 0 for an active subscription
 // and recalculates NextResetTime from now.
 func AdminResetUserSubscriptionQuota(userSubscriptionId int) error {

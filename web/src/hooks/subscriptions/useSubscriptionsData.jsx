@@ -21,6 +21,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { API, showError, showSuccess } from '../../helpers';
 import { useTableCompactMode } from '../common/useTableCompactMode';
+import { Modal } from '@douyinfe/semi-ui';
 
 export const useSubscriptionsData = () => {
   const { t } = useTranslation();
@@ -100,6 +101,39 @@ export const useSubscriptionsData = () => {
     }
   };
 
+  // Delete plan (with active subscription check)
+  const deletePlan = (planRecordOrId) => {
+    const planId =
+      typeof planRecordOrId === 'number'
+        ? planRecordOrId
+        : planRecordOrId?.plan?.id;
+    if (!planId) return;
+    Modal.confirm({
+      title: t('确认删除套餐'),
+      content: t('删除后不可恢复，有活跃订阅的套餐无法删除。是否继续？'),
+      type: 'warning',
+      centered: true,
+      onOk: async () => {
+        setLoading(true);
+        try {
+          const res = await API.delete(
+            `/api/subscription/admin/plans/${planId}`,
+          );
+          if (res.data?.success) {
+            showSuccess(t('套餐已删除'));
+            await loadPlans();
+          } else {
+            showError(res.data?.message || t('删除失败'));
+          }
+        } catch (e) {
+          showError(t('请求失败'));
+        } finally {
+          setLoading(false);
+        }
+      },
+    });
+  };
+
   // Modal control functions
   const closeEdit = () => {
     setShowEdit(false);
@@ -155,6 +189,7 @@ export const useSubscriptionsData = () => {
     // Actions
     loadPlans,
     setPlanEnabled,
+    deletePlan,
     refresh,
     closeEdit,
     openCreate,

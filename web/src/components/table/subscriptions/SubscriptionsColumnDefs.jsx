@@ -228,7 +228,7 @@ const renderPaymentConfig = (text, record, t, enableEpay) => {
   );
 };
 
-const renderOperations = (text, record, { openEdit, setPlanEnabled, t }) => {
+const renderOperations = (text, record, { openEdit, setPlanEnabled, deletePlan, t }) => {
   const isEnabled = record?.plan?.enabled;
 
   const handleToggle = () => {
@@ -273,6 +273,16 @@ const renderOperations = (text, record, { openEdit, setPlanEnabled, t }) => {
           {t('启用')}
         </Button>
       )}
+      {!isEnabled && (
+        <Button
+          theme='light'
+          type='danger'
+          size='small'
+          onClick={() => deletePlan(record)}
+        >
+          {t('删除')}
+        </Button>
+      )}
     </Space>
   );
 };
@@ -281,6 +291,7 @@ export const getSubscriptionsColumns = ({
   t,
   openEdit,
   setPlanEnabled,
+  deletePlan,
   enableEpay,
 }) => {
   return [
@@ -351,7 +362,7 @@ export const getSubscriptionsColumns = ({
       fixed: 'right',
       width: 160,
       render: (text, record) =>
-        renderOperations(text, record, { openEdit, setPlanEnabled, t }),
+        renderOperations(text, record, { openEdit, setPlanEnabled, deletePlan, t }),
     },
   ];
 };
