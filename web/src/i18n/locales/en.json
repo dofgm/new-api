@@ -562,7 +562,7 @@
     "充值方式设置": "Top Up method settings",
     "充值方式设置不是合法的 JSON 字符串": "Top Up method settings is not a valid JSON string",
     "充值确认": "Top Up confirmation",
-    "充值账单": "Billing History",
+    "充值账单": "Top Up Bills",
     "充值金额折扣配置": "Top Up amount discount configuration",
     "充值金额折扣配置不是合法的 JSON 对象": "Top Up amount discount configuration is not a valid JSON object",
     "充值链接": "Top Up Link",
@@ -1633,7 +1633,7 @@
     "暂无SSE响应数据": "No SSE response data",
     "暂无产品配置": "No product configuration",
     "暂无保存的配置": "No saved configuration",
-    "暂无充值记录": "No billing records",
+    "暂无充值记录": "No recharge records",
     "暂无公告": "No Notice",
     "暂无匹配模型": "No matching model",
     "暂无可复制 JSON": "No JSON available to copy",
@@ -3371,8 +3371,6 @@
     "微信支付": "WeChat Pay",
     "未获取到支付链接": "Failed to get payment link",
     "商户ID": "Merchant ID",
-    "商户密钥": "Merchant key",
-    "充值记录查看": "View billing records",
-    "搜索订单号": "Search order number"
+    "商户密钥": "Merchant key"
   }
 }
