@@ -188,8 +188,8 @@ const SubscriptionPurchaseModal = ({
                 {t('选择支付方式')}：
               </Text>
 
-              {/* Stripe / Creem */}
-              {(hasStripe || hasCreem) && (
+              {/* Stripe / Creem / XunhuPay */}
+              {(hasStripe || hasCreem || hasXunhu) && (
                 <div className='flex gap-2'>
                   {hasStripe && (
                     <Button
