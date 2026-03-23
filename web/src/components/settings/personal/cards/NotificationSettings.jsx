@@ -81,6 +81,7 @@ const NotificationSettings = ({
       enabled: true,
       topup: true,
       personal: true,
+      billing: true,
     },
     admin: {
       enabled: true,
@@ -165,7 +166,7 @@ const NotificationSettings = ({
         midjourney: true,
         task: true,
       },
-      personal: { enabled: true, topup: true, personal: true },
+      personal: { enabled: true, topup: true, personal: true, billing: true },
       admin: {
         enabled: true,
         channel: true,
@@ -283,6 +284,11 @@ const NotificationSettings = ({
           key: 'personal',
           title: t('个人设置'),
           description: t('个人信息设置'),
+        },
+        {
+          key: 'billing',
+          title: t('充值账单'),
+          description: t('充值记录查看'),
         },
       ],
     },

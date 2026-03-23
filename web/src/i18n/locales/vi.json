@@ -552,7 +552,7 @@
     "充值方式设置": "Cài đặt phương thức nạp tiền",
     "充值方式设置不是合法的 JSON 字符串": "Cài đặt phương thức nạp tiền không phải là chuỗi JSON hợp lệ",
     "充值确认": "Xác nhận nạp tiền",
-    "充值账单": "Hóa đơn nạp tiền",
+    "充值账单": "Lịch sử nạp tiền",
     "充值金额折扣配置": "Cấu hình giảm giá số tiền nạp",
     "充值金额折扣配置不是合法的 JSON 对象": "Cấu hình giảm giá số tiền nạp không phải là đối tượng JSON hợp lệ",
     "充值链接": "Liên kết nạp tiền",
@@ -1604,7 +1604,7 @@
     "暂无SSE响应数据": "Không có dữ liệu phản hồi SSE",
     "暂无产品配置": "Không có cấu hình sản phẩm",
     "暂无保存的配置": "Không có cấu hình đã lưu",
-    "暂无充值记录": "Không có hồ sơ nạp tiền",
+    "暂无充值记录": "Chưa có bản ghi nạp tiền",
     "暂无公告": "Không có thông báo",
     "暂无匹配模型": "Không có mô hình phù hợp",
     "暂无可复制 JSON": "Không có JSON để sao chép",
@@ -3883,6 +3883,9 @@
     "微信支付": "Thanh toán WeChat",
     "未获取到支付链接": "Không lấy được liên kết thanh toán",
     "商户ID": "ID người bán",
-    "商户密钥": "Khóa người bán"
+    "商户密钥": "Khóa người bán",
+    "充值记录查看": "Xem lịch sử nạp tiền",
+    "搜索订单号": "Tìm kiếm mã đơn hàng",
+    "待支付": "Chờ thanh toán"
   }
 }
