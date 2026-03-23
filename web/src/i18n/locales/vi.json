@@ -3881,6 +3881,8 @@
     "充值回调地址": "URL callback nạp tiền",
     "订阅回调地址": "URL callback đăng ký",
     "微信支付": "Thanh toán WeChat",
-    "未获取到支付链接": "Không lấy được liên kết thanh toán"
+    "未获取到支付链接": "Không lấy được liên kết thanh toán",
+    "商户ID": "ID người bán",
+    "商户密钥": "Khóa người bán"
   }
 }

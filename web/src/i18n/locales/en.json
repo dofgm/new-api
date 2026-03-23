@@ -3369,6 +3369,8 @@
     "充值回调地址": "Top-up Callback URL",
     "订阅回调地址": "Subscription Callback URL",
     "微信支付": "WeChat Pay",
-    "未获取到支付链接": "Failed to get payment link"
+    "未获取到支付链接": "Failed to get payment link",
+    "商户ID": "Merchant ID",
+    "商户密钥": "Merchant key"
   }
 }

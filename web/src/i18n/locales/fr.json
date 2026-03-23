@@ -3331,6 +3331,8 @@
     "充值回调地址": "URL de rappel de recharge",
     "订阅回调地址": "URL de rappel d'abonnement",
     "微信支付": "Paiement WeChat",
-    "未获取到支付链接": "Échec de l'obtention du lien de paiement"
+    "未获取到支付链接": "Échec de l'obtention du lien de paiement",
+    "商户ID": "ID du commerçant",
+    "商户密钥": "Clé du commerçant"
   }
 }
