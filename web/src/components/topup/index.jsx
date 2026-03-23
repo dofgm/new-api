@@ -76,6 +76,9 @@ const TopUp = () => {
   const [waffoPayMethods, setWaffoPayMethods] = useState([]);
   const [waffoMinTopUp, setWaffoMinTopUp] = useState(1);
 
+  // 虎皮椒相关状态
+  const [enableXunhuTopUp, setEnableXunhuTopUp] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
   const [payWay, setPayWay] = useState('');
@@ -163,7 +166,7 @@ const TopUp = () => {
         return;
       }
     } else {
-      if (!enableOnlineTopUp) {
+      if (!enableOnlineTopUp && !enableXunhuTopUp) {
         showError(t('管理员未开启在线充值！'));
         return;
       }
@@ -216,6 +219,12 @@ const TopUp = () => {
           amount: parseInt(topUpCount),
           payment_method: 'stripe',
         });
+      } else if (enableXunhuTopUp && (payWay === 'wxpay' || payWay === 'alipay')) {
+        // 虎皮椒支付请求
+        res = await API.post('/api/user/xunhu/pay', {
+          amount: parseInt(topUpCount),
+          payment_method: payWay,
+        });
       } else {
         // 普通支付请求
         res = await API.post('/api/user/pay', {
@@ -230,6 +239,13 @@ const TopUp = () => {
           if (payWay === 'stripe') {
             // Stripe 支付回调处理
             window.open(data.pay_link, '_blank');
+          } else if (enableXunhuTopUp && (payWay === 'wxpay' || payWay === 'alipay') && typeof data === 'string') {
+            // 虎皮椒返回支付URL，直接跳转
+            if (data) {
+              window.open(data, '_blank');
+            } else {
+              showError(t('未获取到支付链接'));
+            }
           } else {
             // 普通支付表单提交
             let params = data;
@@ -495,6 +511,8 @@ const TopUp = () => {
           setEnableWaffoTopUp(enableWaffoTopUp);
           setWaffoPayMethods(data.waffo_pay_methods || []);
           setWaffoMinTopUp(data.waffo_min_topup || 1);
+          const enableXunhu = data.enable_xunhu_topup || false;
+          setEnableXunhuTopUp(enableXunhu);
           setMinTopUp(minTopUpValue);
           setTopUpCount(minTopUpValue);
 
@@ -789,6 +807,7 @@ const TopUp = () => {
           creemProducts={creemProducts}
           creemPreTopUp={creemPreTopUp}
           enableWaffoTopUp={enableWaffoTopUp}
+          enableXunhuTopUp={enableXunhuTopUp}
           waffoTopUp={waffoTopUp}
           waffoPayMethods={waffoPayMethods}
           presetAmounts={presetAmounts}

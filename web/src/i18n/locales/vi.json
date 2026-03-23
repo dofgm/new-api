@@ -3852,6 +3852,17 @@
     "修改到期时间": "Thay đổi ngày hết hạn",
     "到期时间已更新": "Ngày hết hạn đã được cập nhật",
     "订阅 ID": "ID đăng ký",
-    "请选择有效的日期": "Vui lòng chọn ngày hợp lệ"
+    "请选择有效的日期": "Vui lòng chọn ngày hợp lệ",
+    "虎皮椒支付设置": "Cài đặt XunhuPay",
+    "虎皮椒支付配置，请前往": "Để cấu hình XunhuPay, vui lòng truy cập",
+    "虎皮椒后台": "Bảng quản trị XunhuPay",
+    "获取 AppId 和 AppSecret。": "để lấy AppId và AppSecret.",
+    "虎皮椒 App ID": "App ID XunhuPay",
+    "虎皮椒 App Secret": "App Secret XunhuPay",
+    "更新虎皮椒设置": "Cập nhật cài đặt XunhuPay",
+    "充值回调地址": "URL callback nạp tiền",
+    "订阅回调地址": "URL callback đăng ký",
+    "微信支付": "Thanh toán WeChat",
+    "未获取到支付链接": "Không lấy được liên kết thanh toán"
   }
 }

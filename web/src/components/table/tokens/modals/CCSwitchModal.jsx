@@ -32,7 +32,7 @@ import { selectFilter } from '../../../../helpers';
 const APP_CONFIGS = {
   claude: {
     label: 'Claude',
-    defaultName: 'DOFGM Claude',
+    defaultName: 'DOFGM',
     modelFields: [
       { key: 'model', label: '主模型' },
       { key: 'haikuModel', label: 'Haiku 模型' },
@@ -42,12 +42,12 @@ const APP_CONFIGS = {
   },
   codex: {
     label: 'Codex',
-    defaultName: 'DOFGM Codex',
+    defaultName: 'DOFGM',
     modelFields: [{ key: 'model', label: '主模型' }],
   },
   gemini: {
     label: 'Gemini',
-    defaultName: 'DOFGM Gemini',
+    defaultName: 'DOFGM',
     modelFields: [{ key: 'model', label: '主模型' }],
   },
 };

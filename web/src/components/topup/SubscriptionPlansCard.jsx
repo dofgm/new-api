@@ -77,6 +77,7 @@ const SubscriptionPlansCard = ({
   enableOnlineTopUp = false,
   enableStripeTopUp = false,
   enableCreemTopUp = false,
+  enableXunhuTopUp = false,
   billingPreference,
   onChangeBillingPreference,
   activeSubscriptions = [],
@@ -184,6 +185,40 @@ const SubscriptionPlansCard = ({
         submitEpayForm({ url: res.data.url, params: res.data.data });
         showSuccess(t('已发起支付'));
         closeBuy();
+      } else {
+        const errorMsg =
+          typeof res.data?.data === 'string'
+            ? res.data.data
+            : res.data?.message || t('支付失败');
+        showError(errorMsg);
+      }
+    } catch (e) {
+      showError(t('支付请求失败'));
+    } finally {
+      setPaying(false);
+    }
+  };
+
+  const payXunhu = async (method) => {
+    if (!selectedPlan?.plan?.id) {
+      showError(t('请选择套餐'));
+      return;
+    }
+    setPaying(true);
+    try {
+      const res = await API.post('/api/subscription/xunhu/pay', {
+        plan_id: selectedPlan.plan.id,
+        payment_method: method || 'wxpay',
+      });
+      if (res.data?.message === 'success') {
+        const payUrl = res.data.data;
+        if (payUrl) {
+          window.open(payUrl, '_blank');
+          showSuccess(t('已打开支付页面'));
+          closeBuy();
+        } else {
+          showError(t('未获取到支付链接'));
+        }
       } else {
         const errorMsg =
           typeof res.data?.data === 'string'
@@ -665,6 +700,7 @@ const SubscriptionPlansCard = ({
         enableOnlineTopUp={enableOnlineTopUp}
         enableStripeTopUp={enableStripeTopUp}
         enableCreemTopUp={enableCreemTopUp}
+        enableXunhuTopUp={enableXunhuTopUp}
         purchaseLimitInfo={
           selectedPlan?.plan?.id
             ? {
@@ -676,6 +712,7 @@ const SubscriptionPlansCard = ({
         onPayStripe={payStripe}
         onPayCreem={payCreem}
         onPayEpay={payEpay}
+        onPayXunhu={payXunhu}
       />
     </>
   );

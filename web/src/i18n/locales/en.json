@@ -3338,6 +3338,17 @@
     "修改到期时间": "Change Expiry Date",
     "到期时间已更新": "Expiry date updated",
     "订阅 ID": "Subscription ID",
-    "请选择有效的日期": "Please select a valid date"
+    "请选择有效的日期": "Please select a valid date",
+    "虎皮椒支付设置": "XunhuPay Settings",
+    "虎皮椒支付配置，请前往": "For XunhuPay configuration, please go to",
+    "虎皮椒后台": "XunhuPay Dashboard",
+    "获取 AppId 和 AppSecret。": "to get your AppId and AppSecret.",
+    "虎皮椒 App ID": "XunhuPay App ID",
+    "虎皮椒 App Secret": "XunhuPay App Secret",
+    "更新虎皮椒设置": "Update XunhuPay Settings",
+    "充值回调地址": "Top-up Callback URL",
+    "订阅回调地址": "Subscription Callback URL",
+    "微信支付": "WeChat Pay",
+    "未获取到支付链接": "Failed to get payment link"
   }
 }
