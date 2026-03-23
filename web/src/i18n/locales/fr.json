@@ -3338,6 +3338,14 @@
     "搜索订单号": "Rechercher un numéro de commande",
     "待支付": "En attente de paiement",
     "开始日期": "Date de début",
-    "结束日期": "Date de fin"
+    "结束日期": "Date de fin",
+    "充值总额": "Montant total",
+    "充值次数": "Nombre de recharges",
+    "今日充值": "Recharges du jour",
+    "今天": "Aujourd'hui",
+    "昨天": "Hier",
+    "7天": "7 jours",
+    "15天": "15 jours",
+    "30天": "30 jours"
   }
 }

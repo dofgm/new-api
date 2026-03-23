@@ -8,12 +8,14 @@ import {
   Button,
   Tag,
   Modal,
+  Card,
+  Skeleton,
 } from '@douyinfe/semi-ui';
 import {
   IllustrationNoResult,
   IllustrationNoResultDark,
 } from '@douyinfe/semi-illustrations';
-import { Coins } from 'lucide-react';
+import { Coins, DollarSign, Hash, TrendingUp, CalendarCheck } from 'lucide-react';
 import { API, timestamp2string } from '../../../helpers';
 import { isAdmin, createCardProPagination } from '../../../helpers/utils';
 import { useIsMobile } from '../../../hooks/common/useIsMobile';
@@ -41,10 +43,58 @@ const PAYMENT_METHOD_MAP = {
   wxpay: '微信',
 };
 
+// 统计卡片配置
+const STAT_CARDS = [
+  { key: 'total_money', label: '充值总额', icon: DollarSign, color: '#52c41a', format: (v) => `¥${v.toFixed(2)}` },
+  { key: 'total_count', label: '充值次数', icon: Hash, color: '#722ed1', format: (v) => `${v}` },
+  { key: 'total_amount', label: '充值额度', icon: TrendingUp, color: '#faad14', format: (v) => `${v}` },
+  { key: 'today_money', label: '今日充值', icon: CalendarCheck, color: '#1890ff', format: (v) => `¥${v.toFixed(2)}` },
+];
+
+// 计算快捷时间范围
+const getTimeRange = (presetKey) => {
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const todayEnd = new Date(todayStart);
+  todayEnd.setHours(23, 59, 59, 999);
+
+  switch (presetKey) {
+    case 'today':
+      return {
+        startTime: Math.floor(todayStart.getTime() / 1000),
+        endTime: Math.floor(todayEnd.getTime() / 1000),
+      };
+    case 'yesterday': {
+      const yesterdayStart = new Date(todayStart);
+      yesterdayStart.setDate(yesterdayStart.getDate() - 1);
+      const yesterdayEnd = new Date(yesterdayStart);
+      yesterdayEnd.setHours(23, 59, 59, 999);
+      return {
+        startTime: Math.floor(yesterdayStart.getTime() / 1000),
+        endTime: Math.floor(yesterdayEnd.getTime() / 1000),
+      };
+    }
+    case '7d':
+    case '15d':
+    case '30d': {
+      const days = parseInt(presetKey);
+      const start = new Date(todayStart);
+      start.setDate(start.getDate() - days + 1);
+      return {
+        startTime: Math.floor(start.getTime() / 1000),
+        endTime: Math.floor(todayEnd.getTime() / 1000),
+      };
+    }
+    default:
+      return { startTime: 0, endTime: 0 };
+  }
+};
+
 const BillingPage = () => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [loading, setLoading] = useState(false);
+  const [statsLoading, setStatsLoading] = useState(false);
   const [topups, setTopups] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -53,9 +103,11 @@ const BillingPage = () => {
   const [status, setStatus] = useState('');
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
-  const [compactMode, setCompactMode] = useState(false);
+  const [activePreset, setActivePreset] = useState('');
+  const [stats, setStats] = useState({ total_money: 0, total_count: 0, total_amount: 0, today_money: 0 });
   const userIsAdmin = useMemo(() => isAdmin(), []);
 
+  // 加载列表数据
   const loadData = useCallback(async (currentPage, currentPageSize, currentKeyword, currentStatus, currentStartTime, currentEndTime) => {
     setLoading(true);
     try {
@@ -79,8 +131,29 @@ const BillingPage = () => {
     }
   }, [t]);
 
+  // 加载统计数据
+  const loadStats = useCallback(async (currentStartTime, currentEndTime) => {
+    setStatsLoading(true);
+    try {
+      let qs = '';
+      if (currentStartTime) qs += `start_time=${currentStartTime}`;
+      if (currentEndTime) qs += `${qs ? '&' : ''}end_time=${currentEndTime}`;
+      const res = await API.get(`/api/user/billing/stats${qs ? '?' + qs : ''}`);
+      const { success, data } = res.data;
+      if (success) {
+        setStats(data || { total_money: 0, total_count: 0, total_amount: 0, today_money: 0 });
+      }
+    } catch (error) {
+      // 统计加载失败不影响主功能
+    } finally {
+      setStatsLoading(false);
+    }
+  }, []);
+
+  // 初始加载
   useEffect(() => {
     loadData(page, pageSize, keyword, status, startTime, endTime);
+    loadStats(startTime, endTime);
   }, [page, pageSize]);
 
   const handlePageChange = (currentPage) => {
@@ -92,22 +165,45 @@ const BillingPage = () => {
     setPage(1);
   };
 
+  // 筛选搜索
   const handleSearch = (newKeyword, newStatus, newStartTime, newEndTime) => {
     setKeyword(newKeyword);
     setStatus(newStatus);
     setStartTime(newStartTime || 0);
     setEndTime(newEndTime || 0);
+    setActivePreset('');
     setPage(1);
     loadData(1, pageSize, newKeyword, newStatus, newStartTime || 0, newEndTime || 0);
+    loadStats(newStartTime || 0, newEndTime || 0);
   };
 
+  // 重置
   const handleReset = () => {
     setKeyword('');
     setStatus('');
     setStartTime(0);
     setEndTime(0);
+    setActivePreset('');
     setPage(1);
     loadData(1, pageSize, '', '', 0, 0);
+    loadStats(0, 0);
+  };
+
+  // 快捷时间按钮
+  const handlePresetChange = (presetKey) => {
+    const { startTime: st, endTime: et } = getTimeRange(presetKey);
+    setActivePreset(presetKey);
+    setStartTime(st);
+    setEndTime(et);
+    setPage(1);
+    loadData(1, pageSize, keyword, status, st, et);
+    loadStats(st, et);
+  };
+
+  // 刷新
+  const handleRefresh = () => {
+    loadData(page, pageSize, keyword, status, startTime, endTime);
+    loadStats(startTime, endTime);
   };
 
   // 管理员补单
@@ -119,7 +215,7 @@ const BillingPage = () => {
       const { success, message } = res.data;
       if (success) {
         Toast.success({ content: t('补单成功') });
-        loadData(page, pageSize, keyword, status, startTime, endTime);
+        handleRefresh();
       } else {
         Toast.error({ content: message || t('补单失败') });
       }
@@ -238,16 +334,54 @@ const BillingPage = () => {
     return baseColumns;
   }, [t, userIsAdmin]);
 
+  // 统计卡片区域
+  const statsArea = (
+    <div className='grid grid-cols-2 md:grid-cols-4 gap-3 w-full'>
+      {STAT_CARDS.map((card) => {
+        const IconComponent = card.icon;
+        return (
+          <Card
+            key={card.key}
+            className='!rounded-xl'
+            bodyStyle={{ padding: '12px 16px' }}
+          >
+            <div className='flex items-center gap-3'>
+              <div
+                className='w-8 h-8 rounded-lg flex items-center justify-center'
+                style={{ backgroundColor: `${card.color}20` }}
+              >
+                <IconComponent size={16} color={card.color} />
+              </div>
+              <div>
+                <div className='text-xs' style={{ color: 'var(--semi-color-text-2)' }}>
+                  {t(card.label)}
+                </div>
+                <Skeleton loading={statsLoading} active placeholder={<Skeleton.Title style={{ width: 60, height: 20 }} />}>
+                  <div className='text-base font-semibold' style={{ color: 'var(--semi-color-text-0)' }}>
+                    {card.format(stats[card.key] || 0)}
+                  </div>
+                </Skeleton>
+              </div>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+  );
+
   return (
     <CardPro
       type='type1'
       descriptionArea={
         <BillingDescription
-          compactMode={compactMode}
-          setCompactMode={setCompactMode}
+          activePreset={activePreset}
+          onPresetChange={handlePresetChange}
+          onRefresh={handleRefresh}
+          loading={loading || statsLoading}
           t={t}
         />
       }
+      statsArea={statsArea}
       actionsArea={
         <BillingFilters
           onSearch={handleSearch}
@@ -273,7 +407,7 @@ const BillingPage = () => {
         loading={loading}
         rowKey='id'
         pagination={false}
-        size={compactMode ? 'small' : 'default'}
+        size='small'
         empty={
           <Empty
             image={<IllustrationNoResult style={{ width: 150, height: 150 }} />}

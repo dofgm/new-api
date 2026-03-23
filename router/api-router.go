@@ -115,6 +115,7 @@ func SetApiRouter(router *gin.Engine) {
 
 				// Billing history
 				selfRoute.GET("/billing", controller.GetBillingHistory)
+				selfRoute.GET("/billing/stats", controller.GetBillingStats)
 			}
 
 			adminRoute := userRoute.Group("/")

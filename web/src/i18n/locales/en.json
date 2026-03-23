@@ -3376,6 +3376,14 @@
     "搜索订单号": "Search order number",
     "待支付": "Pending payment",
     "开始日期": "Start date",
-    "结束日期": "End date"
+    "结束日期": "End date",
+    "充值总额": "Total Amount",
+    "充值次数": "Total Charges",
+    "今日充值": "Today's Charges",
+    "今天": "Today",
+    "昨天": "Yesterday",
+    "7天": "7 Days",
+    "15天": "15 Days",
+    "30天": "30 Days"
   }
 }

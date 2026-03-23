@@ -32,7 +32,6 @@ const BillingFilters = ({
     if (values.dateRange && values.dateRange.length === 2) {
       const [start, end] = values.dateRange;
       startTime = Math.floor(new Date(start).getTime() / 1000);
-      // 结束日期设为当天 23:59:59
       const endDate = new Date(end);
       endDate.setHours(23, 59, 59, 999);
       endTime = Math.floor(endDate.getTime() / 1000);
@@ -54,25 +53,6 @@ const BillingFilters = ({
       className='w-full md:w-auto order-1 md:order-2'
     >
       <div className='flex flex-col md:flex-row items-center gap-2 w-full md:w-auto'>
-        <div className='w-full md:w-36'>
-          <Form.Select
-            field='status'
-            placeholder={t('全部状态')}
-            optionList={STATUS_OPTIONS.map((opt) => ({
-              value: opt.value,
-              label: t(opt.label),
-            }))}
-            onChange={() => {
-              setTimeout(() => {
-                formApiRef.current?.submitForm();
-              }, 100);
-            }}
-            className='w-full'
-            showClear
-            pure
-            size='small'
-          />
-        </div>
         <div className='w-full md:w-auto'>
           <Form.DatePicker
             field='dateRange'
@@ -89,6 +69,25 @@ const BillingFilters = ({
             field='keyword'
             prefix={<IconSearch />}
             placeholder={t('搜索订单号')}
+            showClear
+            pure
+            size='small'
+          />
+        </div>
+        <div className='w-full md:w-36'>
+          <Form.Select
+            field='status'
+            placeholder={t('全部状态')}
+            optionList={STATUS_OPTIONS.map((opt) => ({
+              value: opt.value,
+              label: t(opt.label),
+            }))}
+            onChange={() => {
+              setTimeout(() => {
+                formApiRef.current?.submitForm();
+              }, 100);
+            }}
+            className='w-full'
             showClear
             pure
             size='small'

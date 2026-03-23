@@ -40,3 +40,31 @@ func GetBillingHistory(c *gin.Context) {
 	pageInfo.SetItems(topups)
 	common.ApiSuccess(c, pageInfo)
 }
+
+// GetBillingStats 获取充值账单统计数据（只统计 success 状态）
+// 支持 start_time、end_time 时间范围筛选
+func GetBillingStats(c *gin.Context) {
+	startTime, _ := strconv.ParseInt(c.Query("start_time"), 10, 64)
+	endTime, _ := strconv.ParseInt(c.Query("end_time"), 10, 64)
+
+	userId := c.GetInt("id")
+	role := c.GetInt("role")
+
+	var (
+		stats *model.BillingStats
+		err   error
+	)
+
+	if role >= common.RoleAdminUser {
+		stats, err = model.GetAllBillingStats(startTime, endTime)
+	} else {
+		stats, err = model.GetBillingStats(userId, startTime, endTime)
+	}
+
+	if err != nil {
+		common.ApiError(c, err)
+		return
+	}
+
+	common.ApiSuccess(c, stats)
+}
