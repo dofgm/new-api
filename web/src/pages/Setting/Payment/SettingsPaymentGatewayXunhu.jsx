@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
-  Banner,
   Button,
   Form,
   Row,
@@ -11,7 +10,6 @@ import {
 const { Text } = Typography;
 import {
   API,
-  removeTrailingSlash,
   showError,
   showSuccess,
 } from '../../../helpers';
@@ -106,36 +104,27 @@ export default function SettingsPaymentGatewayXunhu(props) {
             </a>
             {t('获取 AppId 和 AppSecret。')}
           </Text>
-          <Banner
-            type='info'
-            description={`${t('充值回调地址')}：${props.options.ServerAddress ? removeTrailingSlash(props.options.ServerAddress) : t('网站地址')}/api/user/xunhu/notify`}
-          />
-          <Banner
-            type='info'
-            style={{ marginTop: 8 }}
-            description={`${t('订阅回调地址')}：${props.options.ServerAddress ? removeTrailingSlash(props.options.ServerAddress) : t('网站地址')}/api/subscription/xunhu/notify`}
-          />
           <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 24, xl: 24, xxl: 24 }}>
             <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Form.Input
+                field='XunhuPayApiUrl'
+                label={t('支付地址')}
+                placeholder='https://api.xunhupay.com/payment/do.html'
+              />
+            </Col>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+              <Form.Input
                 field='XunhuPayAppId'
-                label='App ID'
+                label={t('商户ID')}
                 placeholder={t('虎皮椒 App ID')}
               />
             </Col>
             <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Form.Input
                 field='XunhuPayAppSecret'
-                label='App Secret'
-                placeholder={t('虎皮椒 App Secret')}
+                label={t('商户密钥')}
+                placeholder={t('敏感信息不会发送到前端显示')}
                 type='password'
-              />
-            </Col>
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              <Form.Input
-                field='XunhuPayApiUrl'
-                label='API URL'
-                placeholder='https://api.xunhupay.com/payment/do.html'
               />
             </Col>
           </Row>
