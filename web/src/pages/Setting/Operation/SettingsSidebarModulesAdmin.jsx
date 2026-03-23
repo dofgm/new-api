@@ -246,6 +246,11 @@ export default function SettingsSidebarModulesAdmin(props) {
           title: t('个人设置'),
           description: t('个人信息设置'),
         },
+        {
+          key: 'billing',
+          title: t('充值账单'),
+          description: t('充值记录查看'),
+        },
       ],
     },
     {

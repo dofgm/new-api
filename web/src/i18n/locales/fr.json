@@ -555,7 +555,7 @@
     "充值方式设置": "Méthodes recharge",
     "充值方式设置不是合法的 JSON 字符串": "Les paramètres de la méthode de recharge ne sont pas une chaîne JSON valide",
     "充值确认": "Confirmation de la recharge",
-    "充值账单": "Factures de recharge",
+    "充值账单": "Historique de facturation",
     "充值金额折扣配置": "Configuration des remises sur le montant de recharge",
     "充值金额折扣配置不是合法的 JSON 对象": "La configuration des remises sur le montant de recharge n'est pas un objet JSON valide",
     "充值链接": "Lien de recharge",
@@ -1620,7 +1620,7 @@
     "暂无SSE响应数据": "Aucune donnée de réponse SSE",
     "暂无产品配置": "Aucune configuration de produit pour le moment",
     "暂无保存的配置": "Aucune configuration enregistrée",
-    "暂无充值记录": "Aucune recharge",
+    "暂无充值记录": "Aucun enregistrement de recharge",
     "暂无公告": "Pas d'avis",
     "暂无匹配模型": "Aucun modèle correspondant",
     "暂无可复制 JSON": "Aucun JSON à copier",
@@ -3333,6 +3333,8 @@
     "微信支付": "Paiement WeChat",
     "未获取到支付链接": "Échec de l'obtention du lien de paiement",
     "商户ID": "ID du commerçant",
-    "商户密钥": "Clé du commerçant"
+    "商户密钥": "Clé du commerçant",
+    "充值记录查看": "Consulter les recharges",
+    "搜索订单号": "Rechercher un numéro de commande"
   }
 }

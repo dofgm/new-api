@@ -1,0 +1,281 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+  Table,
+  Badge,
+  Typography,
+  Toast,
+  Empty,
+  Button,
+  Input,
+  Tag,
+  Card,
+  Modal,
+} from '@douyinfe/semi-ui';
+import {
+  IllustrationNoResult,
+  IllustrationNoResultDark,
+} from '@douyinfe/semi-illustrations';
+import { Coins, Receipt } from 'lucide-react';
+import { IconSearch } from '@douyinfe/semi-icons';
+import { API, timestamp2string } from '../../helpers';
+import { isAdmin } from '../../helpers/utils';
+import { useTranslation } from 'react-i18next';
+
+const { Text } = Typography;
+
+// 状态映射配置
+const STATUS_CONFIG = {
+  success: { type: 'success', key: '成功' },
+  pending: { type: 'warning', key: '待支付' },
+  failed: { type: 'danger', key: '失败' },
+  expired: { type: 'danger', key: '已过期' },
+};
+
+// 支付方式映射
+const PAYMENT_METHOD_MAP = {
+  stripe: 'Stripe',
+  creem: 'Creem',
+  waffo: 'Waffo',
+  alipay: '支付宝',
+  wxpay: '微信',
+};
+
+const Billing = () => {
+  const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
+  const [topups, setTopups] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [keyword, setKeyword] = useState('');
+
+  const loadTopups = async (currentPage, currentPageSize) => {
+    setLoading(true);
+    try {
+      const base = isAdmin() ? '/api/user/topup' : '/api/user/topup/self';
+      const qs =
+        `p=${currentPage}&page_size=${currentPageSize}` +
+        (keyword ? `&keyword=${encodeURIComponent(keyword)}` : '');
+      const endpoint = `${base}?${qs}`;
+      const res = await API.get(endpoint);
+      const { success, message, data } = res.data;
+      if (success) {
+        setTopups(data.items || []);
+        setTotal(data.total || 0);
+      } else {
+        Toast.error({ content: message || t('加载失败') });
+      }
+    } catch (error) {
+      Toast.error({ content: t('加载账单失败') });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadTopups(page, pageSize);
+  }, [page, pageSize, keyword]);
+
+  const handlePageChange = (currentPage) => {
+    setPage(currentPage);
+  };
+
+  const handlePageSizeChange = (currentPageSize) => {
+    setPageSize(currentPageSize);
+    setPage(1);
+  };
+
+  const handleKeywordChange = (value) => {
+    setKeyword(value);
+    setPage(1);
+  };
+
+  // 管理员补单
+  const handleAdminComplete = async (tradeNo) => {
+    try {
+      const res = await API.post('/api/user/topup/complete', {
+        trade_no: tradeNo,
+      });
+      const { success, message } = res.data;
+      if (success) {
+        Toast.success({ content: t('补单成功') });
+        await loadTopups(page, pageSize);
+      } else {
+        Toast.error({ content: message || t('补单失败') });
+      }
+    } catch (e) {
+      Toast.error({ content: t('补单失败') });
+    }
+  };
+
+  const confirmAdminComplete = (tradeNo) => {
+    Modal.confirm({
+      title: t('确认补单'),
+      content: t('是否将该订单标记为成功并为用户入账？'),
+      onOk: () => handleAdminComplete(tradeNo),
+    });
+  };
+
+  // 渲染状态徽章
+  const renderStatusBadge = (status) => {
+    const config = STATUS_CONFIG[status] || { type: 'primary', key: status };
+    return (
+      <span className='flex items-center gap-2'>
+        <Badge dot type={config.type} />
+        <span>{t(config.key)}</span>
+      </span>
+    );
+  };
+
+  // 渲染支付方式
+  const renderPaymentMethod = (pm) => {
+    const displayName = PAYMENT_METHOD_MAP[pm];
+    return <Text>{displayName ? t(displayName) : pm || '-'}</Text>;
+  };
+
+  const isSubscriptionTopup = (record) => {
+    const tradeNo = (record?.trade_no || '').toLowerCase();
+    return Number(record?.amount || 0) === 0 && tradeNo.startsWith('sub');
+  };
+
+  // 检查是否为管理员
+  const userIsAdmin = useMemo(() => isAdmin(), []);
+
+  const columns = useMemo(() => {
+    const baseColumns = [
+      {
+        title: t('订单号'),
+        dataIndex: 'trade_no',
+        key: 'trade_no',
+        render: (text) => <Text copyable>{text}</Text>,
+      },
+      {
+        title: t('支付方式'),
+        dataIndex: 'payment_method',
+        key: 'payment_method',
+        render: renderPaymentMethod,
+      },
+      {
+        title: t('充值额度'),
+        dataIndex: 'amount',
+        key: 'amount',
+        render: (amount, record) => {
+          if (isSubscriptionTopup(record)) {
+            return (
+              <Tag color='purple' shape='circle' size='small'>
+                {t('订阅套餐')}
+              </Tag>
+            );
+          }
+          return (
+            <span className='flex items-center gap-1'>
+              <Coins size={16} />
+              <Text>{amount}</Text>
+            </span>
+          );
+        },
+      },
+      {
+        title: t('支付金额'),
+        dataIndex: 'money',
+        key: 'money',
+        render: (money) => <Text type='danger'>¥{money.toFixed(2)}</Text>,
+      },
+      {
+        title: t('状态'),
+        dataIndex: 'status',
+        key: 'status',
+        render: renderStatusBadge,
+      },
+    ];
+
+    // 管理员才显示操作列
+    if (userIsAdmin) {
+      baseColumns.push({
+        title: t('操作'),
+        key: 'action',
+        render: (_, record) => {
+          const actions = [];
+          if (record.status === 'pending') {
+            actions.push(
+              <Button
+                key="complete"
+                size='small'
+                type='primary'
+                theme='outline'
+                onClick={() => confirmAdminComplete(record.trade_no)}
+              >
+                {t('补单')}
+              </Button>
+            );
+          }
+          return actions.length > 0 ? <>{actions}</> : null;
+        },
+      });
+    }
+
+    baseColumns.push({
+      title: t('创建时间'),
+      dataIndex: 'create_time',
+      key: 'create_time',
+      render: (time) => timestamp2string(time),
+    });
+
+    return baseColumns;
+  }, [t, userIsAdmin]);
+
+  return (
+    <div className='w-full max-w-7xl mx-auto mt-[60px] px-2'>
+      <Card className='!rounded-2xl shadow-sm border-0'>
+        <div className='flex items-center justify-between mb-4'>
+          <div className='flex items-center'>
+            <Receipt size={20} className='mr-2' />
+            <Typography.Title heading={5} style={{ margin: 0 }}>
+              {t('充值账单')}
+            </Typography.Title>
+          </div>
+        </div>
+
+        <div className='mb-3'>
+          <Input
+            prefix={<IconSearch />}
+            placeholder={t('搜索订单号')}
+            value={keyword}
+            onChange={handleKeywordChange}
+            showClear
+            style={{ maxWidth: 400 }}
+          />
+        </div>
+
+        <Table
+          columns={columns}
+          dataSource={topups}
+          loading={loading}
+          rowKey='id'
+          pagination={{
+            currentPage: page,
+            pageSize: pageSize,
+            total: total,
+            showSizeChanger: true,
+            pageSizeOpts: [10, 20, 50, 100],
+            onPageChange: handlePageChange,
+            onPageSizeChange: handlePageSizeChange,
+          }}
+          size='small'
+          empty={
+            <Empty
+              image={<IllustrationNoResult style={{ width: 150, height: 150 }} />}
+              darkModeImage={
+                <IllustrationNoResultDark style={{ width: 150, height: 150 }} />
+              }
+              description={t('暂无充值记录')}
+              style={{ padding: 30 }}
+            />
+          }
+        />
+      </Card>
+    </div>
+  );
+};
+
+export default Billing;
