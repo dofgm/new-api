@@ -336,7 +336,7 @@ const BillingPage = () => {
 
   // 统计卡片区域
   const statsArea = (
-    <div className='grid grid-cols-2 md:grid-cols-4 gap-3 w-full'>
+    <div className='grid grid-cols-2 md:grid-cols-4 gap-3 w-full mb-3'>
       {STAT_CARDS.map((card) => {
         const IconComponent = card.icon;
         return (
@@ -381,7 +381,6 @@ const BillingPage = () => {
           t={t}
         />
       }
-      statsArea={statsArea}
       actionsArea={
         <BillingFilters
           onSearch={handleSearch}
@@ -401,6 +400,7 @@ const BillingPage = () => {
       })}
       t={t}
     >
+      {statsArea}
       <Table
         columns={columns}
         dataSource={topups}
