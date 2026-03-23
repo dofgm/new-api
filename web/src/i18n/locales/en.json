@@ -3374,6 +3374,8 @@
     "商户密钥": "Merchant key",
     "充值记录查看": "View billing records",
     "搜索订单号": "Search order number",
-    "待支付": "Pending payment"
+    "待支付": "Pending payment",
+    "开始日期": "Start date",
+    "结束日期": "End date"
   }
 }

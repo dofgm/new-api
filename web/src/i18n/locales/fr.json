@@ -3336,6 +3336,8 @@
     "商户密钥": "Clé du commerçant",
     "充值记录查看": "Consulter les recharges",
     "搜索订单号": "Rechercher un numéro de commande",
-    "待支付": "En attente de paiement"
+    "待支付": "En attente de paiement",
+    "开始日期": "Date de début",
+    "结束日期": "Date de fin"
   }
 }

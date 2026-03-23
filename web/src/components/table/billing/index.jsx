@@ -51,15 +51,19 @@ const BillingPage = () => {
   const [pageSize, setPageSize] = useState(10);
   const [keyword, setKeyword] = useState('');
   const [status, setStatus] = useState('');
+  const [startTime, setStartTime] = useState(0);
+  const [endTime, setEndTime] = useState(0);
   const [compactMode, setCompactMode] = useState(false);
   const userIsAdmin = useMemo(() => isAdmin(), []);
 
-  const loadData = useCallback(async (currentPage, currentPageSize, currentKeyword, currentStatus) => {
+  const loadData = useCallback(async (currentPage, currentPageSize, currentKeyword, currentStatus, currentStartTime, currentEndTime) => {
     setLoading(true);
     try {
       let qs = `p=${currentPage}&page_size=${currentPageSize}`;
       if (currentKeyword) qs += `&keyword=${encodeURIComponent(currentKeyword)}`;
       if (currentStatus) qs += `&status=${encodeURIComponent(currentStatus)}`;
+      if (currentStartTime) qs += `&start_time=${currentStartTime}`;
+      if (currentEndTime) qs += `&end_time=${currentEndTime}`;
       const res = await API.get(`/api/user/billing?${qs}`);
       const { success, message, data } = res.data;
       if (success) {
@@ -76,7 +80,7 @@ const BillingPage = () => {
   }, [t]);
 
   useEffect(() => {
-    loadData(page, pageSize, keyword, status);
+    loadData(page, pageSize, keyword, status, startTime, endTime);
   }, [page, pageSize]);
 
   const handlePageChange = (currentPage) => {
@@ -88,18 +92,22 @@ const BillingPage = () => {
     setPage(1);
   };
 
-  const handleSearch = (newKeyword, newStatus) => {
+  const handleSearch = (newKeyword, newStatus, newStartTime, newEndTime) => {
     setKeyword(newKeyword);
     setStatus(newStatus);
+    setStartTime(newStartTime || 0);
+    setEndTime(newEndTime || 0);
     setPage(1);
-    loadData(1, pageSize, newKeyword, newStatus);
+    loadData(1, pageSize, newKeyword, newStatus, newStartTime || 0, newEndTime || 0);
   };
 
   const handleReset = () => {
     setKeyword('');
     setStatus('');
+    setStartTime(0);
+    setEndTime(0);
     setPage(1);
-    loadData(1, pageSize, '', '');
+    loadData(1, pageSize, '', '', 0, 0);
   };
 
   // 管理员补单
@@ -111,7 +119,7 @@ const BillingPage = () => {
       const { success, message } = res.data;
       if (success) {
         Toast.success({ content: t('补单成功') });
-        loadData(page, pageSize, keyword, status);
+        loadData(page, pageSize, keyword, status, startTime, endTime);
       } else {
         Toast.error({ content: message || t('补单失败') });
       }

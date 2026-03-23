@@ -3886,6 +3886,8 @@
     "商户密钥": "Khóa người bán",
     "充值记录查看": "Xem lịch sử nạp tiền",
     "搜索订单号": "Tìm kiếm mã đơn hàng",
-    "待支付": "Chờ thanh toán"
+    "待支付": "Chờ thanh toán",
+    "开始日期": "Ngày bắt đầu",
+    "结束日期": "Ngày kết thúc"
   }
 }

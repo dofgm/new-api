@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Form, Button } from '@douyinfe/semi-ui';
+import { Form, Button, DatePicker } from '@douyinfe/semi-ui';
 import { IconSearch } from '@douyinfe/semi-icons';
 
 const STATUS_OPTIONS = [
@@ -27,7 +27,17 @@ const BillingFilters = ({
   };
 
   const handleSubmit = (values) => {
-    onSearch(values.keyword || '', values.status || '');
+    let startTime = 0;
+    let endTime = 0;
+    if (values.dateRange && values.dateRange.length === 2) {
+      const [start, end] = values.dateRange;
+      startTime = Math.floor(new Date(start).getTime() / 1000);
+      // 结束日期设为当天 23:59:59
+      const endDate = new Date(end);
+      endDate.setHours(23, 59, 59, 999);
+      endTime = Math.floor(endDate.getTime() / 1000);
+    }
+    onSearch(values.keyword || '', values.status || '', startTime, endTime);
   };
 
   return (
@@ -63,7 +73,18 @@ const BillingFilters = ({
             size='small'
           />
         </div>
-        <div className='relative w-full md:w-56'>
+        <div className='w-full md:w-auto'>
+          <Form.DatePicker
+            field='dateRange'
+            type='dateRange'
+            density='compact'
+            placeholder={[t('开始日期'), t('结束日期')]}
+            style={{ width: 240 }}
+            pure
+            size='small'
+          />
+        </div>
+        <div className='relative w-full md:w-48'>
           <Form.Input
             field='keyword'
             prefix={<IconSearch />}
