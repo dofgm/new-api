@@ -278,7 +278,7 @@ const BillingPage = () => {
         title: t('订单号'),
         dataIndex: 'trade_no',
         key: 'trade_no',
-        render: (text) => <Text copyable={{ copyTip: false, successTip: '✓' }}>{text}</Text>,
+        render: (text) => <Text copyable={{ copyTip: false, successTip: t('复制成功') }}>{text}</Text>,
       },
       {
         title: t('支付方式'),
