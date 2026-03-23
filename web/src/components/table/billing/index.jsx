@@ -10,12 +10,19 @@ import {
   Modal,
   Card,
   Skeleton,
+  Avatar,
 } from '@douyinfe/semi-ui';
 import {
   IllustrationNoResult,
   IllustrationNoResultDark,
 } from '@douyinfe/semi-illustrations';
-import { Coins, DollarSign, Hash, TrendingUp, CalendarCheck } from 'lucide-react';
+import { Coins } from 'lucide-react';
+import {
+  IconMoneyExchangeStroked,
+  IconPulse,
+  IconHistogram,
+  IconCoinMoneyStroked,
+} from '@douyinfe/semi-icons';
 import { API, timestamp2string } from '../../../helpers';
 import { isAdmin, createCardProPagination } from '../../../helpers/utils';
 import { useIsMobile } from '../../../hooks/common/useIsMobile';
@@ -45,10 +52,10 @@ const PAYMENT_METHOD_MAP = {
 
 // 统计卡片配置
 const STAT_CARDS = [
-  { key: 'total_money', label: '充值总额', icon: DollarSign, color: '#52c41a', format: (v) => `¥${v.toFixed(2)}` },
-  { key: 'total_count', label: '充值次数', icon: Hash, color: '#722ed1', format: (v) => `${v}` },
-  { key: 'total_amount', label: '充值额度', icon: TrendingUp, color: '#faad14', format: (v) => `${v}` },
-  { key: 'today_money', label: '今日充值', icon: CalendarCheck, color: '#1890ff', format: (v) => `¥${v.toFixed(2)}` },
+  { key: 'total_money', label: '充值总额', icon: <IconMoneyExchangeStroked />, avatarColor: 'green', format: (v) => `¥${v.toFixed(2)}` },
+  { key: 'total_count', label: '充值次数', icon: <IconPulse />, avatarColor: 'purple', format: (v) => `${v}` },
+  { key: 'total_amount', label: '充值额度', icon: <IconHistogram />, avatarColor: 'yellow', format: (v) => `${v}` },
+  { key: 'today_money', label: '今日充值', icon: <IconCoinMoneyStroked />, avatarColor: 'blue', format: (v) => `¥${v.toFixed(2)}` },
 ];
 
 // 计算快捷时间范围
@@ -356,7 +363,6 @@ const BillingPage = () => {
   const statsArea = (
     <div className='grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-3'>
       {STAT_CARDS.map((card) => {
-        const IconComponent = card.icon;
         return (
           <Card
             key={card.key}
@@ -364,12 +370,9 @@ const BillingPage = () => {
             bodyStyle={{ padding: '12px 16px' }}
           >
             <div className='flex items-center gap-3'>
-              <div
-                className='w-8 h-8 rounded-lg flex items-center justify-center'
-                style={{ backgroundColor: `${card.color}20` }}
-              >
-                <IconComponent size={16} color={card.color} />
-              </div>
+              <Avatar size='small' color={card.avatarColor}>
+                {card.icon}
+              </Avatar>
               <div>
                 <div className='text-xs' style={{ color: 'var(--semi-color-text-2)' }}>
                   {t(card.label)}
