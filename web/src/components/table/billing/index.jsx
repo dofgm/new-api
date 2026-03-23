@@ -285,7 +285,7 @@ const BillingPage = () => {
         title: t('订单号'),
         dataIndex: 'trade_no',
         key: 'trade_no',
-        render: (text) => <Text copyable={{ copyTip: false, successTip: false, onCopy: () => Toast.success({ content: t('复制成功'), duration: 1 }) }}>{text}</Text>,
+        render: (text) => <Text>{text}</Text>,
       },
       {
         title: t('支付方式'),
