@@ -33,9 +33,7 @@ const BillingFilters = ({
     if (values.dateRange && values.dateRange.length === 2) {
       const [start, end] = values.dateRange;
       startTime = Math.floor(new Date(start).getTime() / 1000);
-      const endDate = new Date(end);
-      endDate.setHours(23, 59, 59, 999);
-      endTime = Math.floor(endDate.getTime() / 1000);
+      endTime = Math.floor(new Date(end).getTime() / 1000);
     }
     onSearch(values.keyword || '', values.status || '', startTime, endTime);
   };
@@ -57,11 +55,11 @@ const BillingFilters = ({
         <div className='w-full md:w-auto'>
           <Form.DatePicker
             field='dateRange'
-            type='dateRange'
+            type='dateTimeRange'
             density='compact'
-            format='yyyy-MM-dd'
+            format='yyyy-MM-dd HH:mm'
             placeholder={[t('开始日期'), t('结束日期')]}
-            style={{ width: 300 }}
+            style={{ width: 380 }}
             onChange={(date) => {
               if (onDatePickerChange) onDatePickerChange();
             }}
