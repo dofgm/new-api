@@ -103,7 +103,7 @@ const BillingPage = () => {
   const [status, setStatus] = useState('');
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
-  const [activePreset, setActivePreset] = useState('');
+  const [activePreset, setActivePreset] = useState('today');
   const [stats, setStats] = useState({ total_money: 0, total_count: 0, total_amount: 0, today_money: 0 });
   const userIsAdmin = useMemo(() => isAdmin(), []);
 
@@ -150,10 +150,23 @@ const BillingPage = () => {
     }
   }, []);
 
-  // 初始加载
+  // 初始加载 — 默认选中今天
   useEffect(() => {
+    const { startTime: todayStart, endTime: todayEnd } = getTimeRange('today');
+    setStartTime(todayStart);
+    setEndTime(todayEnd);
+    loadData(1, pageSize, keyword, status, todayStart, todayEnd);
+    loadStats(todayStart, todayEnd);
+  }, []);
+
+  // 翻页时重新加载
+  const pageRef = React.useRef({ page: 1, pageSize: 10, initialized: false });
+  useEffect(() => {
+    if (!pageRef.current.initialized) {
+      pageRef.current.initialized = true;
+      return;
+    }
     loadData(page, pageSize, keyword, status, startTime, endTime);
-    loadStats(startTime, endTime);
   }, [page, pageSize]);
 
   const handlePageChange = (currentPage) => {
@@ -204,6 +217,11 @@ const BillingPage = () => {
   const handleRefresh = () => {
     loadData(page, pageSize, keyword, status, startTime, endTime);
     loadStats(startTime, endTime);
+  };
+
+  // 手动选日期时清除快捷按钮高亮
+  const handleDatePickerChange = () => {
+    setActivePreset('');
   };
 
   // 管理员补单
@@ -388,6 +406,7 @@ const BillingPage = () => {
         <BillingFilters
           onSearch={handleSearch}
           onReset={handleReset}
+          onDatePickerChange={handleDatePickerChange}
           loading={loading}
           t={t}
         />

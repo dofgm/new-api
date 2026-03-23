@@ -131,14 +131,14 @@ const SiderBar = ({ onNavigate = () => {} }) => {
         to: '/topup',
       },
       {
-        text: t('个人设置'),
-        itemKey: 'personal',
-        to: '/personal',
-      },
-      {
         text: t('充值账单'),
         itemKey: 'billing',
         to: '/billing',
+      },
+      {
+        text: t('个人设置'),
+        itemKey: 'personal',
+        to: '/personal',
       },
     ];
 

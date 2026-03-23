@@ -13,6 +13,7 @@ const STATUS_OPTIONS = [
 const BillingFilters = ({
   onSearch,
   onReset,
+  onDatePickerChange,
   loading,
   t,
 }) => {
@@ -58,8 +59,12 @@ const BillingFilters = ({
             field='dateRange'
             type='dateRange'
             density='compact'
+            format='yyyy-MM-dd'
             placeholder={[t('开始日期'), t('结束日期')]}
-            style={{ width: 240 }}
+            style={{ width: 300 }}
+            onChange={(date) => {
+              if (onDatePickerChange) onDatePickerChange();
+            }}
             pure
             size='small'
           />
