@@ -336,7 +336,7 @@ const BillingPage = () => {
 
   // 统计卡片区域
   const statsArea = (
-    <div className='grid grid-cols-2 md:grid-cols-4 gap-3 w-full mb-3'>
+    <div className='grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-3'>
       {STAT_CARDS.map((card) => {
         const IconComponent = card.icon;
         return (
@@ -373,13 +373,16 @@ const BillingPage = () => {
     <CardPro
       type='type1'
       descriptionArea={
-        <BillingDescription
-          activePreset={activePreset}
-          onPresetChange={handlePresetChange}
-          onRefresh={handleRefresh}
-          loading={loading || statsLoading}
-          t={t}
-        />
+        <>
+          <BillingDescription
+            activePreset={activePreset}
+            onPresetChange={handlePresetChange}
+            onRefresh={handleRefresh}
+            loading={loading || statsLoading}
+            t={t}
+          />
+          {statsArea}
+        </>
       }
       actionsArea={
         <BillingFilters
@@ -400,7 +403,6 @@ const BillingPage = () => {
       })}
       t={t}
     >
-      {statsArea}
       <Table
         columns={columns}
         dataSource={topups}
