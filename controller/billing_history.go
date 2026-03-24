@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetBillingHistory 获取充值账单记录，支持 keyword、status、start_time、end_time 筛选
+// GetBillingHistory 获取充值账单记录，支持 keyword、status、user_id、start_time、end_time 筛选
 // 普通用户查自己的，管理员查所有
 func GetBillingHistory(c *gin.Context) {
 	pageInfo := common.GetPageQuery(c)
@@ -16,6 +16,7 @@ func GetBillingHistory(c *gin.Context) {
 	status := c.Query("status")
 	startTime, _ := strconv.ParseInt(c.Query("start_time"), 10, 64)
 	endTime, _ := strconv.ParseInt(c.Query("end_time"), 10, 64)
+	searchUserId, _ := strconv.Atoi(c.Query("user_id"))
 
 	var (
 		topups []*model.TopUp
@@ -26,7 +27,7 @@ func GetBillingHistory(c *gin.Context) {
 	userId := c.GetInt("id")
 	role := c.GetInt("role")
 	if role >= common.RoleAdminUser {
-		topups, total, err = model.GetAllBillingRecords(status, keyword, startTime, endTime, pageInfo)
+		topups, total, err = model.GetAllBillingRecords(status, keyword, searchUserId, startTime, endTime, pageInfo)
 	} else {
 		topups, total, err = model.GetBillingRecords(userId, status, keyword, startTime, endTime, pageInfo)
 	}
@@ -42,10 +43,11 @@ func GetBillingHistory(c *gin.Context) {
 }
 
 // GetBillingStats 获取充值账单统计数据（只统计 success 状态）
-// 支持 start_time、end_time 时间范围筛选
+// 支持 start_time、end_time、user_id 筛选
 func GetBillingStats(c *gin.Context) {
 	startTime, _ := strconv.ParseInt(c.Query("start_time"), 10, 64)
 	endTime, _ := strconv.ParseInt(c.Query("end_time"), 10, 64)
+	searchUserId, _ := strconv.Atoi(c.Query("user_id"))
 
 	userId := c.GetInt("id")
 	role := c.GetInt("role")
@@ -56,7 +58,7 @@ func GetBillingStats(c *gin.Context) {
 	)
 
 	if role >= common.RoleAdminUser {
-		stats, err = model.GetAllBillingStats(startTime, endTime)
+		stats, err = model.GetAllBillingStats(searchUserId, startTime, endTime)
 	} else {
 		stats, err = model.GetBillingStats(userId, startTime, endTime)
 	}

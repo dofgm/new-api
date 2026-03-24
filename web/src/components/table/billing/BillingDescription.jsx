@@ -1,6 +1,5 @@
 import React from 'react';
 import { Typography, Button, Space } from '@douyinfe/semi-ui';
-import { IconRefresh } from '@douyinfe/semi-icons';
 import { Receipt } from 'lucide-react';
 
 const { Text } = Typography;
@@ -9,11 +8,11 @@ const TIME_PRESETS = [
   { key: 'today', label: '今天', days: 0 },
   { key: 'yesterday', label: '昨天', days: -1 },
   { key: '7d', label: '7天', days: 7 },
-  { key: '15d', label: '15天', days: 15 },
   { key: '30d', label: '30天', days: 30 },
+  { key: 'all', label: '全部', days: -999 },
 ];
 
-const BillingDescription = ({ activePreset, onPresetChange, onRefresh, loading, t }) => {
+const BillingDescription = ({ activePreset, onPresetChange, t }) => {
   return (
     <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-2 w-full'>
       <div className='flex items-center text-blue-500'>
@@ -32,14 +31,6 @@ const BillingDescription = ({ activePreset, onPresetChange, onRefresh, loading, 
             {t(preset.label)}
           </Button>
         ))}
-        <Button
-          size='small'
-          type='tertiary'
-          theme='light'
-          icon={<IconRefresh />}
-          onClick={onRefresh}
-          loading={loading}
-        />
       </Space>
     </div>
   );

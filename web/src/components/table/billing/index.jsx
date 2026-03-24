@@ -21,7 +21,6 @@ import {
   IconMoneyExchangeStroked,
   IconPulse,
   IconHistogram,
-  IconCoinMoneyStroked,
 } from '@douyinfe/semi-icons';
 import { API, timestamp2string } from '../../../helpers';
 import { isAdmin, createCardProPagination } from '../../../helpers/utils';
@@ -55,11 +54,14 @@ const STAT_CARDS = [
   { key: 'total_money', label: '充值总额', icon: <IconMoneyExchangeStroked />, avatarColor: 'green', format: (v) => `¥${v.toFixed(2)}` },
   { key: 'total_count', label: '充值次数', icon: <IconPulse />, avatarColor: 'purple', format: (v) => `${v}` },
   { key: 'total_amount', label: '充值额度', icon: <IconHistogram />, avatarColor: 'yellow', format: (v) => `${v}` },
-  { key: 'today_money', label: '今日充值', icon: <IconCoinMoneyStroked />, avatarColor: 'blue', format: (v) => `¥${v.toFixed(2)}` },
 ];
 
 // 计算快捷时间范围
 const getTimeRange = (presetKey) => {
+  if (presetKey === 'all') {
+    return { startTime: 0, endTime: 0 };
+  }
+
   const now = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const todayEnd = new Date(todayStart);
@@ -82,7 +84,6 @@ const getTimeRange = (presetKey) => {
       };
     }
     case '7d':
-    case '15d':
     case '30d': {
       const days = parseInt(presetKey);
       const start = new Date(todayStart);
@@ -110,12 +111,13 @@ const BillingPage = () => {
   const [status, setStatus] = useState('');
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
-  const [activePreset, setActivePreset] = useState('today');
-  const [stats, setStats] = useState({ total_money: 0, total_count: 0, total_amount: 0, today_money: 0 });
+  const [searchUserId, setSearchUserId] = useState('');
+  const [activePreset, setActivePreset] = useState('all');
+  const [stats, setStats] = useState({ total_money: 0, total_count: 0, total_amount: 0 });
   const userIsAdmin = useMemo(() => isAdmin(), []);
 
   // 加载列表数据
-  const loadData = useCallback(async (currentPage, currentPageSize, currentKeyword, currentStatus, currentStartTime, currentEndTime) => {
+  const loadData = useCallback(async (currentPage, currentPageSize, currentKeyword, currentStatus, currentStartTime, currentEndTime, currentSearchUserId) => {
     setLoading(true);
     try {
       let qs = `p=${currentPage}&page_size=${currentPageSize}`;
@@ -123,6 +125,7 @@ const BillingPage = () => {
       if (currentStatus) qs += `&status=${encodeURIComponent(currentStatus)}`;
       if (currentStartTime) qs += `&start_time=${currentStartTime}`;
       if (currentEndTime) qs += `&end_time=${currentEndTime}`;
+      if (currentSearchUserId) qs += `&user_id=${currentSearchUserId}`;
       const res = await API.get(`/api/user/billing?${qs}`);
       const { success, message, data } = res.data;
       if (success) {
@@ -138,17 +141,18 @@ const BillingPage = () => {
     }
   }, [t]);
 
-  // 加载统计数据
-  const loadStats = useCallback(async (currentStartTime, currentEndTime) => {
+  // 加载统计数据（跟随时间 + 用户ID）
+  const loadStats = useCallback(async (currentStartTime, currentEndTime, currentSearchUserId) => {
     setStatsLoading(true);
     try {
       let qs = '';
       if (currentStartTime) qs += `start_time=${currentStartTime}`;
       if (currentEndTime) qs += `${qs ? '&' : ''}end_time=${currentEndTime}`;
+      if (currentSearchUserId) qs += `${qs ? '&' : ''}user_id=${currentSearchUserId}`;
       const res = await API.get(`/api/user/billing/stats${qs ? '?' + qs : ''}`);
       const { success, data } = res.data;
       if (success) {
-        setStats(data || { total_money: 0, total_count: 0, total_amount: 0, today_money: 0 });
+        setStats(data || { total_money: 0, total_count: 0, total_amount: 0 });
       }
     } catch (error) {
       // 统计加载失败不影响主功能
@@ -157,13 +161,10 @@ const BillingPage = () => {
     }
   }, []);
 
-  // 初始加载 — 默认选中今天
+  // 初始加载 — 默认全部
   useEffect(() => {
-    const { startTime: todayStart, endTime: todayEnd } = getTimeRange('today');
-    setStartTime(todayStart);
-    setEndTime(todayEnd);
-    loadData(1, pageSize, keyword, status, todayStart, todayEnd);
-    loadStats(todayStart, todayEnd);
+    loadData(1, pageSize, '', '', 0, 0, '');
+    loadStats(0, 0, '');
   }, []);
 
   // 翻页时重新加载
@@ -173,7 +174,7 @@ const BillingPage = () => {
       pageRef.current.initialized = true;
       return;
     }
-    loadData(page, pageSize, keyword, status, startTime, endTime);
+    loadData(page, pageSize, keyword, status, startTime, endTime, searchUserId);
   }, [page, pageSize]);
 
   const handlePageChange = (currentPage) => {
@@ -186,15 +187,16 @@ const BillingPage = () => {
   };
 
   // 筛选搜索
-  const handleSearch = (newKeyword, newStatus, newStartTime, newEndTime) => {
+  const handleSearch = (newKeyword, newStatus, newStartTime, newEndTime, newSearchUserId) => {
     setKeyword(newKeyword);
     setStatus(newStatus);
     setStartTime(newStartTime || 0);
     setEndTime(newEndTime || 0);
+    setSearchUserId(newSearchUserId || '');
     setActivePreset('');
     setPage(1);
-    loadData(1, pageSize, newKeyword, newStatus, newStartTime || 0, newEndTime || 0);
-    loadStats(newStartTime || 0, newEndTime || 0);
+    loadData(1, pageSize, newKeyword, newStatus, newStartTime || 0, newEndTime || 0, newSearchUserId || '');
+    loadStats(newStartTime || 0, newEndTime || 0, newSearchUserId || '');
   };
 
   // 重置
@@ -203,10 +205,11 @@ const BillingPage = () => {
     setStatus('');
     setStartTime(0);
     setEndTime(0);
-    setActivePreset('');
+    setSearchUserId('');
+    setActivePreset('all');
     setPage(1);
-    loadData(1, pageSize, '', '', 0, 0);
-    loadStats(0, 0);
+    loadData(1, pageSize, '', '', 0, 0, '');
+    loadStats(0, 0, '');
   };
 
   // 快捷时间按钮
@@ -216,14 +219,8 @@ const BillingPage = () => {
     setStartTime(st);
     setEndTime(et);
     setPage(1);
-    loadData(1, pageSize, keyword, status, st, et);
-    loadStats(st, et);
-  };
-
-  // 刷新
-  const handleRefresh = () => {
-    loadData(page, pageSize, keyword, status, startTime, endTime);
-    loadStats(startTime, endTime);
+    loadData(1, pageSize, keyword, status, st, et, searchUserId);
+    loadStats(st, et, searchUserId);
   };
 
   // 手动选日期时清除快捷按钮高亮
@@ -240,7 +237,8 @@ const BillingPage = () => {
       const { success, message } = res.data;
       if (success) {
         Toast.success({ content: t('补单成功') });
-        handleRefresh();
+        loadData(page, pageSize, keyword, status, startTime, endTime, searchUserId);
+        loadStats(startTime, endTime, searchUserId);
       } else {
         Toast.error({ content: message || t('补单失败') });
       }
@@ -280,7 +278,19 @@ const BillingPage = () => {
   };
 
   const columns = useMemo(() => {
-    const baseColumns = [
+    const baseColumns = [];
+
+    // 管理员显示用户ID列
+    if (userIsAdmin) {
+      baseColumns.push({
+        title: t('用户ID'),
+        dataIndex: 'user_id',
+        key: 'user_id',
+        render: (userId) => <Text>{userId}</Text>,
+      });
+    }
+
+    baseColumns.push(
       {
         title: t('订单号'),
         dataIndex: 'trade_no',
@@ -325,7 +335,7 @@ const BillingPage = () => {
         key: 'status',
         render: renderStatusBadge,
       },
-    ];
+    );
 
     if (userIsAdmin) {
       baseColumns.push({
@@ -361,7 +371,7 @@ const BillingPage = () => {
 
   // 统计卡片区域
   const statsArea = (
-    <div className='grid grid-cols-2 md:grid-cols-4 gap-3 w-full mt-3'>
+    <div className='grid grid-cols-3 gap-3 w-full mt-3'>
       {STAT_CARDS.map((card) => {
         return (
           <Card
@@ -398,8 +408,6 @@ const BillingPage = () => {
           <BillingDescription
             activePreset={activePreset}
             onPresetChange={handlePresetChange}
-            onRefresh={handleRefresh}
-            loading={loading || statsLoading}
             t={t}
           />
           {statsArea}
@@ -411,6 +419,7 @@ const BillingPage = () => {
           onReset={handleReset}
           onDatePickerChange={handleDatePickerChange}
           loading={loading}
+          isAdmin={userIsAdmin}
           t={t}
         />
       }

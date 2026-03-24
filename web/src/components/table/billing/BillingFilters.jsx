@@ -15,6 +15,7 @@ const BillingFilters = ({
   onReset,
   onDatePickerChange,
   loading,
+  isAdmin,
   t,
 }) => {
   const formApiRef = useRef(null);
@@ -35,7 +36,20 @@ const BillingFilters = ({
       startTime = Math.floor(new Date(start).getTime() / 1000);
       endTime = Math.floor(new Date(end).getTime() / 1000);
     }
-    onSearch(values.keyword || '', values.status || '', startTime, endTime);
+
+    // 共用搜索框：管理员输入纯数字按用户ID查，否则按订单号查
+    let keyword = '';
+    let searchUserId = '';
+    const searchValue = (values.search || '').trim();
+    if (searchValue) {
+      if (isAdmin && /^\d+$/.test(searchValue)) {
+        searchUserId = searchValue;
+      } else {
+        keyword = searchValue;
+      }
+    }
+
+    onSearch(keyword, values.status || '', startTime, endTime, searchUserId);
   };
 
   return (
@@ -67,11 +81,11 @@ const BillingFilters = ({
             size='small'
           />
         </div>
-        <div className='relative w-full md:w-48'>
+        <div className='relative w-full md:w-52'>
           <Form.Input
-            field='keyword'
+            field='search'
             prefix={<IconSearch />}
-            placeholder={t('搜索订单号')}
+            placeholder={isAdmin ? t('搜索订单号/用户ID') : t('搜索订单号')}
             showClear
             pure
             size='small'
