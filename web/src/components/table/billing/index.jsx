@@ -51,7 +51,7 @@ const PAYMENT_METHOD_MAP = {
 
 // 统计卡片配置
 const STAT_CARDS = [
-  { key: 'total_money', label: '充值总额', icon: <IconMoneyExchangeStroked />, avatarColor: 'green', format: (v) => `¥${v.toFixed(2)}` },
+  { key: 'total_money', label: '充值金额', icon: <IconMoneyExchangeStroked />, avatarColor: 'green', format: (v) => `¥${v.toFixed(2)}` },
   { key: 'total_count', label: '充值次数', icon: <IconPulse />, avatarColor: 'purple', format: (v) => `${v}` },
   { key: 'total_amount', label: '充值额度', icon: <IconHistogram />, avatarColor: 'yellow', format: (v) => `${v}` },
 ];
