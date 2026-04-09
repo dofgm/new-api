@@ -107,6 +107,7 @@ function buildCCSwitchURL(app, name, models, apiKey, usageConfig) {
   }
   params.set('homepage', serverAddress);
   params.set('enabled', 'true');
+  params.set('icon', 'newapi');
 
   // Append usage/balance query parameters with embedded script
   if (usageConfig && usageConfig.enabled) {
