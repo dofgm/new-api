@@ -16,7 +16,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import {
   Modal,
   RadioGroup,
@@ -25,30 +25,33 @@ import {
   Input,
   Toast,
   Typography,
+  Checkbox,
+  Spin,
 } from '@douyinfe/semi-ui';
 import { useTranslation } from 'react-i18next';
-import { selectFilter } from '../../../../helpers';
+import { API, selectFilter } from '../../../../helpers';
+import { UserContext } from '../../../../context/User';
 
 const APP_CONFIGS = {
   claude: {
     label: 'Claude',
     defaultName: 'DOFGM',
     modelFields: [
-      { key: 'model', label: '主模型' },
-      { key: 'haikuModel', label: 'Haiku 模型' },
-      { key: 'sonnetModel', label: 'Sonnet 模型' },
-      { key: 'opusModel', label: 'Opus 模型' },
+      { key: 'model', label: '主模型', required: false },
+      { key: 'haikuModel', label: 'Haiku 模型', required: false },
+      { key: 'sonnetModel', label: 'Sonnet 模型', required: false },
+      { key: 'opusModel', label: 'Opus 模型', required: false },
     ],
   },
   codex: {
     label: 'Codex',
     defaultName: 'DOFGM',
-    modelFields: [{ key: 'model', label: '主模型' }],
+    modelFields: [{ key: 'model', label: '主模型', required: false }],
   },
   gemini: {
     label: 'Gemini',
     defaultName: 'DOFGM',
-    modelFields: [{ key: 'model', label: '主模型' }],
+    modelFields: [{ key: 'model', label: '主模型', required: false }],
   },
 };
 
@@ -63,7 +66,34 @@ function getServerAddress() {
   return window.location.origin;
 }
 
-function buildCCSwitchURL(app, name, models, apiKey) {
+const NEWAPI_USAGE_SCRIPT = `({
+  request: {
+    url: "{{baseUrl}}/api/user/self",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer {{accessToken}}",
+      "New-Api-User": "{{userId}}"
+    },
+  },
+  extractor: function (response) {
+    if (response.success && response.data) {
+      return {
+        planName: response.data.group || "默认套餐",
+        remaining: response.data.quota / 500000,
+        used: response.data.used_quota / 500000,
+        total: (response.data.quota + response.data.used_quota) / 500000,
+        unit: "USD",
+      };
+    }
+    return {
+      isValid: false,
+      invalidMessage: response.message || "查询失败"
+    };
+  },
+})`;
+
+function buildCCSwitchURL(app, name, models, apiKey, usageConfig) {
   const serverAddress = getServerAddress();
   const endpoint = app === 'codex' ? serverAddress + '/v1' : serverAddress;
   const params = new URLSearchParams();
@@ -77,6 +107,22 @@ function buildCCSwitchURL(app, name, models, apiKey) {
   }
   params.set('homepage', serverAddress);
   params.set('enabled', 'true');
+
+  // Append usage/balance query parameters with embedded script
+  if (usageConfig && usageConfig.enabled) {
+    params.set('usageEnabled', 'true');
+    params.set('usageBaseUrl', usageConfig.baseUrl || serverAddress);
+    if (usageConfig.accessToken) {
+      params.set('usageAccessToken', usageConfig.accessToken);
+    }
+    if (usageConfig.userId) {
+      params.set('usageUserId', String(usageConfig.userId));
+    }
+    params.set('usageAutoInterval', '5');
+    // Base64 encode the NewAPI usage query script
+    params.set('usageScript', btoa(NEWAPI_USAGE_SCRIPT));
+  }
+
   return `ccswitch://v1/import?${params.toString()}`;
 }
 
@@ -87,9 +133,13 @@ export default function CCSwitchModal({
   modelOptions,
 }) {
   const { t } = useTranslation();
+  const [userState] = useContext(UserContext);
   const [app, setApp] = useState('claude');
   const [name, setName] = useState(APP_CONFIGS.claude.defaultName);
   const [models, setModels] = useState({});
+  const [includeUsage, setIncludeUsage] = useState(true);
+  const [accessToken, setAccessToken] = useState('');
+  const [loadingToken, setLoadingToken] = useState(false);
 
   const currentConfig = APP_CONFIGS[app];
 
@@ -98,8 +148,27 @@ export default function CCSwitchModal({
       setModels({});
       setApp('claude');
       setName(APP_CONFIGS.claude.defaultName);
+      setIncludeUsage(true);
+      setAccessToken('');
+      // Auto-generate access token for usage query
+      fetchAccessToken();
     }
   }, [visible]);
+
+  const fetchAccessToken = async () => {
+    setLoadingToken(true);
+    try {
+      const res = await API.get('/api/user/token');
+      const { success, data } = res.data;
+      if (success && data) {
+        setAccessToken(data);
+      }
+    } catch (_) {
+      // Non-critical: usage query is optional
+    } finally {
+      setLoadingToken(false);
+    }
+  };
 
   const handleAppChange = (val) => {
     setApp(val);
@@ -112,11 +181,15 @@ export default function CCSwitchModal({
   };
 
   const handleSubmit = () => {
-    if (!models.model) {
-      Toast.warning(t('请选择主模型'));
-      return;
-    }
-    const url = buildCCSwitchURL(app, name, models, 'sk-' + tokenKey);
+    const usageConfig = includeUsage && accessToken
+      ? {
+          enabled: true,
+          baseUrl: getServerAddress(),
+          accessToken,
+          userId: userState?.user?.id,
+        }
+      : null;
+    const url = buildCCSwitchURL(app, name, models, 'sk-' + tokenKey, usageConfig);
     window.open(url, '_blank');
     onClose();
   };
@@ -171,12 +244,9 @@ export default function CCSwitchModal({
           <div key={field.key}>
             <div style={fieldLabelStyle}>
               {t(field.label)}
-              {field.key === 'model' && (
-                <Typography.Text type='danger'> *</Typography.Text>
-              )}
             </div>
             <Select
-              placeholder={t('请选择模型')}
+              placeholder={t('无特殊需求请留空')}
               optionList={modelOptions}
               value={models[field.key] || undefined}
               onChange={(val) => handleModelChange(field.key, val)}
@@ -188,6 +258,30 @@ export default function CCSwitchModal({
             />
           </div>
         ))}
+
+        <div style={{
+          borderTop: '1px solid var(--semi-color-border)',
+          paddingTop: 12,
+        }}>
+          <Checkbox
+            checked={includeUsage}
+            onChange={(e) => setIncludeUsage(e.target.checked)}
+          >
+            {t('同时导入余额查询')}
+            {loadingToken && (
+              <Spin size='small' style={{ marginLeft: 8 }} />
+            )}
+          </Checkbox>
+          {includeUsage && !loadingToken && !accessToken && (
+            <Typography.Text
+              type='warning'
+              size='small'
+              style={{ display: 'block', marginTop: 4, marginLeft: 24 }}
+            >
+              {t('获取访问令牌失败，余额查询将不可用')}
+            </Typography.Text>
+          )}
+        </div>
       </div>
     </Modal>
   );
