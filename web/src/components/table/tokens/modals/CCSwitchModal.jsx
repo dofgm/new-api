@@ -79,7 +79,7 @@ const NEWAPI_USAGE_SCRIPT = `({
   extractor: function (response) {
     if (response.success && response.data) {
       return {
-        planName: response.data.group || "默认套餐",
+        planName: response.data.group || "Default",
         remaining: response.data.quota / 500000,
         used: response.data.used_quota / 500000,
         total: (response.data.quota + response.data.used_quota) / 500000,
@@ -88,7 +88,7 @@ const NEWAPI_USAGE_SCRIPT = `({
     }
     return {
       isValid: false,
-      invalidMessage: response.message || "查询失败"
+      invalidMessage: response.message || "Query failed"
     };
   },
 })`;
@@ -121,8 +121,8 @@ function buildCCSwitchURL(app, name, models, apiKey, usageConfig) {
       params.set('usageUserId', String(usageConfig.userId));
     }
     params.set('usageAutoInterval', '5');
-    // Base64 encode the NewAPI usage query script (Unicode-safe)
-    params.set('usageScript', btoa(unescape(encodeURIComponent(NEWAPI_USAGE_SCRIPT))));
+    // Base64 encode the NewAPI usage query script
+    params.set('usageScript', btoa(NEWAPI_USAGE_SCRIPT));
   }
 
   return `ccswitch://v1/import?${params.toString()}`;
