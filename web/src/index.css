@@ -1093,6 +1093,11 @@ html.dark .with-pastel-balls::before {
   gap: 22px;
 }
 
+.df-hero-titles {
+  display: flex;
+  flex-direction: column;
+}
+
 .df-hero-logo {
   width: 96px;
   height: 96px;
