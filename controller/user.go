@@ -316,6 +316,54 @@ func GenerateAccessToken(c *gin.Context) {
 	return
 }
 
+// GetOrCreateAccessToken returns the user's existing access token,
+// or generates a new one if none exists. Unlike GenerateAccessToken,
+// this does NOT replace an existing token, making it safe for repeated
+// calls (e.g., CC Switch deep link imports).
+func GetOrCreateAccessToken(c *gin.Context) {
+	id := c.GetInt("id")
+	user, err := model.GetUserById(id, true)
+	if err != nil {
+		common.ApiError(c, err)
+		return
+	}
+	// If user already has an access token, return it directly
+	if user.GetAccessToken() != "" {
+		c.JSON(http.StatusOK, gin.H{
+			"success": true,
+			"message": "",
+			"data":    user.GetAccessToken(),
+		})
+		return
+	}
+	// No existing token, generate a new one
+	randI := common.GetRandomInt(4)
+	key, err := common.GenerateRandomKey(29 + randI)
+	if err != nil {
+		common.ApiErrorI18n(c, i18n.MsgGenerateFailed)
+		common.SysLog("failed to generate key: " + err.Error())
+		return
+	}
+	user.SetAccessToken(key)
+
+	if model.DB.Where("access_token = ?", user.AccessToken).First(user).RowsAffected != 0 {
+		common.ApiErrorI18n(c, i18n.MsgUuidDuplicate)
+		return
+	}
+
+	if err := user.Update(false); err != nil {
+		common.ApiError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "",
+		"data":    user.AccessToken,
+	})
+	return
+}
+
 type TransferAffQuotaRequest struct {
 	Quota int `json:"quota" binding:"required"`
 }

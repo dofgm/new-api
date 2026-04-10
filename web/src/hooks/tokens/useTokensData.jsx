@@ -213,6 +213,8 @@ export const useTokensData = (openFluentNotification, openCCSwitchModal) => {
 
   // Open link function for chat integrations
   const onOpenLink = async (type, url, record) => {
+    // Dismiss any open dropdown by simulating a click on the document body
+    document.body.click();
     const fullKey = await fetchTokenKey(record);
     if (url && url.startsWith('ccswitch')) {
       openCCSwitchModal(fullKey);

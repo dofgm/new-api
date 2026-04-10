@@ -160,7 +160,7 @@ export default function CCSwitchModal({
   const fetchAccessToken = async () => {
     setLoadingToken(true);
     try {
-      const res = await API.get('/api/user/token');
+      const res = await API.get('/api/user/access-token');
       const { success, data } = res.data;
       if (success && data) {
         setAccessToken(data);
