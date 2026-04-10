@@ -347,8 +347,11 @@ env_key = "CRS_OAI_KEY"`,
                     className='df-hero-logo'
                   />
                   <h1 className='df-hero-h1 df-rainbow-text'>
-                    AIONEW<br />All-In-One AI Gateway
+                    AIONEW
                   </h1>
+                  <p className='df-hero-subtitle df-rainbow-text'>
+                    All-In-One AI Gateway
+                  </p>
                   <a
                     href='https://qm.qq.com/cgi-bin/qm/qr?k=&group_code=4693347'
                     target='_blank'

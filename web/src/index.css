@@ -1103,13 +1103,22 @@ html.dark .with-pastel-balls::before {
 }
 
 .df-hero-h1 {
-  margin: 18px 0 14px;
+  margin: 18px 0 4px;
   font-family: Lato, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: clamp(2.9rem, 6vw, 5.3rem);
   line-height: 0.98;
   letter-spacing: -0.045em;
   font-weight: 800;
   color: var(--ink);
+}
+
+.df-hero-subtitle {
+  margin: 0 0 14px;
+  font-family: Lato, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  font-weight: 700;
 }
 
 .df-accent {
@@ -1851,6 +1860,10 @@ html.dark .with-pastel-balls::before {
 
   .df-hero-h1 {
     font-size: clamp(2.2rem, 10vw, 2.9rem);
+  }
+
+  .df-hero-subtitle {
+    font-size: clamp(0.9rem, 3.5vw, 1.2rem);
   }
 
   .df-section-head {
