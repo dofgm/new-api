@@ -357,7 +357,7 @@ env_key = "CRS_OAI_KEY"`,
                 </div>
                 <p className='df-lead'>
                   {t(
-                    '兼容 OpenAI、Claude、Gemini 等原生接口，一个地址覆盖常见开发工具与工作流。',
+                    '兼容 Claude、ChatGPT、Gemini 等原生接口，一个地址覆盖常见开发工具与工作流。',
                   )}
                 </p>
 
@@ -386,10 +386,10 @@ env_key = "CRS_OAI_KEY"`,
                     href='https://qm.qq.com/cgi-bin/qm/qr?k=&group_code=4693347'
                     target='_blank'
                     rel='noopener noreferrer'
-                    className='df-btn df-btn-secondary'
+                    className='df-qq-link'
                     title={t('加入 QQ 群')}
                   >
-                    <svg viewBox="0 0 1024 1024" width="16" height="16" fill="currentColor" style={{verticalAlign: '-2px', marginRight: '4px'}}>
+                    <svg viewBox="0 0 1024 1024" width="14" height="14" fill="currentColor">
                       <path d="M824.8 613.2c-16-51.4-34.4-94.6-62.7-165.3C766.5 262.2 689.3 112 512 112 334.7 112 257.5 262.2 261.8 447.9c-28.4 70.8-46.7 113.7-62.7 165.3-34 109.5-23 154.8-14.6 155.8 18 2.2 70.1-82.4 70.1-82.4 0 49 25.2 112.9 79.8 159-26.4 8.1-85.7 29.9-71.6 53.8 11.4 19.3 196.2 12.3 249.2 6.8 53 5.5 237.8 12.5 249.2-6.8 14.1-23.8-45.3-45.7-71.6-53.8 54.6-46.2 79.8-110.1 79.8-159 0 0 52.1 84.6 70.1 82.4 8.5-1.1 19.5-46.4-14.6-155.8z" />
                     </svg>
                     {t('QQ 群')}

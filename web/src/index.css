@@ -1124,6 +1124,7 @@ html.dark .with-pastel-balls::before {
   line-height: 1.2;
   letter-spacing: 0.02em;
   font-weight: 700;
+  margin-top: 6px;
 }
 
 .df-accent {
@@ -1160,8 +1161,8 @@ html.dark .with-pastel-balls::before {
   appearance: none;
   border: 0;
   border-radius: 999px;
-  padding: 14px 22px;
-  font-size: 15px;
+  padding: 10px 16px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
@@ -1202,12 +1203,12 @@ html.dark .with-pastel-balls::before {
   align-items: center;
   align-self: center;
   gap: 5px;
-  padding: 6px 14px;
+  padding: 8px 14px;
   border-radius: 20px;
   background: rgba(76, 111, 255, 0.08);
   border: 1px solid rgba(76, 111, 255, 0.18);
   color: #5f6b7b;
-  font-size: 0.75rem;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.5px;
   text-decoration: none;
@@ -1379,7 +1380,7 @@ html.dark .with-pastel-balls::before {
 .df-section-h2 {
   margin: 8px 0 0;
   font-family: Lato, 'Helvetica Neue', 'PingFang SC', sans-serif;
-  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
   line-height: 1.05;
   font-weight: 800;
   color: var(--ink);
