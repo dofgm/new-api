@@ -160,7 +160,7 @@ const Home = () => {
   const serverAddress =
     statusState?.status?.server_address || `${window.location.origin}`;
   const openAIBaseUrl = `${serverAddress}/v1`;
-  const systemName = statusState?.status?.system_name || 'DOFGM AI Hub';
+  const systemName = statusState?.status?.system_name || 'AIONEW';
 
   const displayHomePageContent = async () => {
     setHomePageContent(localStorage.getItem('home_page_content') || '');
@@ -347,7 +347,7 @@ env_key = "CRS_OAI_KEY"`,
                     className='df-hero-logo'
                   />
                   <h1 className='df-hero-h1 df-rainbow-text'>
-                    DOFGM<br />AI Hub
+                    AIONEW<br />All-In-One AI Gateway
                   </h1>
                   <a
                     href='https://qm.qq.com/cgi-bin/qm/qr?k=&group_code=4693347'

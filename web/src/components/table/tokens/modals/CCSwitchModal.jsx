@@ -35,7 +35,7 @@ import { UserContext } from '../../../../context/User';
 const APP_CONFIGS = {
   claude: {
     label: 'Claude',
-    defaultName: 'DOFGM',
+    defaultName: 'AIONEW',
     modelFields: [
       { key: 'model', label: '主模型', required: false },
       { key: 'haikuModel', label: 'Haiku 模型', required: false },
@@ -45,12 +45,12 @@ const APP_CONFIGS = {
   },
   codex: {
     label: 'Codex',
-    defaultName: 'DOFGM',
+    defaultName: 'AIONEW',
     modelFields: [{ key: 'model', label: '主模型', required: false }],
   },
   gemini: {
     label: 'Gemini',
-    defaultName: 'DOFGM',
+    defaultName: 'AIONEW',
     modelFields: [{ key: 'model', label: '主模型', required: false }],
   },
 };
