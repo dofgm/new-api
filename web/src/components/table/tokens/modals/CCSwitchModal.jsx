@@ -46,12 +46,12 @@ const APP_CONFIGS = {
   codex: {
     label: 'Codex',
     defaultName: 'AIONEW',
-    modelFields: [{ key: 'model', label: '主模型', required: false }],
+    modelFields: [{ key: 'model', label: '主模型', required: true }],
   },
   gemini: {
     label: 'Gemini',
     defaultName: 'AIONEW',
-    modelFields: [{ key: 'model', label: '主模型', required: false }],
+    modelFields: [{ key: 'model', label: '主模型', required: true }],
   },
 };
 
@@ -183,6 +183,12 @@ export default function CCSwitchModal({
   };
 
   const handleSubmit = () => {
+    // Check required fields for current app
+    const hasRequired = currentConfig.modelFields.some((f) => f.required);
+    if (hasRequired && !models.model) {
+      Toast.warning(t('请选择主模型'));
+      return;
+    }
     const usageConfig = includeUsage && accessToken
       ? {
           enabled: true,
@@ -246,9 +252,12 @@ export default function CCSwitchModal({
           <div key={field.key}>
             <div style={fieldLabelStyle}>
               {t(field.label)}
+              {field.required && (
+                <Typography.Text type='danger'> *</Typography.Text>
+              )}
             </div>
             <Select
-              placeholder={t('无特殊需求请留空')}
+              placeholder={field.required ? t('请选择模型') : t('无特殊需求请留空')}
               optionList={modelOptions}
               value={models[field.key] || undefined}
               onChange={(val) => handleModelChange(field.key, val)}
