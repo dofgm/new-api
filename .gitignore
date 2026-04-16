@@ -30,3 +30,4 @@ data/
 .gocache-temp
 .gopath
 SESSION_CONTEXT.md
+token_estimator_test.go
