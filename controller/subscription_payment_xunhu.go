@@ -189,7 +189,7 @@ func SubscriptionXunhuNotify(c *gin.Context) {
 	LockOrder(tradeNo)
 	defer UnlockOrder(tradeNo)
 
-	if err := model.CompleteSubscriptionOrder(tradeNo, common.GetJsonString(params)); err != nil {
+	if err := model.CompleteSubscriptionOrder(tradeNo, common.GetJsonString(params), "xunhu"); err != nil {
 		common.SysError(fmt.Sprintf("虎皮椒订阅回调完成订单失败: tradeNo=%s err=%v", tradeNo, err))
 		c.String(200, "fail")
 		return
