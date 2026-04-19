@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Style 5: 极简 - 三个几何形状代表 A I O -->
+  <defs>
+    <linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="112" height="112" rx="22" fill="white"/>
+  <rect x="8" y="8" width="104" height="104" rx="18" fill="none" stroke="url(#g5)" stroke-width="3"/>
+  <!-- A = triangle -->
+  <polygon points="30,85 45,35 60,85" fill="url(#g5)" opacity="0.9"/>
+  <!-- I = rectangle -->
+  <rect x="68" y="35" width="8" height="50" rx="4" fill="url(#g5)" opacity="0.9"/>
+  <!-- O = circle -->
+  <circle cx="96" cy="60" r="16" fill="none" stroke="url(#g5)" stroke-width="5" opacity="0.9"/>
+</svg>
