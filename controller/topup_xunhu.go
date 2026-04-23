@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/QuantumNous/new-api/common"
-	"github.com/QuantumNous/new-api/logger"
 	"github.com/QuantumNous/new-api/model"
 	"github.com/QuantumNous/new-api/service"
 	"github.com/QuantumNous/new-api/setting/operation_setting"
@@ -235,31 +234,10 @@ func XunhuPayNotify(c *gin.Context) {
 	LockOrder(tradeNo)
 	defer UnlockOrder(tradeNo)
 
-	topUp := model.GetTopUpByTradeNo(tradeNo)
-	if topUp == nil {
-		common.SysError(fmt.Sprintf("虎皮椒回调未找到订单: %s", tradeNo))
+	if err := model.RechargeXunhu(tradeNo); err != nil {
+		common.SysError(fmt.Sprintf("虎皮椒回调完成订单失败: tradeNo=%s err=%v", tradeNo, err))
 		c.String(200, "fail")
 		return
-	}
-
-	if topUp.Status == "pending" {
-		topUp.Status = "success"
-		if err := topUp.Update(); err != nil {
-			common.SysError(fmt.Sprintf("虎皮椒回调更新订单失败: %v", topUp))
-			c.String(200, "fail")
-			return
-		}
-
-		dAmount := decimal.NewFromInt(int64(topUp.Amount))
-		dQuotaPerUnit := decimal.NewFromFloat(common.QuotaPerUnit)
-		quotaToAdd := int(dAmount.Mul(dQuotaPerUnit).IntPart())
-		if err := model.IncreaseUserQuota(topUp.UserId, quotaToAdd, true); err != nil {
-			common.SysError(fmt.Sprintf("虎皮椒回调更新用户额度失败: %v", topUp))
-			c.String(200, "fail")
-			return
-		}
-		common.SysLog(fmt.Sprintf("虎皮椒回调充值成功: userId=%d, amount=%d, money=%.2f", topUp.UserId, topUp.Amount, topUp.Money))
-		model.RecordLog(topUp.UserId, model.LogTypeTopup, fmt.Sprintf("使用虎皮椒在线充值成功，充值金额: %v，支付金额：%f", logger.LogQuota(quotaToAdd), topUp.Money))
 	}
 
 	c.String(200, "success")
