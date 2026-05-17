@@ -230,6 +230,16 @@ func GetSubscriptionOrderByTradeNo(tradeNo string) *SubscriptionOrder {
 	return &order
 }
 
+// ExpirePendingSubscriptionOrdersByProviderBefore 将指定支付网关、create_time 早于
+// cutoff 的 pending 订阅订单批量标记为 expired。返回受影响行数。
+func ExpirePendingSubscriptionOrdersByProviderBefore(provider string, cutoff int64) (int64, error) {
+	res := DB.Model(&SubscriptionOrder{}).
+		Where("payment_provider = ? AND status = ? AND create_time < ?",
+			provider, common.TopUpStatusPending, cutoff).
+		Update("status", common.TopUpStatusExpired)
+	return res.RowsAffected, res.Error
+}
+
 // User subscription instance
 type UserSubscription struct {
 	Id     int `json:"id"`

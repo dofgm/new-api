@@ -4476,6 +4476,25 @@
     "Zero retention": "Zero retention",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V4",
-    "Zoom": "Zoom"
+    "Zoom": "Zoom",
+    "Xunhu (WeChat Pay) Gateway": "Xunhu (WeChat Pay) Gateway",
+    "Configure Xunhu WeChat Pay aggregator integration for CNY payments": "Configure Xunhu WeChat Pay aggregator integration for CNY payments",
+    "Obtain AppId and AppSecret from the Xunhu merchant dashboard. The webhook URL is {{url}}.": "Obtain AppId and AppSecret from the Xunhu merchant dashboard. The webhook URL is {{url}}.",
+    "Enable Xunhu": "Enable Xunhu",
+    "Test mode (skip signature verification)": "Test mode (skip signature verification)",
+    "App ID": "App ID",
+    "App Secret": "App Secret",
+    "Order expire seconds": "Order expire seconds",
+    "Scan with WeChat to pay": "Scan with WeChat to pay",
+    "Use WeChat to scan the QR code below to complete your payment.": "Use WeChat to scan the QR code below to complete your payment.",
+    "Waiting for payment...": "Waiting for payment...",
+    "Payment received": "Payment received",
+    "Payment failed": "Payment failed",
+    "Order expired": "Order expired",
+    "WeChat Pay (Xunhu)": "WeChat Pay (Xunhu)",
+    "WeChat QR Pay": "WeChat QR Pay",
+    "Use WeChat to scan the QR code above": "Use WeChat to scan the QR code above",
+    "Or open payment page in new tab": "Or open payment page in new tab",
+    "Creating order...": "Creating order..."
   }
 }

@@ -17,9 +17,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { useState, useEffect } from 'react'
-import { Crown, CalendarClock, Package } from 'lucide-react'
+import { Crown, CalendarClock, Loader2, Package } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { SiWechat } from 'react-icons/si'
 import { toast } from 'sonner'
+import { getCurrencySymbol } from '@/lib/currency-symbol'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
@@ -42,6 +44,7 @@ import {
   paySubscriptionStripe,
   paySubscriptionCreem,
   paySubscriptionEpay,
+  paySubscriptionXunhu,
 } from '../../api'
 import { formatDuration, formatResetPeriod } from '../../lib'
 import type { PlanRecord } from '../../types'
@@ -51,6 +54,16 @@ interface PaymentMethod {
   name?: string
 }
 
+export interface SubscriptionXunhuQrcodeInfo {
+  tradeNo: string | null
+  amount: number
+  qrcodeUrl: string | null
+  fallbackUrl?: string
+  expireSeconds?: number
+  /** ISO 4217 货币代码，决定 QR 弹窗里金额的前缀符号 */
+  currency?: string
+}
+
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -58,9 +71,12 @@ interface Props {
   enableStripe?: boolean
   enableCreem?: boolean
   enableOnlineTopUp?: boolean
+  enableXunhu?: boolean
   epayMethods?: PaymentMethod[]
   purchaseLimit?: number
   purchaseCount?: number
+  // 传 null 表示关闭虎皮椒 QR 弹窗（loading 阶段被取消或失败）
+  onXunhuQrCode?: (info: SubscriptionXunhuQrcodeInfo | null) => void
 }
 
 export function SubscriptionPurchaseDialog(props: Props) {
@@ -83,7 +99,8 @@ export function SubscriptionPurchaseDialog(props: Props) {
   const hasCreem = props.enableCreem && !!plan.creem_product_id
   const hasEpay =
     props.enableOnlineTopUp && (props.epayMethods || []).length > 0
-  const hasAnyPayment = hasStripe || hasCreem || hasEpay
+  const hasXunhu = !!props.enableXunhu
+  const hasAnyPayment = hasStripe || hasCreem || hasEpay || hasXunhu
   const selectedEpayMethodLabel =
     (props.epayMethods || []).find((m) => m.type === selectedEpayMethod)
       ?.name ||
@@ -143,8 +160,7 @@ export function SubscriptionPurchaseDialog(props: Props) {
     typeof navigator !== 'undefined' &&
     /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
-  const handlePayEpay = async () => {
-    if (!selectedEpayMethod) {
+  const handlePayEpay = async () => {    if (!selectedEpayMethod) {
       toast.error(t('Please select a payment method'))
       return
     }
@@ -181,6 +197,57 @@ export function SubscriptionPurchaseDialog(props: Props) {
         )
       }
     } catch {
+      toast.error(t('Payment request failed'))
+    } finally {
+      setPaying(false)
+    }
+  }
+
+  const handlePayXunhu = async () => {
+    setPaying(true)
+    // 先开 QR 弹窗（loading 态）+ 关订阅购买弹窗，省掉切换间隙
+    props.onXunhuQrCode?.({
+      tradeNo: null,
+      amount: Number(plan.price_amount || 0),
+      qrcodeUrl: null,
+      currency: plan.currency,
+    })
+    props.onOpenChange(false)
+    try {
+      const res = await paySubscriptionXunhu({ plan_id: plan.id })
+      if (res.message === 'success' && res.data) {
+        const data = res.data
+        if (data.type === 'qrcode' && data.qrcode_url) {
+          // 预热图片缓存
+          const preload = new Image()
+          preload.src = data.qrcode_url
+          props.onXunhuQrCode?.({
+            tradeNo: data.trade_no,
+            amount: data.amount,
+            qrcodeUrl: data.qrcode_url,
+            fallbackUrl: data.url,
+            expireSeconds: data.expire_seconds,
+            currency: plan.currency,
+          })
+          return
+        }
+        if (data.type === 'redirect' && data.url) {
+          props.onXunhuQrCode?.(null)
+          window.location.href = data.url
+          return
+        }
+        props.onXunhuQrCode?.(null)
+        toast.error(t('Payment request failed'))
+      } else {
+        props.onXunhuQrCode?.(null)
+        toast.error(
+          res.message && res.message !== 'success'
+            ? res.message
+            : t('Payment request failed')
+        )
+      }
+    } catch {
+      props.onXunhuQrCode?.(null)
       toast.error(t('Payment request failed'))
     } finally {
       setPaying(false)
@@ -244,7 +311,10 @@ export function SubscriptionPurchaseDialog(props: Props) {
             <Separator />
             <div className='flex items-center justify-between'>
               <span className='text-sm font-medium'>{t('Amount Due')}</span>
-              <span className='text-primary text-lg font-bold'>${price}</span>
+              <span className='text-primary text-lg font-bold'>
+                {getCurrencySymbol(plan.currency)}
+                {price}
+              </span>
             </div>
           </div>
 
@@ -321,6 +391,21 @@ export function SubscriptionPurchaseDialog(props: Props) {
                     {t('Pay')}
                   </Button>
                 </div>
+              )}
+              {hasXunhu && (
+                <Button
+                  variant='outline'
+                  className='w-full'
+                  onClick={handlePayXunhu}
+                  disabled={paying || limitReached}
+                >
+                  {paying ? (
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                  ) : (
+                    <SiWechat className='mr-2 h-4 w-4 text-[#07C160]' />
+                  )}
+                  {paying ? t('Creating order...') : t('WeChat Pay')}
+                </Button>
               )}
             </div>
           ) : (

@@ -4476,6 +4476,25 @@
     "Zero retention": "零数据保留",
     "Zhipu": "智谱",
     "Zhipu V4": "智谱 V4",
-    "Zoom": "缩放"
+    "Zoom": "缩放",
+    "Xunhu (WeChat Pay) Gateway": "虎皮椒（微信支付）网关",
+    "Configure Xunhu WeChat Pay aggregator integration for CNY payments": "配置虎皮椒微信支付聚合，支持人民币收款",
+    "Obtain AppId and AppSecret from the Xunhu merchant dashboard. The webhook URL is {{url}}.": "在虎皮椒商户后台获取 AppId 与 AppSecret，Webhook 地址为 {{url}}。",
+    "Enable Xunhu": "启用虎皮椒",
+    "Test mode (skip signature verification)": "测试模式（跳过签名校验）",
+    "App ID": "App ID",
+    "App Secret": "App Secret",
+    "Order expire seconds": "订单过期秒数",
+    "Scan with WeChat to pay": "使用微信扫码支付",
+    "Use WeChat to scan the QR code below to complete your payment.": "请使用微信扫描下方二维码完成支付。",
+    "Waiting for payment...": "等待支付中…",
+    "Payment received": "支付已到账",
+    "Payment failed": "支付失败",
+    "Order expired": "订单已过期",
+    "WeChat Pay (Xunhu)": "微信支付（虎皮椒）",
+    "WeChat QR Pay": "微信扫码支付",
+    "Use WeChat to scan the QR code above": "请使用微信扫描上方二维码",
+    "Or open payment page in new tab": "或在新标签页打开支付页",
+    "Creating order...": "正在创建订单…"
   }
 }

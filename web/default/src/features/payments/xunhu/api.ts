@@ -16,15 +16,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-// ============================================================================
-// Wallet Hooks Exports
-// ============================================================================
+import { api } from '@/lib/api'
+import type { XunhuOrderStatusResponse } from './types'
 
-export * from './use-topup-info'
-export * from './use-payment'
-export * from './use-affiliate'
-export * from './use-redemption'
-export * from './use-creem-payment'
-export * from './use-waffo-payment'
-export * from './use-waffo-pancake-payment'
-export * from './use-xunhu-payment'
+/**
+ * 轮询虎皮椒订单状态。对同一个 trade_no，后端会同时检索充值订单和订阅订单，
+ * 所以充值流程和订阅流程可以共用同一个查询接口。
+ */
+export async function getXunhuOrderStatus(
+  tradeNo: string
+): Promise<XunhuOrderStatusResponse> {
+  const res = await api.get('/api/user/xunhu/order_status', {
+    params: { trade_no: tradeNo },
+    skipBusinessError: true,
+  } as Record<string, unknown>)
+  return res.data
+}

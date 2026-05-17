@@ -16,15 +16,22 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-// ============================================================================
-// Wallet Hooks Exports
-// ============================================================================
+/**
+ * 虎皮椒（XunhuPay）共享类型。
+ *
+ * 充值（features/wallet）和订阅（features/subscriptions）都用到虎皮椒，
+ * 这里集中放真正跨 feature 共享的类型，避免相互 import。
+ */
 
-export * from './use-topup-info'
-export * from './use-payment'
-export * from './use-affiliate'
-export * from './use-redemption'
-export * from './use-creem-payment'
-export * from './use-waffo-payment'
-export * from './use-waffo-pancake-payment'
-export * from './use-xunhu-payment'
+export interface XunhuOrderStatusData {
+  trade_no: string
+  status: 'pending' | 'success' | 'failed' | 'expired'
+  amount: number
+  money: number
+}
+
+export interface XunhuOrderStatusResponse {
+  success?: boolean
+  message?: string
+  data?: XunhuOrderStatusData
+}

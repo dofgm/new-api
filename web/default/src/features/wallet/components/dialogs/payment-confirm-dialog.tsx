@@ -133,7 +133,9 @@ export function PaymentConfirmDialog({
                   paymentMethod?.icon,
                   paymentMethod?.name
                 )}
-                <span className='font-medium'>{paymentMethod?.name}</span>
+                <span className='font-medium'>
+                  {paymentMethod?.name ? t(paymentMethod.name) : ''}
+                </span>
               </div>
             </div>
           </div>
@@ -145,7 +147,7 @@ export function PaymentConfirmDialog({
           </AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm} disabled={processing}>
             {processing && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            {t('Confirm Payment')}
+            {processing ? t('Creating order...') : t('Confirm Payment')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -29,6 +29,8 @@ const (
 	PaymentMethodCreem        = "creem"
 	PaymentMethodWaffo        = "waffo"
 	PaymentMethodWaffoPancake = "waffo_pancake"
+	PaymentMethodWxpay        = "wxpay"
+	PaymentMethodAlipay       = "alipay"
 )
 
 const (
@@ -37,6 +39,7 @@ const (
 	PaymentProviderCreem        = "creem"
 	PaymentProviderWaffo        = "waffo"
 	PaymentProviderWaffoPancake = "waffo_pancake"
+	PaymentProviderXunhu        = "xunhu"
 )
 
 var (
@@ -584,4 +587,14 @@ func RechargeWaffoPancake(tradeNo string) (err error) {
 	}
 
 	return nil
+}
+
+// ExpirePendingTopUpsByProviderBefore 将指定支付网关、create_time 早于 cutoff
+// 的 pending 充值订单批量标记为 expired。返回受影响行数。
+func ExpirePendingTopUpsByProviderBefore(provider string, cutoff int64) (int64, error) {
+	res := DB.Model(&TopUp{}).
+		Where("payment_provider = ? AND status = ? AND create_time < ?",
+			provider, common.TopUpStatusPending, cutoff).
+		Update("status", common.TopUpStatusExpired)
+	return res.RowsAffected, res.Error
 }

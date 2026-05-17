@@ -35,3 +35,11 @@ data/
 .test
 token_estimator_test.go
 skills-lock.json
+
+# Playwright MCP session cache
+.playwright-mcp/
+
+# Personal planning / customization tracking docs (not for upstream)
+CUSTOMIZATIONS.md
+WORK_CONTEXT.md
+XUNHU_PLAN.md

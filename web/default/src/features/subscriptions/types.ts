@@ -100,6 +100,21 @@ export interface SubscriptionPayResponse {
   url?: string
 }
 
+export interface SubscriptionXunhuPayResponse {
+  success: boolean
+  message?: string
+  data?: {
+    trade_no: string
+    amount: number
+    plan_id: number
+    order_id?: string
+    type: 'qrcode' | 'redirect'
+    qrcode_url?: string
+    url?: string
+    expire_seconds?: number
+  }
+}
+
 export interface CreateUserSubscriptionRequest {
   plan_id: number
 }

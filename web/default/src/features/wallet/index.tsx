@@ -27,6 +27,7 @@ import { BillingHistoryDialog } from './components/dialogs/billing-history-dialo
 import { CreemConfirmDialog } from './components/dialogs/creem-confirm-dialog'
 import { PaymentConfirmDialog } from './components/dialogs/payment-confirm-dialog'
 import { TransferDialog } from './components/dialogs/transfer-dialog'
+import { XunhuQrcodeDialog } from '@/features/payments/xunhu'
 import { RechargeFormCard } from './components/recharge-form-card'
 import { SubscriptionPlansCard } from './components/subscription-plans-card'
 import { WalletStatsCard } from './components/wallet-stats-card'
@@ -39,11 +40,13 @@ import {
   useCreemPayment,
   useWaffoPayment,
   useWaffoPancakePayment,
+  useXunhuPayment,
 } from './hooks'
 import {
   getDefaultPaymentType,
   getMinTopupAmount,
   isWaffoPancakePayment,
+  isXunhuPayment,
 } from './lib'
 import type {
   UserWalletData,
@@ -73,6 +76,12 @@ export function Wallet(props: WalletProps) {
   const [selectedCreemProduct, setSelectedCreemProduct] =
     useState<CreemProduct | null>(null)
   const [showSubscriptionPanel, setShowSubscriptionPanel] = useState(true)
+  const [xunhuDialogOpen, setXunhuDialogOpen] = useState(false)
+  const [xunhuQrcodeUrl, setXunhuQrcodeUrl] = useState<string | null>(null)
+  const [xunhuTradeNo, setXunhuTradeNo] = useState<string | null>(null)
+  const [xunhuAmount, setXunhuAmount] = useState(0)
+  const [xunhuFallbackUrl, setXunhuFallbackUrl] = useState<string | null>(null)
+  const [xunhuExpireSeconds, setXunhuExpireSeconds] = useState<number>(300)
 
   const { status } = useStatus()
   const { currency } = useSystemConfig()
@@ -102,6 +111,7 @@ export function Wallet(props: WalletProps) {
   const { processWaffoPayment } = useWaffoPayment()
   const { processing: pancakeProcessing, processWaffoPancakePayment } =
     useWaffoPancakePayment()
+  const { processing: xunhuProcessing, processXunhuPayment } = useXunhuPayment()
 
   // Fetch and refresh user data
   const fetchUser = useCallback(async () => {
@@ -186,6 +196,40 @@ export function Wallet(props: WalletProps) {
     if (!selectedPaymentMethod) return
 
     const isPancake = isWaffoPancakePayment(selectedPaymentMethod.type)
+    const isXunhu = isXunhuPayment(selectedPaymentMethod.type)
+
+    if (isXunhu) {
+      // 重叠两个弹窗：先打开 QR 弹窗（loading 态），关掉确认弹窗，
+      // 再发请求；返回后只填数据，省掉关→开动画间隙
+      setXunhuQrcodeUrl(null)
+      setXunhuTradeNo(null)
+      setXunhuAmount(paymentAmount)
+      setXunhuFallbackUrl(null)
+      setXunhuExpireSeconds(300)
+      setXunhuDialogOpen(true)
+      setConfirmDialogOpen(false)
+
+      const result = await processXunhuPayment(topupAmount)
+      if (result) {
+        if (result.type === 'qrcode') {
+          // 拿到 url 立即触发浏览器预加载，等 React 渲染 <img> 时缓存大概率已就绪
+          const preload = new Image()
+          preload.src = result.qrcodeUrl
+          setXunhuQrcodeUrl(result.qrcodeUrl)
+          setXunhuTradeNo(result.tradeNo)
+          setXunhuAmount(result.amount)
+          setXunhuFallbackUrl(result.fallbackUrl ?? null)
+          setXunhuExpireSeconds(result.expireSeconds ?? 300)
+        } else {
+          setXunhuDialogOpen(false)
+          window.location.href = result.url
+        }
+      } else {
+        setXunhuDialogOpen(false)
+      }
+      return
+    }
+
     const success = isPancake
       ? await processWaffoPancakePayment(topupAmount)
       : await processPayment(topupAmount, selectedPaymentMethod.type)
@@ -306,6 +350,7 @@ export function Wallet(props: WalletProps) {
                   enableWaffoPancakeTopup={
                     topupInfo?.enable_waffo_pancake_topup
                   }
+                  enableXunhuTopup={topupInfo?.enable_xunhu_topup}
                 />
               </div>
 
@@ -336,7 +381,7 @@ export function Wallet(props: WalletProps) {
         paymentAmount={paymentAmount}
         paymentMethod={selectedPaymentMethod}
         calculating={calculating}
-        processing={processing || pancakeProcessing}
+        processing={processing || pancakeProcessing || xunhuProcessing}
         discountRate={getDiscountRate()}
         usdExchangeRate={effectiveUsdExchangeRate}
       />
@@ -360,6 +405,17 @@ export function Wallet(props: WalletProps) {
         onConfirm={handleCreemConfirm}
         product={selectedCreemProduct}
         processing={creemProcessing}
+      />
+
+      <XunhuQrcodeDialog
+        open={xunhuDialogOpen}
+        onOpenChange={setXunhuDialogOpen}
+        qrcodeUrl={xunhuQrcodeUrl}
+        tradeNo={xunhuTradeNo}
+        amount={xunhuAmount}
+        fallbackUrl={xunhuFallbackUrl}
+        expireSeconds={xunhuExpireSeconds}
+        onPaid={fetchUser}
       />
     </>
   )

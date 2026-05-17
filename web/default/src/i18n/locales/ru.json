@@ -4476,6 +4476,25 @@
     "Zero retention": "Без хранения данных",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V4",
-    "Zoom": "Zoom"
+    "Zoom": "Zoom",
+    "Xunhu (WeChat Pay) Gateway": "Шлюз Xunhu (WeChat Pay)",
+    "Configure Xunhu WeChat Pay aggregator integration for CNY payments": "Настройте интеграцию агрегатора WeChat Pay Xunhu для платежей в CNY",
+    "Obtain AppId and AppSecret from the Xunhu merchant dashboard. The webhook URL is {{url}}.": "Получите AppId и AppSecret в кабинете продавца Xunhu. URL вебхука: {{url}}.",
+    "Enable Xunhu": "Включить Xunhu",
+    "Test mode (skip signature verification)": "Тестовый режим (пропустить проверку подписи)",
+    "App ID": "App ID",
+    "App Secret": "App Secret",
+    "Order expire seconds": "Секунды до истечения заказа",
+    "Scan with WeChat to pay": "Отсканируйте через WeChat для оплаты",
+    "Use WeChat to scan the QR code below to complete your payment.": "Отсканируйте QR-код ниже через WeChat, чтобы завершить оплату.",
+    "Waiting for payment...": "Ожидание оплаты…",
+    "Payment received": "Оплата получена",
+    "Payment failed": "Ошибка оплаты",
+    "Order expired": "Срок заказа истёк",
+    "WeChat Pay (Xunhu)": "WeChat Pay (Xunhu)",
+    "WeChat QR Pay": "Оплата WeChat по QR",
+    "Use WeChat to scan the QR code above": "Отсканируйте QR-код выше через WeChat",
+    "Or open payment page in new tab": "Или открыть страницу оплаты в новой вкладке",
+    "Creating order...": "Создаём заказ…"
   }
 }

@@ -4476,6 +4476,25 @@
     "Zero retention": "Không lưu dữ liệu",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V4",
-    "Zoom": "Zoom"
+    "Zoom": "Zoom",
+    "Xunhu (WeChat Pay) Gateway": "Cổng Xunhu (WeChat Pay)",
+    "Configure Xunhu WeChat Pay aggregator integration for CNY payments": "Cấu hình tích hợp cổng tổng hợp WeChat Pay của Xunhu cho thanh toán CNY",
+    "Obtain AppId and AppSecret from the Xunhu merchant dashboard. The webhook URL is {{url}}.": "Lấy AppId và AppSecret trong bảng điều khiển người bán Xunhu. URL webhook là {{url}}.",
+    "Enable Xunhu": "Bật Xunhu",
+    "Test mode (skip signature verification)": "Chế độ kiểm thử (bỏ qua xác thực chữ ký)",
+    "App ID": "App ID",
+    "App Secret": "App Secret",
+    "Order expire seconds": "Số giây hết hạn đơn hàng",
+    "Scan with WeChat to pay": "Quét bằng WeChat để thanh toán",
+    "Use WeChat to scan the QR code below to complete your payment.": "Hãy dùng WeChat quét mã QR bên dưới để hoàn tất thanh toán.",
+    "Waiting for payment...": "Đang chờ thanh toán…",
+    "Payment received": "Đã nhận thanh toán",
+    "Payment failed": "Thanh toán thất bại",
+    "Order expired": "Đơn hàng đã hết hạn",
+    "WeChat Pay (Xunhu)": "WeChat Pay (Xunhu)",
+    "WeChat QR Pay": "Thanh toán QR WeChat",
+    "Use WeChat to scan the QR code above": "Hãy dùng WeChat quét mã QR phía trên",
+    "Or open payment page in new tab": "Hoặc mở trang thanh toán trong tab mới",
+    "Creating order...": "Đang tạo đơn hàng…"
   }
 }

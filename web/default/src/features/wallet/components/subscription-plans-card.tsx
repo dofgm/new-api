@@ -58,6 +58,8 @@ import type {
   UserSubscriptionRecord,
 } from '@/features/subscriptions/types'
 import type { PaymentMethod, TopupInfo } from '../types'
+import { XunhuQrcodeDialog } from '@/features/payments/xunhu'
+import { getCurrencySymbol } from '@/lib/currency-symbol'
 
 interface SubscriptionPlansCardProps {
   topupInfo: TopupInfo | null
@@ -66,7 +68,11 @@ interface SubscriptionPlansCardProps {
 
 function getEpayMethods(payMethods: PaymentMethod[] = []): PaymentMethod[] {
   return payMethods.filter(
-    (m) => m?.type && m.type !== 'stripe' && m.type !== 'creem'
+    (m) =>
+      m?.type &&
+      m.type !== 'stripe' &&
+      m.type !== 'creem' &&
+      m.type !== 'xunhu'
   )
 }
 
@@ -108,10 +114,18 @@ export function SubscriptionPlansCard({
 
   const [purchaseOpen, setPurchaseOpen] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<PlanRecord | null>(null)
+  const [xunhuDialogOpen, setXunhuDialogOpen] = useState(false)
+  const [xunhuQrcodeUrl, setXunhuQrcodeUrl] = useState<string | null>(null)
+  const [xunhuTradeNo, setXunhuTradeNo] = useState<string | null>(null)
+  const [xunhuAmount, setXunhuAmount] = useState(0)
+  const [xunhuFallbackUrl, setXunhuFallbackUrl] = useState<string | null>(null)
+  const [xunhuExpireSeconds, setXunhuExpireSeconds] = useState<number>(300)
+  const [xunhuCurrency, setXunhuCurrency] = useState<string>('CNY')
 
   const enableStripe = !!topupInfo?.enable_stripe_topup
   const enableCreem = !!topupInfo?.enable_creem_topup
   const enableOnlineTopUp = !!topupInfo?.enable_online_topup
+  const enableXunhu = !!topupInfo?.enable_xunhu_topup
   const epayMethods = useMemo(
     () => getEpayMethods(topupInfo?.pay_methods),
     [topupInfo?.pay_methods]
@@ -565,7 +579,8 @@ export function SubscriptionPlansCard({
 
                     <div className='py-2'>
                       <span className='text-primary text-2xl font-bold'>
-                        ${price}
+                        {getCurrencySymbol(plan.currency)}
+                        {price}
                       </span>
                     </div>
 
@@ -630,6 +645,7 @@ export function SubscriptionPlansCard({
         enableStripe={enableStripe}
         enableCreem={enableCreem}
         enableOnlineTopUp={enableOnlineTopUp}
+        enableXunhu={enableXunhu}
         epayMethods={epayMethods}
         purchaseLimit={
           selectedPlan?.plan?.max_purchase_per_user
@@ -641,6 +657,31 @@ export function SubscriptionPlansCard({
             ? planPurchaseCountMap.get(selectedPlan.plan.id)
             : undefined
         }
+        onXunhuQrCode={(info) => {
+          if (info === null) {
+            setXunhuDialogOpen(false)
+            return
+          }
+          setXunhuQrcodeUrl(info.qrcodeUrl)
+          setXunhuTradeNo(info.tradeNo)
+          setXunhuAmount(info.amount)
+          setXunhuFallbackUrl(info.fallbackUrl ?? null)
+          setXunhuExpireSeconds(info.expireSeconds ?? 300)
+          setXunhuCurrency(info.currency ?? 'CNY')
+          setXunhuDialogOpen(true)
+        }}
+      />
+
+      <XunhuQrcodeDialog
+        open={xunhuDialogOpen}
+        onOpenChange={setXunhuDialogOpen}
+        qrcodeUrl={xunhuQrcodeUrl}
+        tradeNo={xunhuTradeNo}
+        amount={xunhuAmount}
+        currency={xunhuCurrency}
+        fallbackUrl={xunhuFallbackUrl}
+        expireSeconds={xunhuExpireSeconds}
+        onPaid={fetchSelfSubscription}
       />
     </>
   )

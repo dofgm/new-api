@@ -103,6 +103,9 @@ func main() {
 	// 数据看板
 	go model.UpdateQuotaData()
 
+	// 虎皮椒 pending 订单清理（每 60s 一轮）
+	go controller.RunXunhuOrderCleanup(60)
+
 	if os.Getenv("CHANNEL_UPDATE_FREQUENCY") != "" {
 		frequency, err := strconv.Atoi(os.Getenv("CHANNEL_UPDATE_FREQUENCY"))
 		if err != nil {

@@ -25,6 +25,7 @@ import type {
   CreateUserSubscriptionRequest,
   SubscriptionPayResponse,
   SubscriptionPayRequest,
+  SubscriptionXunhuPayResponse,
   SelfSubscriptionData,
 } from './types'
 
@@ -130,6 +131,13 @@ export async function paySubscriptionEpay(
     ...res.data,
     url: res.data.url || (res as unknown as { url?: string }).url,
   }
+}
+
+export async function paySubscriptionXunhu(
+  data: SubscriptionPayRequest
+): Promise<SubscriptionXunhuPayResponse> {
+  const res = await api.post('/api/subscription/xunhu/pay', data)
+  return res.data
 }
 
 // ============================================================================

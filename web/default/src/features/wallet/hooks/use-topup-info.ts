@@ -54,7 +54,8 @@ function parseJsonArray(data: unknown): unknown[] {
 
 function parsePaymentMethods(
   data: unknown,
-  stripeMinTopup: number
+  stripeMinTopup: number,
+  xunhuMinTopup: number
 ): PaymentMethod[] {
   return parseJsonArray(data)
     .filter(
@@ -66,14 +67,18 @@ function parsePaymentMethods(
       const normalizedMinTopup = Number.isFinite(rawMinTopup) ? rawMinTopup : 0
       const type = typeof item.type === 'string' ? item.type : ''
 
+      let resolvedMinTopup = normalizedMinTopup
+      if (type === 'stripe' && resolvedMinTopup <= 0) {
+        resolvedMinTopup = stripeMinTopup
+      } else if (type === 'xunhu' && resolvedMinTopup <= 0) {
+        resolvedMinTopup = xunhuMinTopup
+      }
+
       return {
         name: typeof item.name === 'string' ? item.name : '',
         type,
         color: typeof item.color === 'string' ? item.color : undefined,
-        min_topup:
-          type === 'stripe' && normalizedMinTopup <= 0
-            ? stripeMinTopup
-            : normalizedMinTopup,
+        min_topup: resolvedMinTopup,
       }
     })
     .filter((item) => item.name && item.type && item.type !== 'waffo')
@@ -182,7 +187,8 @@ export function useTopupInfo() {
         ...response.data,
         pay_methods: parsePaymentMethods(
           response.data.pay_methods,
-          response.data.stripe_min_topup
+          response.data.stripe_min_topup,
+          response.data.xunhu_min_topup ?? 1
         ),
         amount_options: parseAmountOptions(response.data.amount_options),
         discount: parseDiscountMap(response.data.discount),
