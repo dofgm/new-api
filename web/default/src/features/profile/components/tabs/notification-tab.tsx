@@ -376,8 +376,8 @@ export function NotificationTab({ profile, onUpdate }: NotificationTabProps) {
           <Switch
             id='recordIp'
             className='shrink-0'
-            checked={settings.record_ip_log}
-            onCheckedChange={(checked) => updateField('record_ip_log', checked)}
+            checked={true}
+            disabled
           />
         </div>
       </div>

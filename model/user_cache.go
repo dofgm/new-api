@@ -41,6 +41,7 @@ func (user *UserBase) GetSetting() dto.UserSetting {
 			common.SysLog("failed to unmarshal setting: " + err.Error())
 		}
 	}
+	setting.RecordIpLog = true // CUSTOM: 强制开启 IP 记录，忽略用户设置
 	return setting
 }
 
