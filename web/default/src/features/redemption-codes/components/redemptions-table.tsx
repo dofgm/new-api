@@ -128,9 +128,11 @@ export function RedemptionsTable() {
     globalFilterFn: (row, _columnId, filterValue) => {
       const name = String(row.getValue('name')).toLowerCase()
       const id = String(row.getValue('id'))
+      const key = String(row.original.key ?? '').toLowerCase()
       const searchValue = String(filterValue).toLowerCase()
 
-      return name.includes(searchValue) || id.includes(searchValue)
+      // custom: 同时按兑换码 key 精确匹配（合并上游时保留 key === 分支）
+      return name.includes(searchValue) || id.includes(searchValue) || key === searchValue
     },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

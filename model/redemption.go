@@ -78,7 +78,8 @@ func SearchRedemptions(keyword string, startIdx int, num int) (redemptions []*Re
 	if id, err := strconv.Atoi(keyword); err == nil {
 		query = query.Where("id = ? OR name LIKE ?", id, keyword+"%")
 	} else {
-		query = query.Where("name LIKE ?", keyword+"%")
+		// custom: 同时按兑换码 key 精确匹配（合并上游时保留 OR 子句）
+		query = query.Where("name LIKE ? OR "+commonKeyCol+" = ?", keyword+"%", keyword)
 	}
 
 	// Get total count
