@@ -51,6 +51,7 @@ export function ApiKeysDialogs() {
         open={open === 'cc-switch'}
         onOpenChange={(isOpen) => !isOpen && setOpen(null)}
         tokenKey={resolvedKey}
+        tokenName={currentRow?.name}
       />
     </>
   )
