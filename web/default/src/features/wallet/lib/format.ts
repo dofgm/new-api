@@ -62,14 +62,14 @@ export function formatCurrency(amount: number | string): string {
 }
 
 /**
- * Get discount label for display (e.g., "20% OFF")
+ * Get discount percent for display. Returns null when there is no discount.
+ * Callers render the localized label (e.g., t('{{percent}}% OFF', { percent })).
  */
-export function getDiscountLabel(discount: number): string {
+export function getDiscountPercent(discount: number): number | null {
   if (discount >= DEFAULT_DISCOUNT_RATE) {
-    return ''
+    return null
   }
-  const off = Math.round((1 - discount) * 100)
-  return `${off}% OFF`
+  return Math.round((1 - discount) * 100)
 }
 
 /**
