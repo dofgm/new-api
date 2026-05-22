@@ -308,6 +308,14 @@ func SetApiRouter(router *gin.Engine) {
 			redemptionRoute.DELETE("/invalid", controller.DeleteInvalidRedemption)
 			redemptionRoute.DELETE("/:id", controller.DeleteRedemption)
 		}
+
+		// Admin billing history (custom): standalone route group, fully decoupled
+		// from upstream /api/user/topup so future upstream changes don't conflict.
+		billingHistoryRoute := apiRouter.Group("/billing-history")
+		billingHistoryRoute.Use(middleware.AdminAuth())
+		{
+			billingHistoryRoute.GET("/", controller.AdminListBillingHistory)
+		}
 		logRoute := apiRouter.Group("/log")
 		logRoute.GET("/", middleware.AdminAuth(), controller.GetAllLogs)
 		logRoute.DELETE("/", middleware.AdminAuth(), controller.DeleteHistoryLogs)

@@ -4510,6 +4510,21 @@
     "Use WeChat to scan the QR code above": "Hãy dùng WeChat quét mã QR phía trên",
     "Or open payment page in new tab": "Hoặc mở trang thanh toán trong tab mới",
     "Creating order...": "Đang tạo đơn hàng…",
-    "Join QQ Group": "Tham gia nhóm QQ"
+    "Join QQ Group": "Tham gia nhóm QQ",
+    "Success Revenue": "Doanh thu thành công",
+    "Money from successful orders": "Tiền từ đơn hàng thành công",
+    "Quota Issued": "Hạn ngạch đã phát",
+    "Credited from successful orders": "Cộng dồn từ đơn thành công",
+    "Total Orders": "Tổng số đơn",
+    "All statuses in current filter": "Tất cả trạng thái trong bộ lọc",
+    "Success Rate": "Tỷ lệ thành công",
+    "Successful over total": "Thành công / Tổng",
+    "Yesterday": "Hôm qua",
+    "Last 7 days": "7 ngày qua",
+    "Last 30 days": "30 ngày qua",
+    "All time": "Tất cả thời gian",
+    "Order no. / user ID (digits-only = user ID)": "Mã đơn / User ID (chỉ số = User ID)",
+    "Try adjusting your filters": "Thử điều chỉnh bộ lọc",
+    "Completed At": "Hoàn thành lúc"
   }
 }

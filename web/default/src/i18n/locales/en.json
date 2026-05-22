@@ -4551,6 +4551,21 @@
     "Use WeChat to scan the QR code above": "Use WeChat to scan the QR code above",
     "Or open payment page in new tab": "Or open payment page in new tab",
     "Creating order...": "Creating order...",
-    "Join QQ Group": "Join QQ Group"
+    "Join QQ Group": "Join QQ Group",
+    "Success Revenue": "Success Revenue",
+    "Money from successful orders": "Money from successful orders",
+    "Quota Issued": "Quota Issued",
+    "Credited from successful orders": "Credited from successful orders",
+    "Total Orders": "Total Orders",
+    "All statuses in current filter": "All statuses in current filter",
+    "Success Rate": "Success Rate",
+    "Successful over total": "Successful over total",
+    "Yesterday": "Yesterday",
+    "Last 7 days": "Last 7 days",
+    "Last 30 days": "Last 30 days",
+    "All time": "All time",
+    "Order no. / user ID (digits-only = user ID)": "Order no. / user ID (digits-only = user ID)",
+    "Try adjusting your filters": "Try adjusting your filters",
+    "Completed At": "Completed At"
   }
 }

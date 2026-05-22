@@ -4510,6 +4510,21 @@
     "Use WeChat to scan the QR code above": "Utilisez WeChat pour scanner le code QR ci-dessus",
     "Or open payment page in new tab": "Ou ouvrir la page de paiement dans un nouvel onglet",
     "Creating order...": "Création de la commande…",
-    "Join QQ Group": "Rejoindre le groupe QQ"
+    "Join QQ Group": "Rejoindre le groupe QQ",
+    "Success Revenue": "Revenu réussi",
+    "Money from successful orders": "Montant des commandes réussies",
+    "Quota Issued": "Quota émis",
+    "Credited from successful orders": "Crédité depuis les commandes réussies",
+    "Total Orders": "Total des commandes",
+    "All statuses in current filter": "Tous statuts dans le filtre",
+    "Success Rate": "Taux de réussite",
+    "Successful over total": "Réussites / Total",
+    "Yesterday": "Hier",
+    "Last 7 days": "7 derniers jours",
+    "Last 30 days": "30 derniers jours",
+    "All time": "Tout",
+    "Order no. / user ID (digits-only = user ID)": "N° de commande / ID utilisateur (chiffres seuls = ID)",
+    "Try adjusting your filters": "Essayez d'ajuster vos filtres",
+    "Completed At": "Terminé à"
   }
 }

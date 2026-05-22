@@ -4510,6 +4510,21 @@
     "Use WeChat to scan the QR code above": "Отсканируйте QR-код выше через WeChat",
     "Or open payment page in new tab": "Или открыть страницу оплаты в новой вкладке",
     "Creating order...": "Создаём заказ…",
-    "Join QQ Group": "Присоединиться к группе QQ"
+    "Join QQ Group": "Присоединиться к группе QQ",
+    "Success Revenue": "Успешный доход",
+    "Money from successful orders": "Сумма из успешных заказов",
+    "Quota Issued": "Выданная квота",
+    "Credited from successful orders": "Зачислено из успешных заказов",
+    "Total Orders": "Всего заказов",
+    "All statuses in current filter": "Все статусы в текущем фильтре",
+    "Success Rate": "Процент успеха",
+    "Successful over total": "Успешные / Всего",
+    "Yesterday": "Вчера",
+    "Last 7 days": "Последние 7 дней",
+    "Last 30 days": "Последние 30 дней",
+    "All time": "За всё время",
+    "Order no. / user ID (digits-only = user ID)": "Номер заказа / ID пользователя (только цифры = ID)",
+    "Try adjusting your filters": "Попробуйте изменить фильтры",
+    "Completed At": "Завершено"
   }
 }

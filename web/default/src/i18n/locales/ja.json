@@ -4510,6 +4510,21 @@
     "Use WeChat to scan the QR code above": "WeChat で上の QR コードをスキャンしてください",
     "Or open payment page in new tab": "または新しいタブで支払いページを開く",
     "Creating order...": "注文を作成しています…",
-    "Join QQ Group": "QQグループに参加"
+    "Join QQ Group": "QQグループに参加",
+    "Success Revenue": "成功収入",
+    "Money from successful orders": "成功した注文からの金額",
+    "Quota Issued": "発行されたクォータ",
+    "Credited from successful orders": "成功した注文から付与",
+    "Total Orders": "総注文数",
+    "All statuses in current filter": "現在のフィルターの全ステータス",
+    "Success Rate": "成功率",
+    "Successful over total": "成功 / 合計",
+    "Yesterday": "昨日",
+    "Last 7 days": "過去 7 日間",
+    "Last 30 days": "過去 30 日間",
+    "All time": "全期間",
+    "Order no. / user ID (digits-only = user ID)": "注文番号 / ユーザーID（数字のみ = ID）",
+    "Try adjusting your filters": "フィルターを調整してください",
+    "Completed At": "完了時刻"
   }
 }

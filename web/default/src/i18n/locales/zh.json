@@ -4551,6 +4551,21 @@
     "Use WeChat to scan the QR code above": "请使用微信扫描上方二维码",
     "Or open payment page in new tab": "或在新标签页打开支付页",
     "Creating order...": "正在创建订单…",
-    "Join QQ Group": "加入 QQ 交流群"
+    "Join QQ Group": "加入 QQ 交流群",
+    "Success Revenue": "成功收款",
+    "Money from successful orders": "来自成功订单的金额",
+    "Quota Issued": "已发放额度",
+    "Credited from successful orders": "来自成功订单的累计额度",
+    "Total Orders": "总订单数",
+    "All statuses in current filter": "当前筛选下全部状态",
+    "Success Rate": "成功率",
+    "Successful over total": "成功数 / 总数",
+    "Yesterday": "昨天",
+    "Last 7 days": "近 7 天",
+    "Last 30 days": "近 30 天",
+    "All time": "全部时间",
+    "Order no. / user ID (digits-only = user ID)": "订单号 / 用户 ID（纯数字按 ID 查）",
+    "Try adjusting your filters": "试着调整筛选条件",
+    "Completed At": "完成时间"
   }
 }
