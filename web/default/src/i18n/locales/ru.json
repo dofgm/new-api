@@ -4525,6 +4525,10 @@
     "All time": "За всё время",
     "Order no. / user ID (digits-only = user ID)": "Номер заказа / ID пользователя (только цифры = ID)",
     "Try adjusting your filters": "Попробуйте изменить фильтры",
-    "Completed At": "Завершено"
+    "Completed At": "Завершено",
+    "Order No.": "Номер заказа",
+    "Method": "Способ",
+    "Payment Amount": "Сумма оплаты",
+    "Recharge Quota": "Зачисленная квота"
   }
 }

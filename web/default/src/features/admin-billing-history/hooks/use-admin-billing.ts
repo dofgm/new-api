@@ -21,7 +21,7 @@ export interface UseAdminBillingOptions {
 }
 
 export function useAdminBilling(options: UseAdminBillingOptions = {}) {
-  const { initialPage = 1, initialPageSize = 10 } = options
+  const { initialPage = 1, initialPageSize = 20 } = options
 
   const [records, setRecords] = useState<BillingRecord[]>([])
   const [stats, setStats] = useState<BillingStats>(EMPTY_STATS)

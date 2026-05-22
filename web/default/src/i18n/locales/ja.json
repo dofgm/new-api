@@ -4525,6 +4525,10 @@
     "All time": "全期間",
     "Order no. / user ID (digits-only = user ID)": "注文番号 / ユーザーID（数字のみ = ID）",
     "Try adjusting your filters": "フィルターを調整してください",
-    "Completed At": "完了時刻"
+    "Completed At": "完了時刻",
+    "Order No.": "注文番号",
+    "Method": "方法",
+    "Payment Amount": "支払い金額",
+    "Recharge Quota": "チャージクォータ"
   }
 }

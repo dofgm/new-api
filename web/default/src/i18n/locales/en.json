@@ -4566,6 +4566,10 @@
     "All time": "All time",
     "Order no. / user ID (digits-only = user ID)": "Order no. / user ID (digits-only = user ID)",
     "Try adjusting your filters": "Try adjusting your filters",
-    "Completed At": "Completed At"
+    "Completed At": "Completed At",
+    "Order No.": "Order No.",
+    "Method": "Method",
+    "Payment Amount": "Payment Amount",
+    "Recharge Quota": "Recharge Quota"
   }
 }

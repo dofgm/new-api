@@ -2880,7 +2880,7 @@
     "Payment Channel": "支付渠道",
     "Payment Gateway": "支付网关",
     "Payment initiated": "已发起支付",
-    "Payment Method": "付款方式",
+    "Payment Method": "支付方式",
     "Payment method name": "支付方式名称",
     "Payment method name is required": "支付方式名称不能为空",
     "Payment method type": "支付方式类型",
@@ -4552,9 +4552,9 @@
     "Or open payment page in new tab": "或在新标签页打开支付页",
     "Creating order...": "正在创建订单…",
     "Join QQ Group": "加入 QQ 交流群",
-    "Success Revenue": "成功收款",
+    "Success Revenue": "已收金额",
     "Money from successful orders": "来自成功订单的金额",
-    "Quota Issued": "已发放额度",
+    "Quota Issued": "已发额度",
     "Credited from successful orders": "来自成功订单的累计额度",
     "Total Orders": "总订单数",
     "All statuses in current filter": "当前筛选下全部状态",
@@ -4566,6 +4566,10 @@
     "All time": "全部时间",
     "Order no. / user ID (digits-only = user ID)": "订单号 / 用户 ID（纯数字按 ID 查）",
     "Try adjusting your filters": "试着调整筛选条件",
-    "Completed At": "完成时间"
+    "Completed At": "完成时间",
+    "Order No.": "订单号",
+    "Method": "方式",
+    "Payment Amount": "支付金额",
+    "Recharge Quota": "充值额度"
   }
 }

@@ -4525,6 +4525,10 @@
     "All time": "Tất cả thời gian",
     "Order no. / user ID (digits-only = user ID)": "Mã đơn / User ID (chỉ số = User ID)",
     "Try adjusting your filters": "Thử điều chỉnh bộ lọc",
-    "Completed At": "Hoàn thành lúc"
+    "Completed At": "Hoàn thành lúc",
+    "Order No.": "Mã đơn",
+    "Method": "Phương thức",
+    "Payment Amount": "Số tiền thanh toán",
+    "Recharge Quota": "Hạn ngạch nạp"
   }
 }

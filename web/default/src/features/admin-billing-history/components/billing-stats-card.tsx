@@ -1,59 +1,94 @@
+import { useEffect } from 'react'
+import { animate, motion, useMotionValue, useTransform } from 'motion/react'
 import { useTranslation } from 'react-i18next'
+import { formatCurrencyFromUSD } from '@/lib/currency'
+import { CARD_ITEM_VARIANTS, CARD_STAGGER_VARIANTS } from '@/lib/motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { formatNumber } from '@/lib/format'
 import type { BillingStats } from '../types'
+
+type Formatter = (value: number) => string
+
+function CountUp({ value, format }: { value: number; format: Formatter }) {
+  const motionValue = useMotionValue(0)
+  const display = useTransform(motionValue, (latest) => format(latest))
+
+  useEffect(() => {
+    const controls = animate(motionValue, value, {
+      duration: 0.8,
+      ease: 'easeOut',
+    })
+    return () => controls.stop()
+  }, [motionValue, value])
+
+  return <motion.span>{display}</motion.span>
+}
 
 interface BillingStatsCardProps {
   stats: BillingStats
   loading?: boolean
 }
 
+// No thousands separator — short admin billing values don't need it
+const noCommaFmt = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 2,
+  useGrouping: false,
+})
+const formatRMB: Formatter = (v) => `¥${noCommaFmt.format(v)}`
+const formatUSD: Formatter = (v) =>
+  formatCurrencyFromUSD(v, {
+    digitsLarge: 2,
+    digitsSmall: 2,
+    abbreviate: false,
+  }).replace(/,/g, '')
+const formatCount: Formatter = (v) => Math.round(v).toString()
+
 export function BillingStatsCard({ stats, loading }: BillingStatsCardProps) {
   const { t } = useTranslation()
-  const successRate =
-    stats.total_count > 0
-      ? Math.round((stats.success_count / stats.total_count) * 100)
-      : 0
 
   const items = [
     {
       label: t('Success Revenue'),
-      value: formatNumber(stats.success_money),
-      hint: t('Money from successful orders'),
+      value: stats.success_money,
+      format: formatRMB,
     },
     {
       label: t('Quota Issued'),
-      value: formatNumber(stats.success_amount),
-      hint: t('Credited from successful orders'),
+      value: stats.success_amount,
+      format: formatUSD,
     },
     {
       label: t('Total Orders'),
-      value: formatNumber(stats.total_count),
-      hint: t('All statuses in current filter'),
-    },
-    {
-      label: t('Success Rate'),
-      value: `${successRate}%`,
-      hint: t('Successful over total'),
+      value: stats.total_count,
+      format: formatCount,
     },
   ]
 
   return (
-    <div className='grid grid-cols-2 gap-3 sm:grid-cols-4'>
+    <motion.div
+      className='grid grid-cols-1 gap-3 sm:grid-cols-3'
+      initial='initial'
+      animate='animate'
+      variants={CARD_STAGGER_VARIANTS}
+    >
       {items.map((item) => (
-        <Card key={item.label}>
-          <CardContent className='p-4'>
-            <div className='text-muted-foreground text-xs font-medium tracking-wider uppercase'>
-              {item.label}
-            </div>
-            <div className='mt-2 text-2xl font-semibold'>
-              {loading ? <Skeleton className='h-7 w-24' /> : item.value}
-            </div>
-            <div className='text-muted-foreground mt-1 text-xs'>{item.hint}</div>
-          </CardContent>
-        </Card>
+        <motion.div key={item.label} variants={CARD_ITEM_VARIANTS}>
+          <Card>
+            <CardContent className='flex items-center justify-between gap-3 p-3'>
+              <div className='text-muted-foreground text-xs font-medium tracking-wider uppercase'>
+                {item.label}
+              </div>
+              <div className='text-lg font-semibold tabular-nums'>
+                {loading ? (
+                  <Skeleton className='h-5 w-20' />
+                ) : (
+                  <CountUp value={item.value} format={item.format} />
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   )
 }
