@@ -153,6 +153,8 @@ type PaymentSettingsSectionProps = {
   defaultValues: PaymentFormValues
   waffoDefaultValues: WaffoSettingsValues
   waffoPancakeDefaultValues: WaffoPancakeSettingsValues
+  waffoPancakeProvisionedStoreID?: string
+  waffoPancakeProvisionedProductID?: string
   xunhuDefaultValues: XunhuSettingsValues
   complianceDefaults: PaymentComplianceDefaults
 }
@@ -161,6 +163,8 @@ export function PaymentSettingsSection({
   defaultValues,
   waffoDefaultValues,
   waffoPancakeDefaultValues,
+  waffoPancakeProvisionedStoreID,
+  waffoPancakeProvisionedProductID,
   xunhuDefaultValues,
   complianceDefaults,
 }: PaymentSettingsSectionProps) {
@@ -1474,11 +1478,15 @@ export function PaymentSettingsSection({
 
       <Separator />
 
-      <WaffoSettingsSection defaultValues={waffoDefaultValues} />
+      <WaffoPancakeSettingsSection
+        defaultValues={waffoPancakeDefaultValues}
+        provisionedStoreID={waffoPancakeProvisionedStoreID}
+        provisionedProductID={waffoPancakeProvisionedProductID}
+      />
 
       <Separator />
 
-      <WaffoPancakeSettingsSection defaultValues={waffoPancakeDefaultValues} />
+      <WaffoSettingsSection defaultValues={waffoDefaultValues} />
 
       <Separator />
 
