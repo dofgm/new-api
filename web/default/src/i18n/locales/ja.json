@@ -2248,6 +2248,7 @@
     "Manage server log files. Log files accumulate over time; regular cleanup is recommended to free disk space.": "サーバーログファイルを管理します。ログファイルは時間とともに蓄積されるため、定期的なクリーンアップでディスク容量を解放することを推奨します。",
     "Manage subscription plan creation, pricing and status": "サブスクリプションプランの作成、価格設定、ステータスを管理",
     "Manage subscription plans and pricing.": "サブスクリプションプランと価格設定を管理します。",
+    "View all top-up and subscription order records.": "すべてのチャージ・サブスクリプション注文を表示。",
     "Manage Subscriptions": "サブスクリプションの管理",
     "Manage users and their permissions": "ユーザーとその権限を管理する",
     "Manage Vendors": "ベンダーの管理",

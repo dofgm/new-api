@@ -2257,6 +2257,7 @@
     "Manage server log files. Log files accumulate over time; regular cleanup is recommended to free disk space.": "Manage server log files. Log files accumulate over time; regular cleanup is recommended to free disk space.",
     "Manage subscription plan creation, pricing and status": "Manage subscription plan creation, pricing and status",
     "Manage subscription plans and pricing.": "Manage subscription plans and pricing.",
+    "View all top-up and subscription order records.": "View all top-up and subscription order records.",
     "Manage Subscriptions": "Manage Subscriptions",
     "Manage users and their permissions": "Manage users and their permissions",
     "Manage Vendors": "Manage Vendors",

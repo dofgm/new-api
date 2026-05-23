@@ -2248,6 +2248,7 @@
     "Manage server log files. Log files accumulate over time; regular cleanup is recommended to free disk space.": "Quản lý tệp nhật ký máy chủ. Tệp nhật ký tích lũy theo thời gian; nên dọn dẹp định kỳ để giải phóng dung lượng đĩa.",
     "Manage subscription plan creation, pricing and status": "Quản lý tạo, định giá và trạng thái gói đăng ký",
     "Manage subscription plans and pricing.": "Quản lý gói đăng ký và giá cả.",
+    "View all top-up and subscription order records.": "Xem tất cả đơn nạp tiền và đăng ký.",
     "Manage Subscriptions": "Quản lý đăng ký",
     "Manage users and their permissions": "Quản lý người dùng và quyền của họ",
     "Manage Vendors": "Quản lý Nhà cung cấp",

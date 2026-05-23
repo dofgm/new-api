@@ -2248,6 +2248,7 @@
     "Manage server log files. Log files accumulate over time; regular cleanup is recommended to free disk space.": "Gérer les fichiers journaux du serveur. Les fichiers journaux s'accumulent au fil du temps ; un nettoyage régulier est recommandé.",
     "Manage subscription plan creation, pricing and status": "Gérer la création, la tarification et le statut des abonnements",
     "Manage subscription plans and pricing.": "Gérer les plans d'abonnement et les tarifs.",
+    "View all top-up and subscription order records.": "Consulter l'historique des recharges et abonnements.",
     "Manage Subscriptions": "Gérer les abonnements",
     "Manage users and their permissions": "Gérer les utilisateurs et leurs permissions",
     "Manage Vendors": "Gérer les fournisseurs",

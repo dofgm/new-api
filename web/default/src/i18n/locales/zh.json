@@ -2257,6 +2257,7 @@
     "Manage server log files. Log files accumulate over time; regular cleanup is recommended to free disk space.": "管理服务器运行日志文件。日志文件会随运行时间不断累积，建议定期清理以释放磁盘空间。",
     "Manage subscription plan creation, pricing and status": "管理订阅套餐的创建、定价和启停",
     "Manage subscription plans and pricing.": "管理订阅计划和定价。",
+    "View all top-up and subscription order records.": "查看所有充值和订阅订单记录。",
     "Manage Subscriptions": "管理订阅",
     "Manage users and their permissions": "管理用户及其权限",
     "Manage Vendors": "管理供应商",

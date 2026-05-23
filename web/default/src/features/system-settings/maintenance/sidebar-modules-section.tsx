@@ -144,6 +144,10 @@ export function SidebarModulesSection({
         title: t('Subscription Management'),
         description: t('Manage subscription plans and pricing.'),
       },
+      billing: {
+        title: t('Billing History'),
+        description: t('View all top-up and subscription order records.'),
+      },
     },
   }
   const formDefaults = useMemo(() => config, [config])
