@@ -55,6 +55,8 @@ import {
 } from '../../api'
 import { formatTimestamp } from '../../lib'
 import type { PlanRecord, UserSubscriptionRecord } from '../../types'
+// CUSTOM: 延期 dialog 入口
+import { ExtendEndTimeDialog } from './extend-end-time-dialog'
 
 interface Props {
   open: boolean
@@ -107,6 +109,8 @@ export function UserSubscriptionsDialog(props: Props) {
     type: 'invalidate' | 'delete'
     subId: number
   } | null>(null)
+  // CUSTOM: 延期 dialog state
+  const [extendSubId, setExtendSubId] = useState<number | null>(null)
 
   const planTitleMap = useMemo(() => {
     const map = new Map<number, string>()
@@ -309,6 +313,15 @@ export function UserSubscriptionsDialog(props: Props) {
                           </TableCell>
                           <TableCell className='text-right'>
                             <div className='flex justify-end gap-1'>
+                              {/* CUSTOM: 改期按钮 */}
+                              <Button
+                                size='sm'
+                                variant='outline'
+                                disabled={!isActive}
+                                onClick={() => setExtendSubId(sub.id)}
+                              >
+                                {t('Reschedule')}
+                              </Button>
                               <Button
                                 size='sm'
                                 variant='outline'
@@ -346,6 +359,22 @@ export function UserSubscriptionsDialog(props: Props) {
           </div>
         </SheetContent>
       </Sheet>
+
+      {/* CUSTOM: 延期 dialog 挂载 */}
+      <ExtendEndTimeDialog
+        sub={
+          subs.find((r) => r.subscription.id === extendSubId)?.subscription ??
+          null
+        }
+        onOpenChange={(o) => {
+          if (!o) setExtendSubId(null)
+        }}
+        onSuccess={() => {
+          setExtendSubId(null)
+          loadData()
+          props.onSuccess?.()
+        }}
+      />
 
       {confirmAction && (
         <ConfirmDialog

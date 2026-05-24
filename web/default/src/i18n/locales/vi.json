@@ -4530,6 +4530,17 @@
     "Order No.": "Mã đơn",
     "Method": "Phương thức",
     "Payment Amount": "Số tiền thanh toán",
-    "Recharge Quota": "Hạn ngạch nạp"
+    "Recharge Quota": "Hạn ngạch nạp",
+    "Modify subscription end time": "Sửa thời hạn đăng ký",
+    "Current end time": "Thời hạn hiện tại",
+    "New end time": "Thời hạn mới",
+    "Time must be in the future": "Thời gian phải ở tương lai",
+    "Subscription end time updated": "Đã cập nhật thời hạn",
+    "No change": "Không thay đổi",
+    "Reschedule": "Đổi hạn",
+    "d": "ng",
+    "h": "g",
+    "min": "ph",
+    "sec": "gy"
   }
 }

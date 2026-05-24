@@ -4571,6 +4571,17 @@
     "Order No.": "Order No.",
     "Method": "Method",
     "Payment Amount": "Payment Amount",
-    "Recharge Quota": "Recharge Quota"
+    "Recharge Quota": "Recharge Quota",
+    "Modify subscription end time": "Modify subscription end time",
+    "Current end time": "Current end time",
+    "New end time": "New end time",
+    "Time must be in the future": "Time must be in the future",
+    "Subscription end time updated": "Subscription end time updated",
+    "No change": "No change",
+    "Reschedule": "Reschedule",
+    "d": "d",
+    "h": "h",
+    "min": "min",
+    "sec": "sec"
   }
 }

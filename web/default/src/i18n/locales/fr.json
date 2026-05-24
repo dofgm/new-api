@@ -4530,6 +4530,17 @@
     "Order No.": "N° de commande",
     "Method": "Méthode",
     "Payment Amount": "Montant payé",
-    "Recharge Quota": "Quota crédité"
+    "Recharge Quota": "Quota crédité",
+    "Modify subscription end time": "Modifier la date de fin",
+    "Current end time": "Date de fin actuelle",
+    "New end time": "Nouvelle date de fin",
+    "Time must be in the future": "Doit être dans le futur",
+    "Subscription end time updated": "Date de fin mise à jour",
+    "No change": "Aucun changement",
+    "Reschedule": "Reprogrammer",
+    "d": "j",
+    "h": "h",
+    "min": "min",
+    "sec": "s"
   }
 }

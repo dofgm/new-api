@@ -4571,6 +4571,17 @@
     "Order No.": "订单号",
     "Method": "方式",
     "Payment Amount": "支付金额",
-    "Recharge Quota": "充值额度"
+    "Recharge Quota": "充值额度",
+    "Modify subscription end time": "修改订阅期限",
+    "Current end time": "当前结束时间",
+    "New end time": "新结束时间",
+    "Time must be in the future": "时间必须晚于当前",
+    "Subscription end time updated": "订阅期限已更新",
+    "No change": "无变化",
+    "Reschedule": "改期",
+    "d": "天",
+    "h": "时",
+    "min": "分",
+    "sec": "秒"
   }
 }

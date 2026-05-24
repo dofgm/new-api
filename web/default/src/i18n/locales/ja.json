@@ -4530,6 +4530,17 @@
     "Order No.": "注文番号",
     "Method": "方法",
     "Payment Amount": "支払い金額",
-    "Recharge Quota": "チャージクォータ"
+    "Recharge Quota": "チャージクォータ",
+    "Modify subscription end time": "終了日時を変更",
+    "Current end time": "現在の終了日時",
+    "New end time": "新しい終了日時",
+    "Time must be in the future": "未来の時刻を指定してください",
+    "Subscription end time updated": "終了日時を更新しました",
+    "No change": "変更なし",
+    "Reschedule": "期限変更",
+    "d": "日",
+    "h": "時",
+    "min": "分",
+    "sec": "秒"
   }
 }

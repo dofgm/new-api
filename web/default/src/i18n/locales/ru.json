@@ -4530,6 +4530,17 @@
     "Order No.": "Номер заказа",
     "Method": "Способ",
     "Payment Amount": "Сумма оплаты",
-    "Recharge Quota": "Зачисленная квота"
+    "Recharge Quota": "Зачисленная квота",
+    "Modify subscription end time": "Изменить дату окончания",
+    "Current end time": "Текущая дата окончания",
+    "New end time": "Новая дата окончания",
+    "Time must be in the future": "Время должно быть в будущем",
+    "Subscription end time updated": "Дата окончания обновлена",
+    "No change": "Без изменений",
+    "Reschedule": "Перенести",
+    "d": "д",
+    "h": "ч",
+    "min": "мин",
+    "sec": "с"
   }
 }
