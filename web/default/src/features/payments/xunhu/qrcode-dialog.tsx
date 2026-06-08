@@ -17,9 +17,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { useEffect, useRef, useState } from 'react'
-import { ExternalLink, Loader2 } from 'lucide-react'
+import { CheckCircle2, ExternalLink, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { SiWechat } from 'react-icons/si'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -45,6 +46,7 @@ interface XunhuQrcodeDialogProps {
 
 const POLL_INTERVAL_MS = 3000
 const DEFAULT_EXPIRE_SECONDS = 300
+const AUTO_CLOSE_DELAY_MS = 3000
 
 function formatTimeMMSS(totalSeconds: number) {
   const safe = Math.max(0, Math.floor(totalSeconds))
@@ -86,6 +88,13 @@ export function XunhuQrcodeDialog({
       setStatus('pending')
     }
   }, [open])
+
+  // 支付成功后自动关闭弹窗
+  useEffect(() => {
+    if (status !== 'success') return
+    const id = setTimeout(() => onOpenChange(false), AUTO_CLOSE_DELAY_MS)
+    return () => clearTimeout(id)
+  }, [status, onOpenChange])
 
   // 订单数据到达后再设置倒计时（避免 loading 阶段就开始倒数）
   useEffect(() => {
@@ -241,10 +250,20 @@ export function XunhuQrcodeDialog({
                   </>
                 )}
                 {status === 'success' && (
-                  <span className='text-green-600 dark:text-green-400'>
+                <div className='flex flex-col items-center gap-2'>
+                  <span className='flex items-center gap-1.5 text-green-600 dark:text-green-400'>
+                    <CheckCircle2 className='h-4 w-4' />
                     {t('Payment received')}
                   </span>
-                )}
+                  <Button
+                    size='sm'
+                    variant='outline'
+                    onClick={() => onOpenChange(false)}
+                  >
+                    {t('Done')}
+                  </Button>
+                </div>
+              )}
                 {status === 'failed' && (
                   <span className='text-destructive'>
                     {t('Payment failed')}
