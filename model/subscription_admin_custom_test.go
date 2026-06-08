@@ -22,6 +22,10 @@ func setupAdminSubscriptionTestDB(t *testing.T) *gorm.DB {
 	common.UsingPostgreSQL = false
 	common.RedisEnabled = false
 
+	// Save original DB to restore after test
+	origDB := DB
+	origLogDB := LOG_DB
+
 	dsn := fmt.Sprintf("file:%s?mode=memory&cache=shared", strings.ReplaceAll(t.Name(), "/", "_"))
 	db, err := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
 	require.NoError(t, err)
@@ -36,6 +40,8 @@ func setupAdminSubscriptionTestDB(t *testing.T) *gorm.DB {
 		if err == nil {
 			_ = sqlDB.Close()
 		}
+		DB = origDB
+		LOG_DB = origLogDB
 	})
 	return db
 }

@@ -1092,7 +1092,7 @@ func maybeResetUserSubscriptionWithPlanTx(tx *gorm.DB, sub *UserSubscription, pl
 }
 
 // PreConsumeUserSubscription pre-consumes from any active subscription total quota.
-func PreConsumeUserSubscription(requestId string, userId int, modelName string, quotaType int, amount int64) (*SubscriptionPreConsumeResult, error) {
+func PreConsumeUserSubscription(requestId string, userId int, modelName string, quotaType int, amount int64, usingGroup string) (*SubscriptionPreConsumeResult, error) {
 	if userId <= 0 {
 		return nil, errors.New("invalid userId")
 	}
@@ -1129,9 +1129,12 @@ func PreConsumeUserSubscription(requestId string, userId int, modelName string, 
 		}
 
 		var subs []UserSubscription
-		if err := tx.Set("gorm:query_option", "FOR UPDATE").
-			Where("user_id = ? AND status = ? AND end_time > ?", userId, "active", now).
-			Order("end_time asc, id asc").
+		subQuery := tx.Set("gorm:query_option", "FOR UPDATE").
+			Where("user_id = ? AND status = ? AND end_time > ?", userId, "active", now)
+		if strings.TrimSpace(usingGroup) != "" {
+			subQuery = subQuery.Where("upgrade_group = ?", usingGroup)
+		}
+		if err := subQuery.Order("end_time asc, id asc").
 			Find(&subs).Error; err != nil {
 			return errors.New("no active subscription")
 		}
