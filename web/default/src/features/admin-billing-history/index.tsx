@@ -14,6 +14,7 @@ export function AdminBillingHistory() {
     page,
     pageSize,
     loading,
+    fetching,
     completing,
     applyFilter,
     handlePageChange,
@@ -31,6 +32,7 @@ export function AdminBillingHistory() {
           <BillingTable
             records={records}
             loading={loading}
+            fetching={fetching}
             page={page}
             pageSize={pageSize}
             total={total}

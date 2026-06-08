@@ -25,6 +25,7 @@ import type { BillingRecord } from '../types'
 interface BillingTableProps {
   records: BillingRecord[]
   loading: boolean
+  fetching: boolean
   page: number
   pageSize: number
   total: number
@@ -37,6 +38,7 @@ interface BillingTableProps {
 export function BillingTable({
   records,
   loading,
+  fetching,
   page,
   pageSize,
   total,
@@ -91,6 +93,7 @@ export function BillingTable({
         table={table}
         columns={columns as ColumnDef<BillingRecord>[]}
         isLoading={loading}
+        isFetching={fetching}
         emptyTitle={t('No billing records found')}
         emptyDescription={t('Try adjusting your filters')}
         toolbarProps={null}

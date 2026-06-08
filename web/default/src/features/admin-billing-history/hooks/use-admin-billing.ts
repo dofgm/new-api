@@ -29,11 +29,12 @@ export function useAdminBilling(options: UseAdminBillingOptions = {}) {
   const [page, setPage] = useState(initialPage)
   const [pageSize, setPageSize] = useState(initialPageSize)
   const [filter, setFilter] = useState<BillingFilter>({})
-  const [loading, setLoading] = useState(false)
+  const [initialLoading, setInitialLoading] = useState(true)
+  const [fetching, setFetching] = useState(false)
   const [completing, setCompleting] = useState(false)
 
   const fetchData = useCallback(async () => {
-    setLoading(true)
+    setFetching(true)
     try {
       const res = await getAdminBillingHistory(filter, page, pageSize)
       if (isApiSuccess(res) && res.data) {
@@ -42,19 +43,14 @@ export function useAdminBilling(options: UseAdminBillingOptions = {}) {
         setTotal(res.data.total || 0)
       } else {
         toast.error(res.message || i18next.t('Failed to load billing history'))
-        setRecords([])
-        setStats(EMPTY_STATS)
-        setTotal(0)
       }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to fetch admin billing history:', error)
       toast.error(i18next.t('Failed to load billing history'))
-      setRecords([])
-      setStats(EMPTY_STATS)
-      setTotal(0)
     } finally {
-      setLoading(false)
+      setInitialLoading(false)
+      setFetching(false)
     }
   }, [filter, page, pageSize])
 
@@ -107,7 +103,8 @@ export function useAdminBilling(options: UseAdminBillingOptions = {}) {
     page,
     pageSize,
     filter,
-    loading,
+    loading: initialLoading,
+    fetching,
     completing,
     applyFilter,
     handlePageChange,

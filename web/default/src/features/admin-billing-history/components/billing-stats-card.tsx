@@ -46,6 +46,13 @@ const formatCount: Formatter = (v) => Math.round(v).toString()
 export function BillingStatsCard({ stats, loading }: BillingStatsCardProps) {
   const { t } = useTranslation()
 
+  // Only show skeleton on first load (all zeros = no data fetched yet)
+  const showSkeleton =
+    loading &&
+    stats.success_money === 0 &&
+    stats.success_amount === 0 &&
+    stats.total_count === 0
+
   const items = [
     {
       label: t('Success Revenue'),
@@ -79,7 +86,7 @@ export function BillingStatsCard({ stats, loading }: BillingStatsCardProps) {
                 {item.label}
               </div>
               <div className='text-lg font-semibold tabular-nums'>
-                {loading ? (
+                {showSkeleton ? (
                   <Skeleton className='h-5 w-20' />
                 ) : (
                   <CountUp value={item.value} format={item.format} />
