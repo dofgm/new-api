@@ -59,6 +59,9 @@ const quotaSchema = z.object({
   quota_setting: z.object({
     enable_free_model_pre_consume: z.boolean(),
   }),
+  redemption_setting: z.object({
+    max_redemptions_per_user: z.coerce.number().min(0),
+  }),
 })
 
 type QuotaFormValues = z.infer<typeof quotaSchema>
@@ -278,6 +281,33 @@ export function QuotaSettingsSection({
                   </FormControl>
                   <FormDescription>
                     {t('Link to your documentation site')}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='redemption_setting.max_redemptions_per_user'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('Max Redemptions Per User')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='number'
+                      value={field.value ?? ''}
+                      onChange={handleNumberChange(field.onChange)}
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      ref={field.ref}
+                      min={0}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {t(
+                      'Maximum number of redemption codes a single account can use. 0 means unlimited.'
+                    )}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

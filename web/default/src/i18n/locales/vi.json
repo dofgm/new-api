@@ -2284,6 +2284,8 @@
     "Max Success": "Thành công tối đa",
     "Max successful requests": "Số yêu cầu thành công tối đa",
     "Max Successful Requests": "Yêu cầu thành công tối đa",
+    "Max Redemptions Per User": "Số lần đổi mã tối đa mỗi tài khoản",
+    "Maximum number of redemption codes a single account can use. 0 means unlimited.": "Số lần tối đa một tài khoản có thể sử dụng mã đổi. 0 nghĩa là không giới hạn.",
     "Maximum 1000 characters. Supports Markdown and HTML.": "Tối đa 1000 ký tự. Hỗ trợ Markdown và HTML.",
     "Maximum 200 characters": "Tối đa 200 ký tự",
     "Maximum 500 characters. Supports Markdown and HTML.": "Tối đa 500 ký tự. Hỗ trợ Markdown và HTML.",

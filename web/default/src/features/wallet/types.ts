@@ -165,6 +165,8 @@ export interface TopupInfo {
   xunhu_min_topup?: number
   /** Whether redemption code usage is enabled */
   enable_redemption?: boolean
+  /** Maximum redemptions allowed per user (0 = unlimited) */
+  max_redemptions_per_user?: number
   /** Whether compliance confirmation has been completed */
   payment_compliance_confirmed?: boolean
   /** Current compliance terms version */

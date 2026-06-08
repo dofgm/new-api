@@ -141,6 +141,7 @@ func GetTopUpInfo(c *gin.Context) {
 		"amount_options":          operation_setting.GetPaymentSetting().AmountOptions,
 		"discount":                operation_setting.GetPaymentSetting().AmountDiscount,
 		"topup_link":              common.TopUpLink,
+		"max_redemptions_per_user": operation_setting.GetRedemptionSetting().MaxRedemptionsPerUser,
 	}
 	common.ApiSuccess(c, data)
 }

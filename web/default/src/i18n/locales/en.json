@@ -2282,6 +2282,8 @@
     "Max Success": "Max Success",
     "Max successful requests": "Max successful requests",
     "Max Successful Requests": "Max Successful Requests",
+    "Max Redemptions Per User": "Max Redemptions Per User",
+    "Maximum number of redemption codes a single account can use. 0 means unlimited.": "Maximum number of redemption codes a single account can use. 0 means unlimited.",
     "Maximum 1000 characters. Supports Markdown and HTML.": "Maximum 1000 characters. Supports Markdown and HTML.",
     "Maximum 200 characters": "Maximum 200 characters",
     "Maximum 500 characters. Supports Markdown and HTML.": "Maximum 500 characters. Supports Markdown and HTML.",

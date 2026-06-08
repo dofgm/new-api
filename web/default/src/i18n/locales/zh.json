@@ -2284,6 +2284,8 @@
     "Max Success": "最大成功数",
     "Max successful requests": "最大成功请求数",
     "Max Successful Requests": "最大成功请求数",
+    "Max Redemptions Per User": "单账号最大兑换次数",
+    "Maximum number of redemption codes a single account can use. 0 means unlimited.": "单个账号可使用兑换码的最大次数，0 表示不限制。",
     "Maximum 1000 characters. Supports Markdown and HTML.": "最多 1000 个字符。支持 Markdown 和 HTML。",
     "Maximum 200 characters": "最多 200 个字符",
     "Maximum 500 characters. Supports Markdown and HTML.": "最多 500 个字符。支持 Markdown 和 HTML。",

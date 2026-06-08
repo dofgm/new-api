@@ -2284,6 +2284,8 @@
     "Max Success": "Макс. успешных",
     "Max successful requests": "Макс. успешных запросов",
     "Max Successful Requests": "Макс. успешных запросов",
+    "Max Redemptions Per User": "Макс. активаций на пользователя",
+    "Maximum number of redemption codes a single account can use. 0 means unlimited.": "Максимальное количество кодов активации, которое может использовать один аккаунт. 0 означает без ограничений.",
     "Maximum 1000 characters. Supports Markdown and HTML.": "Максимум 1000 символов. Поддерживает Markdown и HTML.",
     "Maximum 200 characters": "Максимум 200 символов",
     "Maximum 500 characters. Supports Markdown and HTML.": "Максимум 500 символов. Поддерживает Markdown и HTML.",

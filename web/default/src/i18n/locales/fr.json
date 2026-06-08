@@ -2284,6 +2284,8 @@
     "Max Success": "Max Succès",
     "Max successful requests": "Nombre max de requêtes réussies",
     "Max Successful Requests": "Max Requêtes réussies",
+    "Max Redemptions Per User": "Max échanges par utilisateur",
+    "Maximum number of redemption codes a single account can use. 0 means unlimited.": "Nombre maximum de codes d'échange qu'un compte peut utiliser. 0 signifie illimité.",
     "Maximum 1000 characters. Supports Markdown and HTML.": "Maximum 1000 caractères. Prend en charge Markdown et HTML.",
     "Maximum 200 characters": "Maximum 200 caractères",
     "Maximum 500 characters. Supports Markdown and HTML.": "Maximum 500 caractères. Prend en charge Markdown et HTML.",

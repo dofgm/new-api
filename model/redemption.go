@@ -7,6 +7,7 @@ import (
 
 	"github.com/QuantumNous/new-api/common"
 	"github.com/QuantumNous/new-api/logger"
+	"github.com/QuantumNous/new-api/setting/operation_setting"
 
 	"gorm.io/gorm"
 )
@@ -113,6 +114,15 @@ func GetRedemptionById(id int) (*Redemption, error) {
 	return &redemption, err
 }
 
+// CountSuccessRedemptionsByUser 统计用户已成功兑换的次数
+func CountSuccessRedemptionsByUser(userId int) (int64, error) {
+	var count int64
+	err := DB.Model(&Redemption{}).
+		Where("used_user_id = ? AND status = ?", userId, common.RedemptionCodeStatusUsed).
+		Count(&count).Error
+	return count, err
+}
+
 func Redeem(key string, userId int) (quota int, err error) {
 	if key == "" {
 		return 0, errors.New("未提供兑换码")
@@ -120,6 +130,20 @@ func Redeem(key string, userId int) (quota int, err error) {
 	if userId == 0 {
 		return 0, errors.New("无效的 user id")
 	}
+
+	// 检查单账号兑换次数上限
+	maxPerUser := operation_setting.GetRedemptionSetting().MaxRedemptionsPerUser
+	if maxPerUser > 0 {
+		usedCount, countErr := CountSuccessRedemptionsByUser(userId)
+		if countErr != nil {
+			common.SysError("failed to count user redemptions: " + countErr.Error())
+			return 0, ErrRedeemFailed
+		}
+		if usedCount >= int64(maxPerUser) {
+			return 0, ErrRedeemLimitExceeded
+		}
+	}
+
 	redemption := &Redemption{}
 
 	keyCol := "`key`"

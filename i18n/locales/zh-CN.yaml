@@ -60,6 +60,7 @@ redemption.expired: "该兑换码已过期"
 redemption.failed: "兑换失败，请稍后重试"
 redemption.not_provided: "未提供兑换码"
 redemption.expire_time_invalid: "过期时间不能早于当前时间"
+redemption.limit_exceeded: "您的账号已达到兑换次数上限"
 
 # User messages
 user.password_login_disabled: "管理员关闭了密码登录"

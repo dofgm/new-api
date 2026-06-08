@@ -21,6 +21,7 @@ var (
 
 // Redemption errors
 var ErrRedeemFailed = errors.New("redeem.failed")
+var ErrRedeemLimitExceeded = errors.New("redemption.limit_exceeded")
 
 // 2FA errors
 var ErrTwoFANotEnabled = errors.New("2fa not enabled")

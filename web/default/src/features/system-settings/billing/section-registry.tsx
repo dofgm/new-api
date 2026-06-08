@@ -69,6 +69,10 @@ const BILLING_SECTIONS = [
             enable_free_model_pre_consume:
               settings['quota_setting.enable_free_model_pre_consume'],
           },
+          redemption_setting: {
+            max_redemptions_per_user:
+              settings['redemption_setting.max_redemptions_per_user'] ?? 0,
+          },
         }}
         complianceConfirmed={
           (settings['payment_setting.compliance_confirmed'] ?? false) &&
