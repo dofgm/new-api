@@ -163,6 +163,13 @@ const paymentSchema = z.object({
   WaffoPancakeMerchantID: z.string(),
   WaffoPancakePrivateKey: z.string(),
   WaffoPancakeReturnURL: z.string(),
+  XunhuEnabled: z.boolean(),
+  XunhuAppId: z.string(),
+  XunhuAppSecret: z.string(),
+  XunhuApiUrl: z.string(),
+  XunhuMinTopUp: z.coerce.number().min(1),
+  XunhuTestMode: z.boolean(),
+  XunhuOrderExpire: z.coerce.number().min(60),
 })
 
 type PaymentFormValues = z.infer<typeof paymentSchema>
@@ -217,8 +224,9 @@ export function PaymentSettingsSection({
       ...defaultValues,
       ...waffoDefaultValues,
       ...waffoPancakeDefaultValues,
+      ...xunhuDefaultValues,
     }),
-    [defaultValues, waffoDefaultValues, waffoPancakeDefaultValues]
+    [defaultValues, waffoDefaultValues, waffoPancakeDefaultValues, xunhuDefaultValues]
   )
   const initialRef = React.useRef(initialFormValues)
   const defaultsSignature = React.useMemo(
@@ -392,6 +400,19 @@ export function PaymentSettingsSection({
     [setPaymentValue]
   )
 
+  const setXunhuValue = React.useCallback(
+    <K extends keyof XunhuSettingsValues>(
+      key: K,
+      value: XunhuSettingsValues[K]
+    ) => {
+      setPaymentValue(
+        key as keyof PaymentFormValues,
+        value as PaymentFormValues[keyof PaymentFormValues]
+      )
+    },
+    [setPaymentValue]
+  )
+
   React.useEffect(() => {
     const parsedDefaults = JSON.parse(defaultsSignature) as PaymentFormValues
     initialRef.current = parsedDefaults
@@ -445,6 +466,15 @@ export function PaymentSettingsSection({
       WaffoPancakeReturnURL: removeTrailingSlash(
         values.WaffoPancakeReturnURL.trim()
       ),
+      XunhuEnabled: values.XunhuEnabled,
+      XunhuAppId: values.XunhuAppId.trim(),
+      XunhuAppSecret: values.XunhuAppSecret.trim(),
+      XunhuApiUrl:
+        values.XunhuApiUrl.trim() ||
+        'https://api.xunhupay.com/payment/do.html',
+      XunhuMinTopUp: values.XunhuMinTopUp || 1,
+      XunhuTestMode: values.XunhuTestMode,
+      XunhuOrderExpire: values.XunhuOrderExpire || 300,
     }
 
     const initial = {
@@ -492,6 +522,15 @@ export function PaymentSettingsSection({
       WaffoPancakeReturnURL: removeTrailingSlash(
         initialRef.current.WaffoPancakeReturnURL.trim()
       ),
+      XunhuEnabled: initialRef.current.XunhuEnabled,
+      XunhuAppId: initialRef.current.XunhuAppId.trim(),
+      XunhuAppSecret: initialRef.current.XunhuAppSecret.trim(),
+      XunhuApiUrl:
+        initialRef.current.XunhuApiUrl.trim() ||
+        'https://api.xunhupay.com/payment/do.html',
+      XunhuMinTopUp: initialRef.current.XunhuMinTopUp || 1,
+      XunhuTestMode: initialRef.current.XunhuTestMode,
+      XunhuOrderExpire: initialRef.current.XunhuOrderExpire || 300,
     }
 
     const updates: Array<{ key: string; value: string | number | boolean }> = []
@@ -689,6 +728,30 @@ export function PaymentSettingsSection({
       updates.push({ key: 'WaffoPayMethods', value: sanitized.WaffoPayMethods })
     }
 
+    // Xunhu diff
+    if (sanitized.XunhuEnabled !== initial.XunhuEnabled) {
+      updates.push({ key: 'XunhuEnabled', value: sanitized.XunhuEnabled })
+    }
+    if (sanitized.XunhuAppId !== initial.XunhuAppId) {
+      updates.push({ key: 'XunhuAppId', value: sanitized.XunhuAppId })
+    }
+    // AppSecret: only send when user typed a new value (avoid clearing)
+    if (sanitized.XunhuAppSecret && sanitized.XunhuAppSecret !== initial.XunhuAppSecret) {
+      updates.push({ key: 'XunhuAppSecret', value: sanitized.XunhuAppSecret })
+    }
+    if (sanitized.XunhuApiUrl !== initial.XunhuApiUrl) {
+      updates.push({ key: 'XunhuApiUrl', value: sanitized.XunhuApiUrl })
+    }
+    if (sanitized.XunhuMinTopUp !== initial.XunhuMinTopUp) {
+      updates.push({ key: 'XunhuMinTopUp', value: sanitized.XunhuMinTopUp })
+    }
+    if (sanitized.XunhuTestMode !== initial.XunhuTestMode) {
+      updates.push({ key: 'XunhuTestMode', value: sanitized.XunhuTestMode })
+    }
+    if (sanitized.XunhuOrderExpire !== initial.XunhuOrderExpire) {
+      updates.push({ key: 'XunhuOrderExpire', value: sanitized.XunhuOrderExpire })
+    }
+
     const hasWaffoPancakeChanges =
       sanitized.WaffoPancakeMerchantID !== initial.WaffoPancakeMerchantID ||
       sanitized.WaffoPancakePrivateKey.length > 0 ||
@@ -782,6 +845,15 @@ export function PaymentSettingsSection({
     WaffoPancakeMerchantID: currentFormValues.WaffoPancakeMerchantID,
     WaffoPancakePrivateKey: currentFormValues.WaffoPancakePrivateKey,
     WaffoPancakeReturnURL: currentFormValues.WaffoPancakeReturnURL,
+  }
+  const xunhuValues: XunhuSettingsValues = {
+    XunhuEnabled: currentFormValues.XunhuEnabled,
+    XunhuAppId: currentFormValues.XunhuAppId,
+    XunhuAppSecret: currentFormValues.XunhuAppSecret,
+    XunhuApiUrl: currentFormValues.XunhuApiUrl,
+    XunhuMinTopUp: currentFormValues.XunhuMinTopUp,
+    XunhuTestMode: currentFormValues.XunhuTestMode,
+    XunhuOrderExpire: currentFormValues.XunhuOrderExpire,
   }
 
   return (
@@ -1537,12 +1609,15 @@ export function PaymentSettingsSection({
             payMethods={waffoPayMethods}
             onPayMethodsChange={setWaffoPayMethods}
           />
+
+          <Separator />
+
+          <XunhuSettingsSection
+            values={xunhuValues}
+            onValueChange={setXunhuValue}
+          />
         </SettingsForm>
       </Form>
-
-      <Separator />
-
-      <XunhuSettingsSection defaultValues={xunhuDefaultValues} />
       {/* eslint-enable react-hooks/refs */}
     </SettingsSection>
   )

@@ -16,17 +16,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
-import { SettingsSection } from '../components/settings-section'
-import { useUpdateOption } from '../hooks/use-update-option'
+import { SettingsSwitchField } from '../components/settings-form-layout'
 
 export interface XunhuSettingsValues {
   XunhuEnabled: boolean
@@ -39,68 +33,28 @@ export interface XunhuSettingsValues {
 }
 
 interface Props {
-  defaultValues: XunhuSettingsValues
+  values: XunhuSettingsValues
+  onValueChange: <K extends keyof XunhuSettingsValues>(
+    key: K,
+    value: XunhuSettingsValues[K]
+  ) => void
 }
 
-export function XunhuSettingsSection(props: Props) {
+export function XunhuSettingsSection({ values, onValueChange }: Props) {
   const { t } = useTranslation()
-  const updateOption = useUpdateOption()
-  const [loading, setLoading] = useState(false)
-
-  const form = useForm<XunhuSettingsValues>({
-    defaultValues: props.defaultValues,
-  })
-
-  useEffect(() => {
-    form.reset(props.defaultValues)
-  }, [props.defaultValues, form])
-
-  const handleSave = async () => {
-    setLoading(true)
-    try {
-      const values = form.getValues()
-      const options: { key: string; value: string | number | boolean }[] = [
-        { key: 'XunhuEnabled', value: values.XunhuEnabled },
-        { key: 'XunhuAppId', value: values.XunhuAppId.trim() },
-        {
-          key: 'XunhuApiUrl',
-          value:
-            values.XunhuApiUrl.trim() ||
-            'https://api.xunhupay.com/payment/do.html',
-        },
-        { key: 'XunhuMinTopUp', value: Number(values.XunhuMinTopUp) || 1 },
-        { key: 'XunhuTestMode', value: values.XunhuTestMode },
-        {
-          key: 'XunhuOrderExpire',
-          value: Number(values.XunhuOrderExpire) || 300,
-        },
-      ]
-      // AppSecret 只在用户填写新值时才更新，避免清空原值
-      if (values.XunhuAppSecret && values.XunhuAppSecret.trim()) {
-        options.push({
-          key: 'XunhuAppSecret',
-          value: values.XunhuAppSecret.trim(),
-        })
-      }
-
-      for (const opt of options) {
-        await updateOption.mutateAsync(opt)
-      }
-      toast.success(t('Updated successfully'))
-    } catch {
-      toast.error(t('Update failed'))
-    } finally {
-      setLoading(false)
-    }
-  }
 
   return (
-    <SettingsSection
-      title={t('Xunhu (WeChat Pay) Gateway')}
-      description={t(
-        'Configure Xunhu WeChat Pay aggregator integration for CNY payments'
-      )}
-    >
+    <div className='space-y-4 pt-4'>
+      <div>
+        <h3 className='text-lg font-medium'>
+          {t('Xunhu (WeChat Pay) Gateway')}
+        </h3>
+        <p className='text-muted-foreground text-sm'>
+          {t(
+            'Configure Xunhu WeChat Pay aggregator integration for CNY payments'
+          )}
+        </p>
+      </div>
       <Alert>
         <AlertDescription className='text-xs'>
           {t(
@@ -111,26 +65,26 @@ export function XunhuSettingsSection(props: Props) {
       </Alert>
 
       <div className='grid grid-cols-2 gap-4'>
-        <div className='flex items-center gap-2'>
-          <Switch
-            checked={form.watch('XunhuEnabled')}
-            onCheckedChange={(v) => form.setValue('XunhuEnabled', v)}
-          />
-          <Label>{t('Enable Xunhu')}</Label>
-        </div>
-        <div className='flex items-center gap-2'>
-          <Switch
-            checked={form.watch('XunhuTestMode')}
-            onCheckedChange={(v) => form.setValue('XunhuTestMode', v)}
-          />
-          <Label>{t('Test mode (skip signature verification)')}</Label>
-        </div>
+        <SettingsSwitchField
+          label={t('Enable Xunhu')}
+          checked={values.XunhuEnabled}
+          onCheckedChange={(v) => onValueChange('XunhuEnabled', v)}
+        />
+        <SettingsSwitchField
+          label={t('Test mode (skip signature verification)')}
+          checked={values.XunhuTestMode}
+          onCheckedChange={(v) => onValueChange('XunhuTestMode', v)}
+        />
       </div>
 
       <div className='grid grid-cols-2 gap-4'>
         <div className='grid gap-1.5'>
           <Label>{t('App ID')}</Label>
-          <Input {...form.register('XunhuAppId')} placeholder='201906xxxxxx' />
+          <Input
+            value={values.XunhuAppId}
+            onChange={(e) => onValueChange('XunhuAppId', e.target.value)}
+            placeholder='201906xxxxxx'
+          />
         </div>
         <div className='grid gap-1.5'>
           <Label>{t('App Secret')}</Label>
@@ -138,7 +92,8 @@ export function XunhuSettingsSection(props: Props) {
             type='password'
             autoComplete='new-password'
             placeholder={t('Leave blank unless rotating the secret')}
-            {...form.register('XunhuAppSecret')}
+            value={values.XunhuAppSecret}
+            onChange={(e) => onValueChange('XunhuAppSecret', e.target.value)}
           />
         </div>
       </div>
@@ -146,7 +101,8 @@ export function XunhuSettingsSection(props: Props) {
       <div className='grid gap-1.5'>
         <Label>{t('API URL')}</Label>
         <Input
-          {...form.register('XunhuApiUrl')}
+          value={values.XunhuApiUrl}
+          onChange={(e) => onValueChange('XunhuApiUrl', e.target.value)}
           placeholder='https://api.xunhupay.com/payment/do.html'
         />
       </div>
@@ -154,21 +110,27 @@ export function XunhuSettingsSection(props: Props) {
       <div className='grid grid-cols-2 gap-4'>
         <div className='grid gap-1.5'>
           <Label>{t('Minimum top-up quantity')}</Label>
-          <Input type='number' min={1} {...form.register('XunhuMinTopUp')} />
+          <Input
+            type='number'
+            min={1}
+            value={values.XunhuMinTopUp}
+            onChange={(e) =>
+              onValueChange('XunhuMinTopUp', Number(e.target.value) || 1)
+            }
+          />
         </div>
         <div className='grid gap-1.5'>
           <Label>{t('Order expire seconds')}</Label>
           <Input
             type='number'
             min={60}
-            {...form.register('XunhuOrderExpire')}
+            value={values.XunhuOrderExpire}
+            onChange={(e) =>
+              onValueChange('XunhuOrderExpire', Number(e.target.value) || 300)
+            }
           />
         </div>
       </div>
-
-      <Button onClick={handleSave} disabled={loading}>
-        {loading ? t('Saving...') : t('Save Changes')}
-      </Button>
-    </SettingsSection>
+    </div>
   )
 }
