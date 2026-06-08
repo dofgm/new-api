@@ -19,9 +19,9 @@ export function InvoiceNoticeCard() {
             <h3 className='truncate text-sm font-semibold'>
               {t('Customer Support')}
             </h3>
-            <p className='text-muted-foreground line-clamp-1 text-xs'>
+            <p className='text-muted-foreground text-xs'>
               {t(
-                'Got questions while using the service or need an invoice? Join our QQ Group and our team will resolve it promptly.'
+                'Trial accounts use higher multiplier rates. Recharge over ¥10 to auto-upgrade to VIP and restore normal rates. For issues or invoices, join our QQ Group.'
               )}
             </p>
           </div>
@@ -29,7 +29,7 @@ export function InvoiceNoticeCard() {
         <Button
           variant='outline'
           size='sm'
-          className='text-emerald-600 hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-400 h-9 w-full shrink-0 gap-1.5 sm:w-auto'
+          className='h-9 w-full shrink-0 gap-1.5 sm:w-auto'
           onClick={() =>
             window.open(QQ_GROUP_JOIN_LINK, '_blank', 'noopener,noreferrer')
           }
