@@ -333,7 +333,7 @@ export function SystemInfoSection({ defaultValues }: SystemInfoSectionProps) {
                 control={form.control}
                 name='legal.user_agreement'
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='self-start'>
                     <FormLabel>{t('User Agreement')}</FormLabel>
                     <FormControl>
                       <Textarea
@@ -358,7 +358,7 @@ export function SystemInfoSection({ defaultValues }: SystemInfoSectionProps) {
                 control={form.control}
                 name='legal.privacy_policy'
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='self-start'>
                     <FormLabel>{t('Privacy Policy')}</FormLabel>
                     <FormControl>
                       <Textarea
