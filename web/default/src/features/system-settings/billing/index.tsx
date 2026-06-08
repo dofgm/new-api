@@ -116,6 +116,7 @@ const defaultBillingSettings: BillingSettings = {
   'recharge_upgrade_setting.threshold': 10,
   'recharge_upgrade_setting.target_group': '',
   'recharge_upgrade_setting.from_group': 'default',
+  'redemption_setting.max_redemptions_per_user': 0,
 }
 
 export function BillingSettings() {
