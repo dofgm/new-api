@@ -690,6 +690,7 @@ export function SubscriptionPlansCard({
         fallbackUrl={xunhuFallbackUrl}
         expireSeconds={xunhuExpireSeconds}
         onPaid={fetchSelfSubscription}
+        successToastKey='Subscription successful'
       />
     </>
   )

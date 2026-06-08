@@ -4572,6 +4572,8 @@
     "Payment received": "Đã nhận thanh toán",
     "Payment successful": "Thanh toán thành công",
     "Recharge successful": "Nạp tiền thành công",
+    "Subscription successful": "Đăng ký thành công",
+    "Received amount": "Dung lượng nhận được",
     "Closing in {{seconds}}s": "Tự đóng sau {{seconds}}s",
     "Payment failed": "Thanh toán thất bại",
     "Order expired": "Đơn hàng đã hết hạn",

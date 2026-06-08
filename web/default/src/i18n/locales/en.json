@@ -4570,6 +4570,8 @@
     "Payment received": "Payment received",
     "Payment successful": "Payment successful",
     "Recharge successful": "Recharge successful",
+    "Subscription successful": "Subscription successful",
+    "Received amount": "Received amount",
     "Closing in {{seconds}}s": "Closing in {{seconds}}s",
     "Payment failed": "Payment failed",
     "Order expired": "Order expired",

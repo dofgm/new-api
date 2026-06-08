@@ -4572,6 +4572,8 @@
     "Payment received": "Оплата получена",
     "Payment successful": "Оплата успешна",
     "Recharge successful": "Пополнение успешно",
+    "Subscription successful": "Подписка оформлена",
+    "Received amount": "Включённый объём",
     "Closing in {{seconds}}s": "Закроется через {{seconds}}с",
     "Payment failed": "Ошибка оплаты",
     "Order expired": "Срок заказа истёк",

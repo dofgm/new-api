@@ -42,6 +42,8 @@ interface XunhuQrcodeDialogProps {
   fallbackUrl?: string | null
   expireSeconds?: number
   onPaid?: () => void
+  /** 关闭后 toast 的文案 key，默认 'Recharge successful' */
+  successToastKey?: string
 }
 
 const POLL_INTERVAL_MS = 3000
@@ -67,6 +69,7 @@ export function XunhuQrcodeDialog({
   fallbackUrl,
   expireSeconds = DEFAULT_EXPIRE_SECONDS,
   onPaid,
+  successToastKey = 'Recharge successful',
 }: XunhuQrcodeDialogProps) {
   const { t } = useTranslation()
   const [status, setStatus] = useState<
@@ -108,7 +111,7 @@ export function XunhuQrcodeDialog({
   const prevOpenRef = useRef(open)
   useEffect(() => {
     if (prevOpenRef.current && !open && status === 'success') {
-      toast.success(t('Recharge successful'))
+      toast.success(t(successToastKey))
     }
     prevOpenRef.current = open
   }, [open, status, t])

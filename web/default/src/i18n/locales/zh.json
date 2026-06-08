@@ -4572,6 +4572,8 @@
     "Payment received": "支付已到账",
     "Payment successful": "支付成功",
     "Recharge successful": "充值成功",
+    "Subscription successful": "订阅成功",
+    "Received amount": "包含额度",
     "Closing in {{seconds}}s": "{{seconds}} 秒后自动关闭",
     "Payment failed": "支付失败",
     "Order expired": "订单已过期",

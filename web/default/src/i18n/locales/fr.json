@@ -4572,6 +4572,8 @@
     "Payment received": "Paiement reçu",
     "Payment successful": "Paiement réussi",
     "Recharge successful": "Rechargement réussi",
+    "Subscription successful": "Abonnement réussi",
+    "Received amount": "Montant reçu",
     "Closing in {{seconds}}s": "Fermeture dans {{seconds}}s",
     "Payment failed": "Paiement échoué",
     "Order expired": "Commande expirée",
