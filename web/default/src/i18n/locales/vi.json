@@ -586,6 +586,8 @@
     "Built-in: phone fingerprint/face, or Windows Hello; External: USB security key": "Tích hợp sẵn: vân tay/khuôn mặt điện thoại, hoặc Windows Hello; Bên ngoài: khóa bảo mật USB",
     "by": "by",
     "By category": "Theo danh mục",
+    "By clicking sign in, you agree to our": "Bằng cách đăng nhập, bạn đồng ý với",
+    "By creating an account, you agree to our": "Bằng cách tạo tài khoản, bạn đồng ý với",
     "By model author": "Theo nhà phát triển mô hình",
     "Cache": "Bộ nhớ đệm",
     "Cache create (1h) price": "Giá tạo cache (1 giờ)",

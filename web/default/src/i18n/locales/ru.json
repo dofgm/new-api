@@ -586,6 +586,8 @@
     "Built-in: phone fingerprint/face, or Windows Hello; External: USB security key": "Встроенное: отпечаток пальца/лицо телефона или Windows Hello; Внешнее: USB-ключ безопасности",
     "by": "от",
     "By category": "По категориям",
+    "By clicking sign in, you agree to our": "Нажимая «Войти», вы соглашаетесь с нашими",
+    "By creating an account, you agree to our": "Создавая аккаунт, вы соглашаетесь с нашими",
     "By model author": "По автору модели",
     "Cache": "Кэш",
     "Cache create (1h) price": "Цена создания кэша (1 ч)",
