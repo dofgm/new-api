@@ -112,6 +112,10 @@ const defaultBillingSettings: BillingSettings = {
   'checkin_setting.enabled': false,
   'checkin_setting.min_quota': 1000,
   'checkin_setting.max_quota': 10000,
+  'recharge_upgrade_setting.enabled': false,
+  'recharge_upgrade_setting.threshold': 10,
+  'recharge_upgrade_setting.target_group': '',
+  'recharge_upgrade_setting.from_group': 'default',
 }
 
 export function BillingSettings() {

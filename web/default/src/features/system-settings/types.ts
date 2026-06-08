@@ -275,6 +275,10 @@ export type BillingSettings = {
   'checkin_setting.enabled': boolean
   'checkin_setting.min_quota': number
   'checkin_setting.max_quota': number
+  'recharge_upgrade_setting.enabled': boolean
+  'recharge_upgrade_setting.threshold': number
+  'recharge_upgrade_setting.target_group': string
+  'recharge_upgrade_setting.from_group': string
 }
 
 export type OperationsSettings = {

@@ -486,6 +486,8 @@ func XunhuWebhook(c *gin.Context) {
 
 	logger.LogInfo(ctx, fmt.Sprintf("虎皮椒 充值成功 trade_no=%s user_id=%d quota_to_add=%d money=%.2f client_ip=%s", tradeNo, topUp.UserId, quotaToAdd, topUp.Money, c.ClientIP()))
 	model.RecordTopupLog(topUp.UserId, fmt.Sprintf("使用虎皮椒充值成功，充值额度: %d，支付金额：%.2f", quotaToAdd, topUp.Money), c.ClientIP(), topUp.PaymentMethod, model.PaymentProviderXunhu)
+	// 充值累计自动升级分组(软失败,不影响充值结果)
+	model.TryUpgradeUserGroupByRecharge(topUp.UserId)
 
 	// 必须返回字面量字符串 success，否则虎皮椒会重试 6 次
 	_, _ = c.Writer.Write([]byte("success"))

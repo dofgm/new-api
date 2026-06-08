@@ -20,6 +20,7 @@ import { parseCurrencyDisplayType } from '@/lib/currency'
 import { CheckinSettingsSection } from '../general/checkin-settings-section'
 import { PricingSection } from '../general/pricing-section'
 import { QuotaSettingsSection } from '../general/quota-settings-section'
+import { RechargeUpgradeSettingsSection } from '../general/recharge-upgrade-settings-section'
 import { PaymentSettingsSection } from '../integrations/payment-settings-section'
 import { RatioSettingsCard } from '../models/ratio-settings-card'
 import type { BillingSettings } from '../types'
@@ -209,6 +210,21 @@ const BILLING_SECTIONS = [
           enabled: settings['checkin_setting.enabled'],
           minQuota: settings['checkin_setting.min_quota'],
           maxQuota: settings['checkin_setting.max_quota'],
+        }}
+      />
+    ),
+  },
+  {
+    id: 'recharge-upgrade',
+    titleKey: 'Recharge Auto-Upgrade',
+    build: (settings: BillingSettings) => (
+      <RechargeUpgradeSettingsSection
+        defaultValues={{
+          enabled: settings['recharge_upgrade_setting.enabled'] ?? false,
+          threshold: settings['recharge_upgrade_setting.threshold'] ?? 10,
+          targetGroup: settings['recharge_upgrade_setting.target_group'] ?? '',
+          fromGroup:
+            settings['recharge_upgrade_setting.from_group'] ?? 'default',
         }}
       />
     ),
