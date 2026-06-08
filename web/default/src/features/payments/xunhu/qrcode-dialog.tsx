@@ -19,8 +19,8 @@ For commercial licensing, please contact support@quantumnous.com
 import { useEffect, useRef, useState } from 'react'
 import { CheckCircle2, ExternalLink, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 import { SiWechat } from 'react-icons/si'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -73,6 +73,7 @@ export function XunhuQrcodeDialog({
     'pending' | 'success' | 'failed' | 'expired'
   >('pending')
   const [remaining, setRemaining] = useState(expireSeconds)
+  const [closeCountdown, setCloseCountdown] = useState(AUTO_CLOSE_DELAY_MS / 1000)
   const onPaidRef = useRef(onPaid)
 
   // 订单未就绪（API 还没返回）—— 走 loading UI，不启动倒计时/轮询
@@ -84,17 +85,33 @@ export function XunhuQrcodeDialog({
   }, [onPaid])
 
   useEffect(() => {
-    if (open) {
-      setStatus('pending')
-    }
+    setStatus('pending')
   }, [open])
 
-  // 支付成功后自动关闭弹窗
+  // 支付成功后倒计时自动关闭
   useEffect(() => {
     if (status !== 'success') return
-    const id = setTimeout(() => onOpenChange(false), AUTO_CLOSE_DELAY_MS)
-    return () => clearTimeout(id)
+    setCloseCountdown(AUTO_CLOSE_DELAY_MS / 1000)
+    const id = setInterval(() => {
+      setCloseCountdown((prev) => {
+        if (prev <= 1) {
+          onOpenChange(false)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+    return () => clearInterval(id)
   }, [status, onOpenChange])
+
+  // 弹窗关闭时，如果是支付成功状态则 toast
+  const prevOpenRef = useRef(open)
+  useEffect(() => {
+    if (prevOpenRef.current && !open && status === 'success') {
+      toast.success(t('Recharge successful'))
+    }
+    prevOpenRef.current = open
+  }, [open, status, t])
 
   // 订单数据到达后再设置倒计时（避免 loading 阶段就开始倒数）
   useEffect(() => {
@@ -213,7 +230,9 @@ export function XunhuQrcodeDialog({
           </div>
 
           <div className='flex h-48 w-48 items-center justify-center rounded-md border bg-white'>
-            {qrcodeUrl ? (
+            {status === 'success' ? (
+              <CheckCircle2 className='h-16 w-16 text-green-500' />
+            ) : qrcodeUrl ? (
               <img
                 src={qrcodeUrl}
                 alt={t('WeChat QR Pay')}
@@ -225,7 +244,16 @@ export function XunhuQrcodeDialog({
             )}
           </div>
 
-          {isLoading ? (
+          {status === 'success' ? (
+            <>
+              <p className='text-sm font-medium text-green-600 dark:text-green-400'>
+                {t('Payment successful')}
+              </p>
+              <div className='text-muted-foreground text-xs'>
+                {t('Closing in {{seconds}}s', { seconds: closeCountdown })}
+              </div>
+            </>
+          ) : isLoading ? (
             <div className='text-muted-foreground flex items-center gap-2 text-xs'>
               <Loader2 className='h-3 w-3 animate-spin' />
               <span>{t('Creating order...')}</span>
@@ -249,21 +277,6 @@ export function XunhuQrcodeDialog({
                     <span>{t('Waiting for payment...')}</span>
                   </>
                 )}
-                {status === 'success' && (
-                <div className='flex flex-col items-center gap-2'>
-                  <span className='flex items-center gap-1.5 text-green-600 dark:text-green-400'>
-                    <CheckCircle2 className='h-4 w-4' />
-                    {t('Payment received')}
-                  </span>
-                  <Button
-                    size='sm'
-                    variant='outline'
-                    onClick={() => onOpenChange(false)}
-                  >
-                    {t('Done')}
-                  </Button>
-                </div>
-              )}
                 {status === 'failed' && (
                   <span className='text-destructive'>
                     {t('Payment failed')}
