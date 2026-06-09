@@ -177,7 +177,7 @@ func ModelRequestRateLimit() func(c *gin.Context) {
 		totalMaxCount := setting.ModelRequestRateLimitCount
 		successMaxCount := setting.ModelRequestRateLimitSuccessCount
 
-		// 获取分组
+		// 获取分组：先查密钥分组配置，没配再查用户分组配置
 		group := common.GetContextKeyString(c, constant.ContextKeyTokenGroup)
 		if group == "" {
 			group = common.GetContextKeyString(c, constant.ContextKeyUserGroup)
@@ -185,6 +185,11 @@ func ModelRequestRateLimit() func(c *gin.Context) {
 
 		//获取分组的限流配置
 		groupTotalCount, groupSuccessCount, found := setting.GetGroupRateLimit(group)
+		if !found {
+			// 密钥分组没配限流，回退到用户分组
+			userGroup := common.GetContextKeyString(c, constant.ContextKeyUserGroup)
+			groupTotalCount, groupSuccessCount, found = setting.GetGroupRateLimit(userGroup)
+		}
 		if found {
 			totalMaxCount = groupTotalCount
 			successMaxCount = groupSuccessCount
