@@ -21,7 +21,7 @@ export function InvoiceNoticeCard() {
             </h3>
             <p className='text-muted-foreground text-xs'>
               {t(
-                'Trial accounts use higher multiplier rates. Recharge over ¥10 to auto-upgrade to VIP and restore normal rates. For issues or invoices, join our QQ Group.'
+                'Trial accounts use higher multiplier rates and limited request speed. Recharge over ¥10 to auto-upgrade to VIP and restore normal rates and speed. For issues or invoices, join our QQ Group.'
               )}
             </p>
           </div>
