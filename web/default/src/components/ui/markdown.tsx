@@ -19,6 +19,7 @@ For commercial licensing, please contact support@quantumnous.com
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
+import { useNavigate } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 
 interface MarkdownProps {
@@ -27,6 +28,7 @@ interface MarkdownProps {
 }
 
 export function Markdown({ children, className }: MarkdownProps) {
+  const navigate = useNavigate()
   return (
     <div
       className={cn(
@@ -51,10 +53,22 @@ export function Markdown({ children, className }: MarkdownProps) {
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
-          // 自定义组件渲染（可选）
-          a: ({ node, ...props }) => (
-            <a {...props} target='_blank' rel='noopener noreferrer' />
-          ),
+          // 站内链接走 router 无刷新跳转，外部链接新标签页打开
+          a: ({ node, ...props }) => {
+            const href = props.href
+            if (href && href.startsWith('/')) {
+              return (
+                <a
+                  {...props}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate({ to: href })
+                  }}
+                />
+              )
+            }
+            return <a {...props} target='_blank' rel='noopener noreferrer' />
+          },
         }}
       >
         {children}
