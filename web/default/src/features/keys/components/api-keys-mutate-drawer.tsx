@@ -219,7 +219,7 @@ export function ApiKeysMutateDrawer({
   }
 
   const onInvalid: SubmitErrorHandler<ApiKeyFormValues> = () => {
-    toast.error(t('Please fix the highlighted fields before saving'))
+    // Inline field errors are sufficient; no toast needed.
   }
 
   const handleSetExpiry = (months: number, days: number, hours: number) => {

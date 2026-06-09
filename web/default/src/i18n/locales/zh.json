@@ -2954,6 +2954,7 @@
     "Please enable io.net model deployment service and configure an API key in System Settings.": "请先在系统设置中启用 io.net 模型部署服务，并配置 API Key。",
     "Please enable Two-factor Authentication or Passkey before proceeding": "请先启用双因素认证或通行密钥",
     "Please enter a name": "请输入名称",
+    "Please select a group": "请选择分组",
     "Please enter a new password": "请输入新密码",
     "Please enter a redemption code": "请输入兑换码",
     "Please enter a valid duration": "请输入有效持续时间",

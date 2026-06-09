@@ -2954,6 +2954,7 @@
     "Please enable io.net model deployment service and configure an API key in System Settings.": "Veuillez activer le service de déploiement de modèles io.net et configurer une clé API dans les Paramètres système.",
     "Please enable Two-factor Authentication or Passkey before proceeding": "Veuillez activer l'authentification à deux facteurs ou une Passkey avant de continuer",
     "Please enter a name": "Veuillez saisir un nom",
+    "Please select a group": "Veuillez sélectionner un groupe",
     "Please enter a new password": "Veuillez saisir un nouveau mot de passe",
     "Please enter a redemption code": "Veuillez saisir un code de rédemption",
     "Please enter a valid duration": "Veuillez saisir une durée valide",

@@ -2954,6 +2954,7 @@
     "Please enable io.net model deployment service and configure an API key in System Settings.": "システム設定で io.net モデルデプロイサービスを有効にし、API キーを設定してください。",
     "Please enable Two-factor Authentication or Passkey before proceeding": "続行する前に、二要素認証またはパスキーを有効にしてください",
     "Please enter a name": "名前を入力してください",
+    "Please select a group": "グループを選択してください",
     "Please enter a new password": "新しいパスワードを入力してください",
     "Please enter a redemption code": "引き換えコードを入力してください",
     "Please enter a valid duration": "有効な期間を入力してください",
