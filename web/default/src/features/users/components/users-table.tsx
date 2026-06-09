@@ -16,7 +16,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import {
@@ -39,7 +39,7 @@ import {
   DISABLED_ROW_MOBILE,
   DataTablePage,
 } from '@/components/data-table'
-import { getUsers, searchUsers } from '../api'
+import { getUsers, searchUsers, getGroups } from '../api'
 import {
   USER_STATUS,
   getUserStatusOptions,
@@ -62,6 +62,18 @@ export function UsersTable() {
   const columns = useUsersColumns()
   const { refreshTrigger } = useUsers()
   const isMobile = useMediaQuery('(max-width: 640px)')
+
+  // Fetch available groups for filter
+  const { data: groupsResponse } = useQuery({
+    queryKey: ['user-groups'],
+    queryFn: getGroups,
+    staleTime: 5 * 60 * 1000,
+  })
+  const groupFilterOptions = useMemo(() => {
+    const groups = groupsResponse?.data
+    if (!Array.isArray(groups)) return []
+    return groups.map((g: string) => ({ label: g, value: g }))
+  }, [groupsResponse])
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -218,6 +230,16 @@ export function UsersTable() {
             options: getUserRoleOptions(t),
             singleSelect: true,
           },
+          ...(groupFilterOptions.length > 0
+            ? [
+                {
+                  columnId: 'group',
+                  title: t('Group'),
+                  options: groupFilterOptions,
+                  singleSelect: true,
+                },
+              ]
+            : []),
         ],
       }}
       getRowClassName={(row, { isMobile }) =>
