@@ -10,7 +10,8 @@ export async function updateUserSubscriptionEndTime(
 ): Promise<ApiResponse<unknown>> {
   const res = await api.patch(
     `/api/subscription/admin/user_subscriptions/${subId}/end_time`,
-    { end_time: endTime }
+    { end_time: endTime },
+    { skipBusinessError: true } as Record<string, unknown>
   )
   return res.data
 }
