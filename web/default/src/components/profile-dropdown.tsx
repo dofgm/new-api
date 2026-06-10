@@ -35,6 +35,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SignOutDialog } from '@/components/sign-out-dialog'
+import { GroupBadge } from '@/components/group-badge'
 
 const avatarFallbackClassName = 'font-semibold text-white'
 
@@ -88,9 +89,7 @@ export function ProfileDropdown() {
                 {user?.group && (
                   <>
                     <span className='text-muted-foreground text-xs'>·</span>
-                    <span className='text-muted-foreground truncate text-xs'>
-                      {String(user.group)}
-                    </span>
+                    <GroupBadge group={String(user.group)} />
                   </>
                 )}
               </div>

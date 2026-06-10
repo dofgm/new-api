@@ -27,6 +27,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { SignOutDialog } from '@/components/sign-out-dialog'
+import { GroupBadge } from '@/components/group-badge'
 import { MOBILE_DRAWER_ANIMATION, MOBILE_DRAWER_CONFIG } from '../constants'
 import type { TopNavLink } from '../types'
 
@@ -101,9 +102,7 @@ function MobileUserProfile({ user, onNavigate }: MobileUserProfileProps) {
               {user.group && (
                 <>
                   <span className='text-muted-foreground text-xs'>·</span>
-                  <span className='text-muted-foreground text-xs'>
-                    {String(user.group)}
-                  </span>
+                  <GroupBadge group={String(user.group)} />
                 </>
               )}
             </div>
