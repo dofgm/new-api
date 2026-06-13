@@ -3,11 +3,36 @@ import { SiQq } from 'react-icons/si'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const QQ_GROUP_JOIN_LINK = 'https://qm.qq.com/q/7pmAwWljHi'
 
-export function InvoiceNoticeCard() {
+interface SupportBannerCardProps {
+  loading?: boolean
+}
+
+export function SupportBannerCard({ loading }: SupportBannerCardProps) {
   const { t } = useTranslation()
+
+  // Match the page-wide skeleton state so this static banner doesn't pop in
+  // fully-rendered while every other card is still showing skeletons.
+  if (loading) {
+    return (
+      <Card className='bg-muted/20 py-0'>
+        <CardContent className='grid gap-3 p-3 sm:gap-4 sm:p-4 lg:grid-cols-[1fr_auto] lg:items-center'>
+          <div className='flex min-w-0 items-center gap-2.5'>
+            <Skeleton className='size-8 shrink-0 rounded-lg' />
+            <div className='min-w-0 flex-1 space-y-1.5'>
+              <Skeleton className='h-4 w-28' />
+              <Skeleton className='h-3 w-full max-w-md' />
+            </div>
+          </div>
+          <Skeleton className='h-9 w-full sm:w-32' />
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card className='bg-muted/20 py-0'>
       <CardContent className='grid gap-3 p-3 sm:gap-4 sm:p-4 lg:grid-cols-[1fr_auto] lg:items-center'>

@@ -28,7 +28,7 @@ import { CreemConfirmDialog } from './components/dialogs/creem-confirm-dialog'
 import { PaymentConfirmDialog } from './components/dialogs/payment-confirm-dialog'
 import { TransferDialog } from './components/dialogs/transfer-dialog'
 import { XunhuQrcodeDialog } from '@/features/payments/xunhu'
-import { InvoiceNoticeCard } from './components/invoice-notice-card'
+import { SupportBannerCard } from './components/support-banner-card'
 import { RechargeFormCard } from './components/recharge-form-card'
 import { SubscriptionPlansCard } from './components/subscription-plans-card'
 import { WalletStatsCard } from './components/wallet-stats-card'
@@ -310,7 +310,7 @@ export function Wallet(props: WalletProps) {
           <div className='mx-auto flex w-full max-w-7xl flex-col gap-4 sm:gap-5'>
             <WalletStatsCard user={user} loading={userLoading} />
 
-            <InvoiceNoticeCard />
+            <SupportBannerCard loading={userLoading} />
 
             <div
               className={
