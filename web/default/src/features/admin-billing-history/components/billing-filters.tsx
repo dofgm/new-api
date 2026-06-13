@@ -1,10 +1,9 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Search } from 'lucide-react'
-import { motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 import dayjs from '@/lib/dayjs'
-import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import type { BillingFilter, BillingStatus } from '../types'
 
 type StatusFilterValue = 'all' | BillingStatus
@@ -55,57 +54,13 @@ function computePreset(key: PresetKey): { start?: Date; end?: Date } {
   }
 }
 
-/**
- * Segmented control — same visual style as the dashboard time-range selector
- * (see dashboard/components/users/user-charts.tsx).
- */
-function SegmentedControl<T extends string>({
-  options,
-  value,
-  onChange,
-}: {
-  options: Array<{ value: T; label: string }>
-  value: T | null
-  onChange: (value: T) => void
-}) {
-  // Unique per-instance layoutId so multiple segmented controls on the
-  // same page don't fight for the same motion target.
-  const layoutId = useId()
-  return (
-    <div className='flex h-9 shrink-0 items-center gap-1 rounded-lg border p-0.5'>
-      {options.map((opt) => (
-        <button
-          key={opt.value}
-          type='button'
-          onClick={() => onChange(opt.value)}
-          className={cn(
-            'relative flex h-full items-center rounded-md px-3 text-xs font-medium transition-colors',
-            value === opt.value
-              ? 'text-primary-foreground'
-              : 'text-muted-foreground hover:text-foreground'
-          )}
-        >
-          {value === opt.value && (
-            <motion.div
-              layoutId={layoutId}
-              className='bg-primary absolute inset-0 rounded-md shadow-sm'
-              transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-            />
-          )}
-          <span className='relative z-10'>{opt.label}</span>
-        </button>
-      ))}
-    </div>
-  )
-}
-
 interface BillingFiltersProps {
   onChange: (filter: BillingFilter) => void
 }
 
 export function BillingFilters({ onChange }: BillingFiltersProps) {
   const { t } = useTranslation()
-  const [activePreset, setActivePreset] = useState<PresetKey | null>('all')
+  const [activePreset, setActivePreset] = useState<PresetKey>('all')
   const [start, setStart] = useState<Date | undefined>(undefined)
   const [end, setEnd] = useState<Date | undefined>(undefined)
   const [status, setStatus] = useState<StatusFilterValue>('all')
@@ -137,22 +92,38 @@ export function BillingFilters({ onChange }: BillingFiltersProps) {
 
   return (
     <div className='flex flex-wrap items-center gap-2'>
-      <SegmentedControl
-        options={TIME_PRESETS.map((p) => ({
-          value: p.key,
-          label: t(p.labelKey),
-        }))}
+      <Tabs
         value={activePreset}
-        onChange={handlePresetClick}
-      />
-      <SegmentedControl
-        options={STATUS_VALUES.map((s) => ({
-          value: s.value,
-          label: t(s.labelKey),
-        }))}
+        onValueChange={(value) => handlePresetClick(value as PresetKey)}
+        className='shrink-0'
+      >
+        <TabsList>
+          {TIME_PRESETS.map((p) => (
+            <TabsTrigger key={p.key} value={p.key} className='px-2.5 text-xs'>
+              {t(p.labelKey)}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+
+      <Tabs
         value={status}
-        onChange={setStatus}
-      />
+        onValueChange={(value) => setStatus(value as StatusFilterValue)}
+        className='shrink-0'
+      >
+        <TabsList>
+          {STATUS_VALUES.map((s) => (
+            <TabsTrigger
+              key={s.value}
+              value={s.value}
+              className='px-2.5 text-xs'
+            >
+              {t(s.labelKey)}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+
       <div className='relative min-w-[200px] flex-1'>
         <Search className='text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2' />
         <Input

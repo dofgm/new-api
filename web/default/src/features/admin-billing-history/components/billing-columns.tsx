@@ -1,8 +1,8 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Loader2, Stamp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import dayjs from '@/lib/dayjs'
 import { formatCurrencyFromUSD } from '@/lib/currency'
+import { formatTimestampToDate } from '@/lib/format'
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
 import { Button } from '@/components/ui/button'
 import { StatusBadge } from '@/components/status-badge'
@@ -82,18 +82,21 @@ export function useBillingColumns({
     {
       accessorKey: 'trade_no',
       header: t('Order No.'),
+      size: 200,
       cell: ({ row }) => <TradeNoCell tradeNo={row.original.trade_no} />,
       meta: { label: t('Order No.') },
     },
     {
       accessorKey: 'user_id',
       header: t('User ID'),
+      size: 70,
       cell: ({ row }) => <UserIdCell userId={row.original.user_id} />,
       meta: { label: t('User ID') },
     },
     {
       accessorKey: 'payment_method',
       header: t('Payment Method'),
+      size: 110,
       cell: ({ row }) => {
         const name =
           PAYMENT_NAMES[row.original.payment_method] ||
@@ -105,6 +108,7 @@ export function useBillingColumns({
     {
       accessorKey: 'money',
       header: t('Payment Amount'),
+      size: 100,
       cell: ({ row }) => (
         <span className='font-medium tabular-nums text-red-600'>
           ¥{noCommaFmt.format(row.original.money)}
@@ -115,6 +119,7 @@ export function useBillingColumns({
     {
       accessorKey: 'amount',
       header: t('Recharge Quota'),
+      size: 100,
       cell: ({ row }) => {
         const r = row.original
         // Subscription orders (SUB* trade_no) don't issue quota — they bill
@@ -138,6 +143,7 @@ export function useBillingColumns({
     {
       accessorKey: 'status',
       header: t('Status'),
+      size: 100,
       cell: ({ row }) => {
         const cfg = STATUS_STYLES[row.original.status] || STATUS_STYLES.pending
         return (
@@ -154,9 +160,10 @@ export function useBillingColumns({
     {
       accessorKey: 'create_time',
       header: t('Created'),
+      size: 170,
       cell: ({ row }) => (
         <span className='text-muted-foreground tabular-nums'>
-          {dayjs.unix(row.original.create_time).format('YYYY-MM-DD HH:mm:ss')}
+          {formatTimestampToDate(row.original.create_time)}
         </span>
       ),
       meta: { label: t('Created') },
@@ -164,22 +171,18 @@ export function useBillingColumns({
     {
       accessorKey: 'complete_time',
       header: t('Completed At'),
-      cell: ({ row }) => {
-        const r = row.original
-        if (!r.complete_time || r.complete_time === 0) {
-          return <span className='text-muted-foreground'>—</span>
-        }
-        return (
-          <span className='text-muted-foreground tabular-nums'>
-            {dayjs.unix(r.complete_time).format('YYYY-MM-DD HH:mm:ss')}
-          </span>
-        )
-      },
+      size: 170,
+      cell: ({ row }) => (
+        <span className='text-muted-foreground tabular-nums'>
+          {formatTimestampToDate(row.original.complete_time)}
+        </span>
+      ),
       meta: { label: t('Completed At') },
     },
     {
       id: 'actions',
       header: '',
+      size: 50,
       cell: ({ row }) => {
         if (row.original.status !== 'pending') return null
         return (

@@ -98,6 +98,7 @@ export function BillingTable({
         emptyDescription={t('Try adjusting your filters')}
         toolbarProps={null}
         skeletonKeyPrefix='admin-billing-skeleton'
+        applyHeaderSize
       />
 
       <AlertDialog
