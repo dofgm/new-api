@@ -14,7 +14,12 @@ import { getGroups } from '../api'
  */
 export function useGroupFilterOptions() {
   const { data: groupsResponse } = useQuery({
-    queryKey: ['user-groups'],
+    // Use the shared ['groups'] key (string[] from getGroups), aligned with
+    // channels-table / users-mutate-drawer. Do NOT use ['user-groups'] — that
+    // key is owned by the keys page's getUserGroups, which returns an
+    // incompatible Record<string, {...}>; sharing it makes Array.isArray(data)
+    // fail here and the Group filter intermittently disappears.
+    queryKey: ['groups'],
     queryFn: getGroups,
     staleTime: 5 * 60 * 1000,
   })
