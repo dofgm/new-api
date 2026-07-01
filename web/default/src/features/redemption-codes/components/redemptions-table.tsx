@@ -16,18 +16,20 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
-import { useMediaQuery } from '@/hooks'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTableUrlState } from '@/hooks/use-table-url-state'
+
 import {
   DISABLED_ROW_DESKTOP,
   DISABLED_ROW_MOBILE,
   DataTablePage,
   useDataTable,
 } from '@/components/data-table'
+import { useMediaQuery } from '@/hooks'
+import { useTableUrlState } from '@/hooks/use-table-url-state'
+
 import { getRedemptions, searchRedemptions } from '../api'
 import { REDEMPTION_STATUS, getRedemptionStatusOptions } from '../constants'
 import { isRedemptionExpired } from '../lib'
@@ -111,7 +113,11 @@ export function RedemptionsTable() {
       const searchValue = String(filterValue).toLowerCase()
 
       // custom: 同时按兑换码 key 精确匹配（合并上游时保留 key === 分支）
-      return name.includes(searchValue) || id.includes(searchValue) || key === searchValue
+      return (
+        name.includes(searchValue) ||
+        id.includes(searchValue) ||
+        key === searchValue
+      )
     },
     onPaginationChange,
     onGlobalFilterChange,

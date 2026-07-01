@@ -16,9 +16,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useState, useCallback } from 'react'
 import i18next from 'i18next'
+import { useState, useCallback } from 'react'
 import { toast } from 'sonner'
+
 import { requestXunhuPayment, isApiSuccess } from '../api'
 
 /**
@@ -65,9 +66,7 @@ export function useXunhuPayment() {
 
         if (!isApiSuccess(response) || !response.data) {
           const fallback =
-            typeof response.data === 'string'
-              ? response.data
-              : response.message
+            typeof response.data === 'string' ? response.data : response.message
           toast.error(fallback || i18next.t('Payment request failed'))
           return null
         }

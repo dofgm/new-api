@@ -18,6 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import { useTranslation } from 'react-i18next'
 import { SiQq } from 'react-icons/si'
+
 import { Button } from '@/components/ui/button'
 import {
   Tooltip,

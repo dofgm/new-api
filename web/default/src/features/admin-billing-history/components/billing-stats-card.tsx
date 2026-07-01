@@ -1,10 +1,12 @@
-import { useEffect } from 'react'
 import { animate, motion, useMotionValue, useTransform } from 'motion/react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatCurrencyFromUSD } from '@/lib/currency'
-import { CARD_ITEM_VARIANTS, CARD_STAGGER_VARIANTS } from '@/lib/motion'
+
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { formatCurrencyFromUSD } from '@/lib/currency'
+import { CARD_ITEM_VARIANTS, CARD_STAGGER_VARIANTS } from '@/lib/motion'
+
 import type { BillingStats } from '../types'
 
 type Formatter = (value: number) => string

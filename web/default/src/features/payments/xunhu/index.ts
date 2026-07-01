@@ -18,7 +18,4 @@ For commercial licensing, please contact support@quantumnous.com
 */
 export { XunhuQrcodeDialog } from './qrcode-dialog'
 export { getXunhuOrderStatus } from './api'
-export type {
-  XunhuOrderStatusData,
-  XunhuOrderStatusResponse,
-} from './types'
+export type { XunhuOrderStatusData, XunhuOrderStatusResponse } from './types'

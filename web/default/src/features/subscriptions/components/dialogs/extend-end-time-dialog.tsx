@@ -5,9 +5,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import dayjs from '@/lib/dayjs'
-import { Button } from '@/components/ui/button'
+
 import { DateTimePicker } from '@/components/datetime-picker'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -16,6 +16,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import dayjs from '@/lib/dayjs'
+
 import { updateUserSubscriptionEndTime } from '../../api-custom'
 import { formatTimestamp } from '../../lib'
 import type { UserSubscription } from '../../types'
@@ -90,9 +92,7 @@ export function ExtendEndTimeDialog(props: Props) {
         <DialogHeader>
           <DialogTitle>{t('Modify subscription end time')}</DialogTitle>
           <DialogDescription>
-            {props.sub
-              ? `${t('Subscription')} #${props.sub.id}`
-              : ''}
+            {props.sub ? `${t('Subscription')} #${props.sub.id}` : ''}
           </DialogDescription>
         </DialogHeader>
 

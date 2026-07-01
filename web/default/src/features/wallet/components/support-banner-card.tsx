@@ -1,6 +1,7 @@
 import { MessageCircleQuestion } from 'lucide-react'
-import { SiQq } from 'react-icons/si'
 import { useTranslation } from 'react-i18next'
+import { SiQq } from 'react-icons/si'
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'

@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
 import i18next from 'i18next'
+import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import {
-  completeOrder,
-  getAdminBillingHistory,
-  isApiSuccess,
-} from '../api'
+
+import { completeOrder, getAdminBillingHistory, isApiSuccess } from '../api'
 import type { BillingFilter, BillingRecord, BillingStats } from '../types'
 
 const EMPTY_STATS: BillingStats = {

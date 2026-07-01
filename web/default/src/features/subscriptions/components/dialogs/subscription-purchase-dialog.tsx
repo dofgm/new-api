@@ -16,15 +16,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useState, useEffect } from 'react'
 import { Crown, CalendarClock, Loader2, Package } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SiWechat } from 'react-icons/si'
 import { toast } from 'sonner'
-import { getCurrencySymbol } from '@/lib/currency-symbol'
-import { DEFAULT_CURRENCY_CONFIG } from '@/stores/system-config-store'
-import { formatQuota } from '@/lib/format'
-import { useSystemConfig } from '@/hooks/use-system-config'
+
+import { Dialog } from '@/components/dialog'
+import { GroupBadge } from '@/components/group-badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
@@ -36,8 +35,11 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { Dialog } from '@/components/dialog'
-import { GroupBadge } from '@/components/group-badge'
+import { useSystemConfig } from '@/hooks/use-system-config'
+import { getCurrencySymbol } from '@/lib/currency-symbol'
+import { formatQuota } from '@/lib/format'
+import { DEFAULT_CURRENCY_CONFIG } from '@/stores/system-config-store'
+
 import {
   paySubscriptionStripe,
   paySubscriptionCreem,
@@ -201,7 +203,8 @@ export function SubscriptionPurchaseDialog(props: Props) {
     typeof navigator !== 'undefined' &&
     /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
-  const handlePayEpay = async () => {    if (!selectedEpayMethod) {
+  const handlePayEpay = async () => {
+    if (!selectedEpayMethod) {
       toast.error(t('Please select a payment method'))
       return
     }
@@ -383,7 +386,10 @@ export function SubscriptionPurchaseDialog(props: Props) {
           <Separator />
           <div className='flex items-center justify-between'>
             <span className='text-sm font-medium'>{t('Amount Due')}</span>
-            <span className='text-primary text-lg font-bold'>{getCurrencySymbol(plan.currency)}{price}</span>
+            <span className='text-primary text-lg font-bold'>
+              {getCurrencySymbol(plan.currency)}
+              {price}
+            </span>
           </div>
         </div>
 

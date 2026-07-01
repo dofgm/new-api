@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   type ColumnDef,
   type PaginationState,
@@ -7,7 +6,10 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import { DataTablePage } from '@/components/data-table'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,9 +20,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { DataTablePage } from '@/components/data-table'
-import { useBillingColumns } from './billing-columns'
+
 import type { BillingRecord } from '../types'
+import { useBillingColumns } from './billing-columns'
 
 interface BillingTableProps {
   records: BillingRecord[]
@@ -65,8 +67,7 @@ export function BillingTable({
     columns,
     state: { pagination },
     onPaginationChange: (updater) => {
-      const next =
-        typeof updater === 'function' ? updater(pagination) : updater
+      const next = typeof updater === 'function' ? updater(pagination) : updater
       if (next.pageIndex !== pagination.pageIndex) {
         onPageChange(next.pageIndex + 1)
       }

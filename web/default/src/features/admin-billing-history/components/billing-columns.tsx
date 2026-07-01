@@ -1,16 +1,18 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { Loader2, Stamp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { formatCurrencyFromUSD } from '@/lib/currency'
-import { formatTimestampToDate } from '@/lib/format'
-import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
-import { Button } from '@/components/ui/button'
+
 import { StatusBadge } from '@/components/status-badge'
+import { Button } from '@/components/ui/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
+import { formatCurrencyFromUSD } from '@/lib/currency'
+import { formatTimestampToDate } from '@/lib/format'
+
 import type { BillingRecord, BillingStatus } from '../types'
 
 const STATUS_STYLES: Record<
@@ -110,7 +112,7 @@ export function useBillingColumns({
       header: t('Payment Amount'),
       size: 100,
       cell: ({ row }) => (
-        <span className='font-medium tabular-nums text-red-600'>
+        <span className='font-medium text-red-600 tabular-nums'>
           ¥{noCommaFmt.format(row.original.money)}
         </span>
       ),

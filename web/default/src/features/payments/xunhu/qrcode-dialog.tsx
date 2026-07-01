@@ -16,11 +16,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 For commercial licensing, please contact support@quantumnous.com
 */
-import { useEffect, useRef, useState } from 'react'
 import { CheckCircle2, ExternalLink, Loader2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import { SiWechat } from 'react-icons/si'
+import { toast } from 'sonner'
+
 import {
   Dialog,
   DialogContent,
@@ -29,6 +30,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { getCurrencySymbol } from '@/lib/currency-symbol'
+
 import { getXunhuOrderStatus } from './api'
 
 interface XunhuQrcodeDialogProps {
@@ -76,7 +78,9 @@ export function XunhuQrcodeDialog({
     'pending' | 'success' | 'failed' | 'expired'
   >('pending')
   const [remaining, setRemaining] = useState(expireSeconds)
-  const [closeCountdown, setCloseCountdown] = useState(AUTO_CLOSE_DELAY_MS / 1000)
+  const [closeCountdown, setCloseCountdown] = useState(
+    AUTO_CLOSE_DELAY_MS / 1000
+  )
   const onPaidRef = useRef(onPaid)
 
   // 订单未就绪（API 还没返回）—— 走 loading UI，不启动倒计时/轮询
@@ -220,7 +224,9 @@ export function XunhuQrcodeDialog({
             {t('WeChat QR Pay')}
           </DialogTitle>
           <DialogDescription className='sr-only'>
-            {t('Use WeChat to scan the QR code below to complete your payment.')}
+            {t(
+              'Use WeChat to scan the QR code below to complete your payment.'
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -286,9 +292,7 @@ export function XunhuQrcodeDialog({
                   </span>
                 )}
                 {status === 'expired' && (
-                  <span className='text-destructive'>
-                    {t('Order expired')}
-                  </span>
+                  <span className='text-destructive'>{t('Order expired')}</span>
                 )}
               </div>
 
