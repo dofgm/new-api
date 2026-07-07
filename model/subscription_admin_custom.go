@@ -30,7 +30,7 @@ func AdminUpdateUserSubscriptionEndTime(subId int, newEndTime int64) error {
 	}
 	return DB.Transaction(func(tx *gorm.DB) error {
 		var sub UserSubscription
-		if err := tx.Set("gorm:query_option", "FOR UPDATE").
+		if err := lockForUpdate(tx).
 			Where("id = ?", subId).First(&sub).Error; err != nil {
 			return err
 		}
